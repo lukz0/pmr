@@ -10,7 +10,6 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
     "axios": "^0.19.2",
-    "chart.js": "^2.9.3",
     "core-js": "^3.6.4",
     "startbootstrap-sb-admin-2": "^4.0.7",
     "vee-validate": "^2.2.8",

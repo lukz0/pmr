@@ -7,10 +7,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Home from '../views/Home'
 import Login from '../views/Login'
 import Register from '../views/Register'
-import Dashboard from '../views/Dashboard'
+import Home from '../views/Home'
 
 Vue.use(Router);
 
@@ -20,7 +19,6 @@ export const router = new Router({
         { path: '/', component: Home },
         { path: '/login', component: Login },
         { path: '/register', component: Register },
-        { path: '/dashboard', component: Dashboard},
 
         // otherwise redirect to home
         { path: '*', redirect: '/' }

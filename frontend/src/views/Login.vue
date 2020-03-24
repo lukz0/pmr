@@ -19,27 +19,18 @@
                                     <input type="password" v-model="password" class="form-control form-control-user" :class="{ 'is-invalid': submitted && !password }" id="InputPassword" placeholder="Password">
                                     <div v-show="submitted && !password" class="invalid-feedback">Password is required</div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="custom-control custom-checkbox small">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck">
-                                        <label class="custom-control-label" for="customCheck">Remember Me</label>
-                                    </div>
-                                </div>
                                 <button class="btn btn-primary btn-user btn-block" :disabled="status.loggingIn">
                                     Login
                                 </button>
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                <a class="small" href="#">Forgot Password?</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
         </div>
     </div>
 
@@ -75,6 +66,10 @@
     };
 </script>
 
-<style scoped>
-
+<style>
+    .bg-gradient-dark {
+        background-color: #132235;
+        background-image: linear-gradient(180deg,#132235 10%,#224abe 100%);
+        background-size: cover;
+    }
 </style>

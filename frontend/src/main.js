@@ -2,8 +2,8 @@ import Vue from "vue";
 import VeeValidate from 'vee-validate'
 
 // Page CSS
-import 'startbootstrap-sb-admin-2/css/sb-admin-2.min.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
+import 'startbootstrap-sb-admin-2/css/sb-admin-2.min.css'
 
 import { store } from "./store";
 import { router } from "./helpers";
