@@ -18,12 +18,12 @@
       ...mapActions({
         clearAlert: 'alert/clear'
       })
+    },
+    watch: {
+      $route (){
+        // clear alert on location change
+        this.clearAlert();
+      }
     }
-    // watch: {
-    //   $route (to, from){
-    //     // clear alert on location change
-    //     this.clearAlert();
-    //   }
-    // }
   };
 </script>
