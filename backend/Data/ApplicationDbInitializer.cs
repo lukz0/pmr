@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using backend.Models;
+﻿using backend.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

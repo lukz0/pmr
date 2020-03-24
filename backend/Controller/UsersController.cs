@@ -79,7 +79,9 @@ namespace backend.Controller
             {
                 // create user
                 _userService.Create(user, model.Password);
-                return Ok();
+                // Remove the password
+                model.Password = "***";
+                return Created("",model);
             }
             catch (AppException ex)
             {
@@ -115,7 +117,7 @@ namespace backend.Controller
             {
                 // update user 
                 _userService.Update(user, model.Password);
-                return Ok();
+                return Ok(model);
             }
             catch (AppException ex)
             {
