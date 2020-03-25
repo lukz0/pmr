@@ -19,11 +19,6 @@
         <e p="AutoMapperProfile.cs" t="Include" />
       </e>
       <e p="LocalDatabase.db" t="Include" />
-      <e p="Migrations" t="Include">
-        <e p="20200325140729_01_users.Designer.cs" t="Include" />
-        <e p="20200325140729_01_users.cs" t="Include" />
-        <e p="ApplicationDbContextModelSnapshot.cs" t="Include" />
-      </e>
       <e p="Models" t="Include">
         <e p="ApplicationUser.cs" t="Include" />
         <e p="Users" t="Include">
