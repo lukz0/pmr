@@ -20,6 +20,7 @@ const actions = {
 
         userService.delete(id)
             .then(
+                // eslint-disable-next-line no-unused-vars
                 user => commit('deleteSuccess', id),
                 error => commit('deleteFailure', { id, error: error.toString() })
             );
@@ -53,6 +54,7 @@ const mutations = {
         state.all.items = state.items.map(user => {
             if (user.id === id) {
                 // make copy of user without 'deleting:true' property
+                // eslint-disable-next-line no-unused-vars
                 const { deleting, ...userCopy } = user;
                 // return copy of user with 'deleteError:[error]' property
                 return { ...userCopy, deleteError: error };
