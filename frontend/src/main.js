@@ -1,17 +1,12 @@
-import Vue from "vue";
-import VeeValidate from 'vee-validate'
-
-// Page CSS
-import '@fortawesome/fontawesome-free/css/all.min.css'
-import 'startbootstrap-sb-admin-2/css/sb-admin-2.min.css'
-
-import { store } from "./store";
-import { router } from "./helpers";
-import App from "./App";
+import '@babel/polyfill'
+import 'mutationobserver-shim'
+import Vue from 'vue'
+import './plugins/bootstrap-vue'
+import App from './App.vue'
+import { router } from './router'
+import { store } from './store'
 
 Vue.config.productionTip = false;
-
-Vue.use(VeeValidate);
 
 new Vue({
   el: `#app`,

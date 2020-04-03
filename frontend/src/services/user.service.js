@@ -1,13 +1,4 @@
-/* Description:
-   The user service encapsulates all backend api calls for performing CRUD operations on user data, as well as logging and out.
-   The service methods are exported via the userService object at the top of the file.
-
-   In the handleResponse method the service checks if the http response from the
-   api is 401 Unauthorized and automatically logs the user out. This handles if the JWT token
-   expires or is no longer valid for any reason
-*/
-
-import { authHeader } from '../helpers';
+import { authHeader } from '../services';
 
 export const userService = {
     login,
