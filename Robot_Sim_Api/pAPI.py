@@ -224,7 +224,7 @@ class Post_Mis(Resource):
     @api.expect(post_mission_model)
     def post(self):
         mission_queue.append(api.payload)
-        return {'{"success":"true","description":"Successfully added mission to mission queue","id":"320"}'}, 201
+        return {"success": "true", "description": "Successfully added mission to mission queue", "id": "320"}, 201
 
 
 if __name__ == '__main__':
