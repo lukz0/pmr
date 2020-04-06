@@ -1,6 +1,3 @@
 
-
-class Mission(FLask):
-    skdfjls
-asdkfljskld
-sdfkljsldf
+class Mission():
+    pass

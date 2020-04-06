@@ -214,7 +214,7 @@ post_mission_model = api.model('mission',
 mission_queue = []
 
 
-@api.route('/json/mission')
+@api.route('/json/mission/')
 class Post_Mis(Resource):
 
     @api.marshal_with(post_mission_model)
