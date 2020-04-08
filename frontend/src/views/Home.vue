@@ -23,6 +23,7 @@
               </template>
 
               <hr class="my-4">
+              Dersom du er admin så skal du kunne se alle registrerte bruke her
               <b-spinner label="Loading..." v-show="users.loading"></b-spinner>
               <span v-if="users.error" class="text-danger">ERROR: {{users.error}}</span>
               <UsersList v-if="users.items" v-bind:users="users.items" v-on:del-user="delete_user"></UsersList>
