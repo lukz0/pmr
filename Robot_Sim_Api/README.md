@@ -4,7 +4,8 @@ The description below are for pycharm, do your search for other ede's.
 You will need to create an isolated environment. 
 * Start pyCharm and navigate to  "Settings"
 * Click on Project Interpreter
-* Click then on Add
+* Click then on Add, to add a new environment
+* Click then on Ok
 * Install the required models, open terminal in Pycharm terminal and run the command
 ``
 pip install -r requirements.txt
