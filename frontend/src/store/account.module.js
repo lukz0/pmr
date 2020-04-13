@@ -7,10 +7,11 @@ const state = user
     : { status: {}, user: null };
 
 const actions = {
-    login({ dispatch, commit }, { username, password }) {
+    login({ dispatch, commit }, payload) {
+        let { username, password, api } = payload;
         commit('loginRequest', { username });
 
-        userService.login(username, password)
+        userService.login({username: username, password: password, api: api})
             .then(
                 user => {
                     commit('loginSuccess', user);
@@ -26,14 +27,15 @@ const actions = {
         userService.logout();
         commit('logout');
     },
-    register({ dispatch, commit }, user) {
+    register({ dispatch, commit }, payload) {
+
+        let{user, api} = payload;
         commit('registerRequest', user);
 
-        userService.register(user)
+        userService.register({user: user, api: api})
             .then(
                 user => {
                     commit('registerSuccess', user);
-                    router.push('/login');
                     setTimeout(() => {
                         // display success message after route change completes
                         dispatch('alert/success', 'Registration successful', { root: true });

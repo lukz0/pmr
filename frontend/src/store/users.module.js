@@ -1,24 +1,26 @@
 import { userService } from '../services/user.service';
 
 const state = {
-    all: {}
+    all: {},
+    users: {}
 };
 
 const actions = {
-    getAll({ commit }) {
+    getAll({ commit }, api) {
         commit('getAllRequest');
 
-        userService.getAll()
+        userService.getAll(api)
             .then(
                 users => commit('getAllSuccess', users),
                 error => commit('getAllFailure', error)
             );
     },
 
-    delete({ commit }, id) {
+    delete({ commit }, payload) {
+        let {id, api} = payload;
         commit('deleteRequest', id);
 
-        userService.delete(id)
+        userService.delete({id: id, api: api})
             .then(
                 // eslint-disable-next-line no-unused-vars
                 user => commit('deleteSuccess', id),
@@ -33,6 +35,8 @@ const mutations = {
     },
     getAllSuccess(state, users) {
         state.all = { items: users };
+        state.users = users;
+
     },
     getAllFailure(state, error) {
         state.all = { error };
