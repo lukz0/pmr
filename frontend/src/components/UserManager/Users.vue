@@ -3,22 +3,23 @@
         <h1>Users</h1>
         <p v-for="u in users" :key="u.id">{{u.firstName}}
             <b-button-toolbar aria-label="Toolbar with button groups and dropdown menu">
-                <b-dropdown class="mx-1" right text="menu">
-                    <b-dropdown-item>Edit</b-dropdown-item>
-                    <b-dropdown-item @click="deleteUser({id: u.id, api: $api})">Delete</b-dropdown-item>
-                </b-dropdown>
+                <b-button-group class="mx-1">
+                    <b-button>Edit</b-button>
+                    <b-button v-if="profile.id !== u.id" @click="deleteUser({id: u.id, api: $api})">Delete</b-button>
+                </b-button-group>
             </b-button-toolbar>
         </p>
-
-
     </div>
-
 </template>
 
 <script>
     import {mapActions, mapState} from 'vuex'
     export default {
         name: "Users",
+        props:{
+            viewUsers: []
+        },
+
         created() {
             this.getAll(this.$api);
         },
@@ -31,6 +32,9 @@
         computed:{
             ...mapState('users',{
                 users: state => state.users
+            }),
+            ...mapState('account',{
+                profile: state => state.user
             })
         }
     }
