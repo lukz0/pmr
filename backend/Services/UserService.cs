@@ -4,7 +4,6 @@ using System.Linq;
 using backend.Data;
 using backend.Helpers;
 using backend.Models;
-using Microsoft.AspNetCore.Identity;
 
 namespace backend.Services
 {
@@ -20,15 +19,11 @@ namespace backend.Services
 
     public class UserService : IUserService
     {
-        private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private ApplicationDbContext _context;
 
-        public UserService(ApplicationDbContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public UserService(ApplicationDbContext context)
         {
             _context = context;
-            _userManager = userManager;
-            _signInManager = signInManager;
         }
 
         public ApplicationUser Authenticate(string username, string password)
@@ -36,21 +31,20 @@ namespace backend.Services
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
-            var user = _context.Users.SingleOrDefault(u => u.UserName == username);
+            var user = _context.Users.SingleOrDefault(x => x.UserName == username);
 
             // check if username exists
             if (user == null)
                 return null;
 
             // check if password is correct
-            if (!_signInManager.PasswordSignInAsync(user.UserName, password, true, false).Result.Succeeded)
+            if (!VerifyPasswordHash(password, user.BPasswordHash, user.BPasswordSalt))
                 return null;
 
             // authentication successful
             return user;
         }
 
-        
         public IEnumerable<ApplicationUser> GetAll()
         {
             return _context.Users;
@@ -70,9 +64,15 @@ namespace backend.Services
             if (_context.Users.Any(x => x.UserName == user.UserName))
                 throw new AppException("Username \"" + user.UserName + "\" is already taken");
 
-            _userManager.CreateAsync(user, password).Wait();
+            byte[] passwordHash, passwordSalt;
+            CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
+            user.BPasswordHash = passwordHash;
+            user.BPasswordSalt = passwordSalt;
+
+            _context.Users.Add(user);
             _context.SaveChanges();
-            
+
             return user;
         }
 
@@ -103,7 +103,11 @@ namespace backend.Services
             // update password if provided
             if (!string.IsNullOrWhiteSpace(password))
             {
-                _userManager.AddPasswordAsync(user, password);
+                byte[] passwordHash, passwordSalt;
+                CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
+                user.BPasswordHash = passwordHash;
+                user.BPasswordSalt = passwordSalt;
             }
 
             _context.Users.Update(user);
@@ -119,6 +123,38 @@ namespace backend.Services
                 _context.SaveChanges();
             }
         }
-        
+
+        // private helper methods
+
+        private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            if (password == null) throw new ArgumentNullException("password");
+            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            }
+        }
+
+        private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
+        {
+            if (password == null) throw new ArgumentNullException("password");
+            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
+            if (storedHash.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
+            if (storedSalt.Length != 128) throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
+            {
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                for (int i = 0; i < computedHash.Length; i++)
+                {
+                    if (computedHash[i] != storedHash[i]) return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

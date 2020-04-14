@@ -6,6 +6,7 @@ namespace backend.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Role { get; set; }
+        public byte[] BPasswordHash { get; set; }
+        public byte[] BPasswordSalt { get; set; }
     }
 }

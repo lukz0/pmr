@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$APPLICATION_CONFIG_DIR$/consoles/db" t="IncludeRecursive" />
+    <e p="$APPLICATION_CONFIG_DIR$/extensions" t="IncludeRecursive" />
+    <e p="$USER_HOME$/.Rider2019.3/system/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/.Rider2019.3/system/resharper-host/local/Transient/ReSharperHost/v193/SolutionCaches/_backend.-540723856.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeRecursive">
+      <e p="Controller" t="Include">
+        <e p="UsersController.cs" t="Include" />
+      </e>
+      <e p="Data" t="Include">
+        <e p="ApplicationDbContext.cs" t="Include" />
+        <e p="ApplicationDbInitializer.cs" t="Include" />
+      </e>
+      <e p="Helpers" t="Include">
+        <e p="AppException.cs" t="Include" />
+        <e p="AppSettings.cs" t="Include" />
+        <e p="AutoMapperProfile.cs" t="Include" />
+      </e>
+      <e p="LocalDatabase.db" t="Include" />
+      <e p="Migrations" t="Include">
+        <e p="20200325151151_01_users.Designer.cs" t="Include" />
+        <e p="20200325151151_01_users.cs" t="Include" />
+        <e p="ApplicationDbContextModelSnapshot.cs" t="Include" />
+      </e>
+      <e p="Models" t="Include">
+        <e p="ApplicationUser.cs" t="Include" />
+        <e p="Users" t="Include">
+          <e p="AuthenticateModel.cs" t="Include" />
+          <e p="RegisterModel.cs" t="Include" />
+          <e p="UpdateModel.cs" t="Include" />
+          <e p="UserModel.cs" t="Include" />
+        </e>
+      </e>
+      <e p="Program.cs" t="Include" />
+      <e p="Properties" t="Include">
+        <e p="launchSettings.json" t="Include" />
+      </e>
+      <e p="Services" t="Include">
+        <e p="UserService.cs" t="Include" />
+      </e>
+      <e p="Startup.cs" t="Include" />
+      <e p="appsettings.Development.json" t="Include" />
+      <e p="appsettings.json" t="Include" />
+      <e p="backend.csproj" t="IncludeRecursive" />
+      <e p="backend.sln" t="IncludeFlat" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive">
+        <e p="Debug" t="Include">
+          <e p="netcoreapp3.1" t="Include">
+            <e p="backend.AssemblyInfo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="wwwroot" t="Include">
+        <e p="favicon.ico" t="Include" />
+        <e p="index.html" t="Include" />
+        <e p="js" t="Include">
+          <e p="app.ac1d29bd.js" t="Include" />
+          <e p="app.ac1d29bd.js.map" t="Include" />
+          <e p="chunk-vendors.99a13bb9.js" t="Include" />
+          <e p="chunk-vendors.99a13bb9.js.map" t="Include" />
+        </e>
+      </e>
+    </e>
+  </component>
+</project>
