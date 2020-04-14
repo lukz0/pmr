@@ -15,18 +15,19 @@ using System;
 using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend
 {
     public class Startup
     {
-        private readonly IWebHostEnvironment _env;
+        private readonly IWebHostEnvironment _environment;
         private readonly IConfiguration _configuration;
 
-        public Startup(IWebHostEnvironment env, IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
-            _env = env;
             _configuration = configuration;
+            _environment = environment;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -34,7 +35,7 @@ namespace backend
         {
             services.AddSpaStaticFiles(options => { options.RootPath = "wwwroot"; });
             
-            if (_env.IsDevelopment()) // Database used during development
+            if (_environment.IsDevelopment()) // Database used during development
             {
                 // Register the database context as a service. Use SQLite for this
                 services.AddDbContext<ApplicationDbContext>(options =>
@@ -50,7 +51,7 @@ namespace backend
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -61,37 +62,24 @@ namespace backend
             // configure jwt authentication
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            
             services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.Events = new JwtBearerEvents
                 {
-                    OnTokenValidated = context =>
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
                     {
-                        var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
-                        var user = userService.GetById(context.Principal.Identity.Name);
-                        if (user == null)
-                        {
-                            // return unauthorized if user no longer exists
-                            context.Fail("Unauthorized");
-                        }
-                        return Task.CompletedTask;
-                    }
-                };
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
 
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
@@ -106,13 +94,13 @@ namespace backend
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
             app.UseSpaStaticFiles();
-            app.UseSpa(builder =>
-            {
-                if (env.IsDevelopment())
-                {
-                    builder.UseProxyToSpaDevelopmentServer("http://localhost:8080");
-                }
-            });
+             app.UseSpa(builder =>
+             {
+                 if (env.IsDevelopment())
+                 {
+                     builder.UseProxyToSpaDevelopmentServer("http://localhost:8080");
+                 }
+             });
         }
     }
 }

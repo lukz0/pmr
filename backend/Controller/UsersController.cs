@@ -9,6 +9,7 @@ using backend.Models;
 using backend.Models.Users;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -23,14 +24,16 @@ namespace backend.Controller
         private IUserService _userService;
         private IMapper _mapper;
         private readonly AppSettings _appSettings;
+        private UserManager<ApplicationUser> _userManager;
 
         public UsersController(
             IUserService userService,
             IMapper mapper,
-            IOptions<AppSettings> appSettings)
+            IOptions<AppSettings> appSettings, UserManager<ApplicationUser> userManager)
         {
             _userService = userService;
             _mapper = mapper;
+            _userManager = userManager;
             _appSettings = appSettings.Value;
         }
 
@@ -49,11 +52,18 @@ namespace backend.Controller
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.Name, user.UserName) 
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
+
+            foreach (var role in _userManager.GetRolesAsync(user).Result)
+            {
+                tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, role));
+            }
+            
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
@@ -67,9 +77,9 @@ namespace backend.Controller
                 Token = tokenString
             });
         }
-
-        [AllowAnonymous]
+        
         [HttpPost("register")]
+        [AllowAnonymous]
         public IActionResult Register([FromBody]RegisterModel model)
         {
             // map model to entity
@@ -91,6 +101,7 @@ namespace backend.Controller
         }
 
         [HttpGet]
+        [Authorize(Roles = Role.Admin)]
         public IActionResult GetAll()
         {
             var users = _userService.GetAll();
