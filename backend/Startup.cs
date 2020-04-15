@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +14,6 @@ using System;
 using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 
 namespace backend
 {
@@ -94,7 +92,7 @@ namespace backend
 
             app.UseEndpoints(endpoints => endpoints.MapControllers());
             app.UseSpaStaticFiles();
-             app.UseSpa(builder =>
+            app.UseSpa(builder =>
              {
                  if (env.IsDevelopment())
                  {

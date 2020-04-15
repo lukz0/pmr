@@ -5,6 +5,7 @@ using backend.Data;
 using backend.Helpers;
 using backend.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace backend.Services
 {
@@ -14,7 +15,7 @@ namespace backend.Services
         IEnumerable<ApplicationUser> GetAll();
         ApplicationUser GetById(string id);
         ApplicationUser Create(ApplicationUser user, string password);
-        void Update(ApplicationUser user, string password = null);
+        void Update(ApplicationUser user, string oldPassword = null, string newPassword = null);
         void Delete(string id);
     }
 
@@ -23,12 +24,15 @@ namespace backend.Services
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        public ILogger<UserService> Logger;
 
-        public UserService(ApplicationDbContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public UserService(ApplicationDbContext context, UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager, ILogger<UserService> logger)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
+            Logger = logger;
         }
 
         public ApplicationUser Authenticate(string username, string password)
@@ -50,7 +54,7 @@ namespace backend.Services
             return user;
         }
 
-        
+
         public IEnumerable<ApplicationUser> GetAll()
         {
             return _context.Users;
@@ -72,11 +76,11 @@ namespace backend.Services
 
             _userManager.CreateAsync(user, password).Wait();
             _context.SaveChanges();
-            
+
             return user;
         }
 
-        public void Update(ApplicationUser userParam, string password = null)
+        public void Update(ApplicationUser userParam, string oldpassword = null, string newpassword = null)
         {
             var user = _context.Users.Find(userParam.Id);
 
@@ -99,11 +103,16 @@ namespace backend.Services
 
             if (!string.IsNullOrWhiteSpace(userParam.LastName))
                 user.LastName = userParam.LastName;
+            
+            if (!string.IsNullOrWhiteSpace(user.Email))
+                user.Email = userParam.Email;
 
             // update password if provided
-            if (!string.IsNullOrWhiteSpace(password))
+            if (!string.IsNullOrWhiteSpace(oldpassword) && !string.IsNullOrWhiteSpace(newpassword))
             {
-                _userManager.AddPasswordAsync(user, password);
+                var res = _userManager.ChangePasswordAsync(user, oldpassword, newpassword);
+                if (res.Result.Errors.Any())
+                    throw new AppException(res.Result.ToString());
             }
 
             _context.Users.Update(user);
@@ -113,12 +122,10 @@ namespace backend.Services
         public void Delete(string id)
         {
             var user = _context.Users.Find(id);
-            if (user != null)
-            {
-                _context.Users.Remove(user);
-                _context.SaveChanges();
-            }
+            if (user == null) return;
+            
+            _context.Users.Remove(user);
+            _context.SaveChanges();
         }
-        
     }
 }

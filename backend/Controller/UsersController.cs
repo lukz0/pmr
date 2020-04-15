@@ -11,6 +11,7 @@ using backend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -31,9 +32,9 @@ namespace backend.Controller
             IMapper mapper,
             IOptions<AppSettings> appSettings, UserManager<ApplicationUser> userManager)
         {
-            _userService = userService;
             _mapper = mapper;
             _userManager = userManager;
+            _userService = userService;
             _appSettings = appSettings.Value;
         }
 
@@ -79,7 +80,7 @@ namespace backend.Controller
         }
         
         [HttpPost("register")]
-        [AllowAnonymous]
+        [Authorize(Roles = Role.Admin)]
         public IActionResult Register([FromBody]RegisterModel model)
         {
             // map model to entity
@@ -99,8 +100,7 @@ namespace backend.Controller
                 return BadRequest(new { message = ex.Message });
             }
         }
-
-        [HttpGet]
+        
         [Authorize(Roles = Role.Admin)]
         public IActionResult GetAll()
         {
@@ -127,7 +127,7 @@ namespace backend.Controller
             try
             {
                 // update user 
-                _userService.Update(user, model.Password);
+                _userService.Update(user, model.OldPassword, model.NewPassword);
                 return Ok(model);
             }
             catch (AppException ex)
@@ -138,9 +138,19 @@ namespace backend.Controller
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = Role.Admin)]
         public IActionResult Delete(string id)
         {
+            var user = _userService.GetById(id);
+            
+            if (user == null)
+                return BadRequest(new { message = "User don't exist" });
+            
+            if (user.Role == Role.Admin)
+                return BadRequest(new {message = "Must be a user to be deleted"});
+            
             _userService.Delete(id);
+            
             return Ok();
         }
     }
