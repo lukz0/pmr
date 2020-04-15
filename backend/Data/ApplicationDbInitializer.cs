@@ -17,7 +17,7 @@ namespace backend.Data
             roleManager.CreateAsync(adminRole).Wait();
 
             // Create users
-            var admin = new ApplicationUser { UserName = "Admin", Email = "admin@mail.no", Role = Role.Admin};
+            var admin = new ApplicationUser { UserName = "Admin", Email = "admin@mail.no", Role = Role.Admin, FirstName = "Admini", LastName = "Adminson"};
             userManager.CreateAsync(admin, "Password1.").Wait();
             userManager.AddToRoleAsync(admin, Role.Admin).Wait();
         }

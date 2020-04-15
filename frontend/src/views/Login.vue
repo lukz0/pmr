@@ -57,7 +57,7 @@
                 this.submitted = true;
                 const { username, password } = this;
                 if (username && password) {
-                    this.login({ username, password })
+                    this.login({ username: username, password: password, api: this.$api})
                 }
             }
         }

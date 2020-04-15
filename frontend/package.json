@@ -9,6 +9,7 @@
     "test": "cypress run --spec \"cypress/integration/mirdash.test.js\""
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.6.4",
     "vee-validate": "^2.2.8",

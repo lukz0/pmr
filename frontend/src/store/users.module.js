@@ -1,29 +1,30 @@
 import { userService } from '../services/user.service';
 
 const state = {
-    all: {}
+    all: {},
+    users: {}
 };
 
 const actions = {
-    getAll({ commit }) {
+    getAll({ commit }, api) {
         commit('getAllRequest');
 
-        userService.getAll()
+        userService.getAll(api)
             .then(
                 users => commit('getAllSuccess', users),
                 error => commit('getAllFailure', error)
             );
     },
 
-    delete({ commit }, id) {
+    delete({ commit, dispatch }, payload) {
+        let {id, api} = payload;
         commit('deleteRequest', id);
 
-        userService.delete(id)
-            .then(
-                // eslint-disable-next-line no-unused-vars
-                user => commit('deleteSuccess', id),
-                error => commit('deleteFailure', { id, error: error.toString() })
-            );
+        userService.delete({id: id, api: api})
+            .then(function () {
+                dispatch('getAll', api);
+                console.log('we in here');
+            })
     }
 };
 
@@ -33,6 +34,8 @@ const mutations = {
     },
     getAllSuccess(state, users) {
         state.all = { items: users };
+        state.users = users;
+
     },
     getAllFailure(state, error) {
         state.all = { error };
@@ -47,7 +50,8 @@ const mutations = {
     },
     deleteSuccess(state, id) {
         // remove deleted user from state
-        state.all.items = state.all.items.filter(user => user.id !== id)
+        state.all.items = state.all.items.filter(user => user.id !== id);
+        state.users = state.users.filter(user => user.id !== id)
     },
     deleteFailure(state, { id, error }) {
         // remove 'deleting:true' property and add 'deleteError:[error]' property to user
@@ -59,7 +63,6 @@ const mutations = {
                 // return copy of user with 'deleteError:[error]' property
                 return { ...userCopy, deleteError: error };
             }
-
             return user;
         })
     }

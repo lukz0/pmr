@@ -10,24 +10,18 @@ export const userService = {
     delete: _delete
 };
 
-function login(username, password) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-    };
+function login(payload) {
+    let { username, password, api } = payload;
 
-    return fetch(`/users/authenticate`, requestOptions)
-        .then(handleResponse)
-        .then(user => {
+    return api.post('/users/authenticate', {username: username, password: password})
+        .then(response => {
             // login successful if there's a jwt token in the response
-            if (user.token) {
+            if (response.data.token) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('user', JSON.stringify(response.data));
             }
-
-            return user;
-        });
+            return response.data;})
+        .catch(handleError);
 }
 
 function logout() {
@@ -35,69 +29,46 @@ function logout() {
     localStorage.removeItem('user');
 }
 
-function register(user) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-    };
-
-    return fetch(`/users/register`, requestOptions).then(handleResponse);
+function register(payload) {
+    let {user, api} = payload;
+    return api.post('/users/register', user)
+        .then(response => {return response.data})
+        .catch(handleError);
 }
 
-function getAll() {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-
-    return fetch(`/users`, requestOptions).then(handleResponse);
+function getAll(api) {
+    return api.get(`/users`, {headers:authHeader()})
+        .then(response => {return response.data})
+        .catch(handleError);
 }
 
 
-function getById(id) {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-
-    return fetch(`/users/${id}`, requestOptions).then(handleResponse);
+function getById(id, api) {
+    return api.get(`/users/${id}`, {headers:authHeader()})
+        .then(response => {return response.data})
+        .catch(handleError);
 }
 
-function update(user) {
-    const requestOptions = {
-        method: 'PUT',
-        headers: { ...authHeader(), 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-    };
-
-    return fetch(`/users/${user.id}`, requestOptions).then(handleResponse);
+function update(user, api) {
+    return api.put(`/users/${user.id}`, {headers: authHeader(), user: user})
+        .then(response => {return response.data})
+        .catch(handleError);
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
-function _delete(id) {
-    const requestOptions = {
-        method: 'DELETE',
-        headers: authHeader()
-    };
-
-    return fetch(`/users/${id}`, requestOptions).then(handleResponse);
+function _delete(payload) {
+    let {id, api} = payload;
+    return api.delete(`/users/${id}`, {headers: authHeader()})
+        .then(response => {return response.data})
+        .catch(handleError);
 }
 
-function handleResponse(response) {
-    return response.text().then(text => {
-        const data = text && JSON.parse(text);
-        if (!response.ok) {
-            if (response.status === 401) {
-                // auto logout if 401 response returned from api
-                logout();
-                location.reload(true);
-            }
-
-            const error = (data && data.message) || response.statusText;
-            return Promise.reject(error);
-        }
-
-        return data;
-    });
+function handleError(error) {
+    if (error.status === 401) {
+        // auto logout if 401 response returned from api
+        logout();
+        location.reload(true);
+    }
+    // return Promise.reject(error);
+    return error.data;
 }
