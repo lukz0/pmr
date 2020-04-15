@@ -66,13 +66,11 @@ const mutations = {
         state.status = {};
         state.user = null;
     },
-    registerRequest(state, user) {
+    registerRequest(state, user) { // eslint-disable-line no-unused-vars
         state.status = { registering: true };
-        console.log(user)
     },
-    registerSuccess(state, user) {
+    registerSuccess(state, user) { // eslint-disable-line no-unused-vars
         state.status = {};
-        console.log(user)
     },
     registerFailure(state, error) {
         state.status = {};

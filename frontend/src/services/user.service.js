@@ -10,18 +10,16 @@ export const userService = {
     delete: _delete
 };
 
-function login(payload) {
-    let { username, password, api } = payload;
-
-    return api.post('/users/authenticate', {username: username, password: password})
-        .then(response => {
+function login({ username, password, api }) {
+    return api.post(`/users/authenticate`, { username: username, password: password })
+        .then(r => handleResponse(r, null), e => handleResponse(e.response, e))
+        .then(user => {
             // login successful if there's a jwt token in the response
-            if (response.data.token) {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', JSON.stringify(response.data));
+            if (user.token) {
+                localStorage.setItem('user', JSON.stringify(user));
             }
-            return response.data;})
-        .catch(handleError);
+            return user;
+        });
 }
 
 function logout() {
@@ -29,46 +27,40 @@ function logout() {
     localStorage.removeItem('user');
 }
 
-function register(payload) {
-    let {user, api} = payload;
-    return api.post('/users/register', user)
-        .then(response => {return response.data})
-        .catch(handleError);
+function register({ api, user }) {
+    return api.post(`/users/register`, user, { headers: authHeader() })
+        .then(r => handleResponse(r, null), e => handleResponse(e.response, e));
 }
 
 function getAll(api) {
-    return api.get(`/users`, {headers:authHeader()})
-        .then(response => {return response.data})
-        .catch(handleError);
+    return api.get(`/users`, { headers: authHeader() })
+        .then(r => handleResponse(r, null), e => handleResponse(e.response, e));
 }
 
-
 function getById(id, api) {
-    return api.get(`/users/${id}`, {headers:authHeader()})
-        .then(response => {return response.data})
-        .catch(handleError);
+    return api.get(`/users/${id}`, { headers: authHeader() })
+        .then(r => handleResponse(r, null), e => handleResponse(e.response, e));
 }
 
 function update(user, api) {
-    return api.put(`/users/${user.id}`, {headers: authHeader(), user: user})
-        .then(response => {return response.data})
-        .catch(handleError);
+    return api.put(`/users/${user.id}`, user, { headers: authHeader() })
+        .then(r => handleResponse(r, null), e => handleResponse(e.response, e));
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
-function _delete(payload) {
-    let {id, api} = payload;
-    return api.delete(`/users/${id}`, {headers: authHeader()})
-        .then(response => {return response.data})
-        .catch(handleError);
+function _delete({ id, api }) {
+    return api.delete(`/users/${id}`, { headers: authHeader() })
+        .then(r => handleResponse(r, null), e => handleResponse(e.response, e));
 }
-
-function handleError(error) {
-    if (error.status === 401) {
-        // auto logout if 401 response returned from api
-        logout();
-        location.reload(true);
+function handleResponse(response, error) {
+    if (error !== null) {
+        if (response.status === 401) {
+            // auto logout if 401 response returned from api
+            logout();
+            location.reload(true);
+        }
+        return Promise.reject(response.data.message || `${response.statusText}: ${error.message}`);
+    } else {
+        return Promise.resolve(response.data);
     }
-    // return Promise.reject(error);
-    return error.data;
 }

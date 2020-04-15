@@ -23,7 +23,6 @@ const actions = {
         userService.delete({id: id, api: api})
             .then(function () {
                 dispatch('getAll', api);
-                console.log('we in here');
             })
     }
 };
