@@ -30,7 +30,7 @@
 
             <!-- show loading -->
             <b-spinner label="Loading..." v-show="status.loggingIn"></b-spinner>
-            <b-button block type="submit" variant="primary">Login</b-button>
+            <b-button block type="submit" variant="primary" id="Submit">Login</b-button>
         </b-form>
     </div>
 </template>
