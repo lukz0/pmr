@@ -26,7 +26,7 @@ namespace backend.Data
             {
                 FirstName = "Admin",
                 LastName = "Strator",
-                UserName = "admin",
+                UserName = "Admin",
                 Email = "admin@mail.com",
                 Role = Role.Admin
             };
