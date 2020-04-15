@@ -7,16 +7,16 @@
                 <!--                everything inside here will collapse-->
             </b-collapse>
 
-            <b-nav-item-dropdown right>
+            <b-nav-item-dropdown right id="Userdropdown">
                 <!-- Using 'button-content' slot -->
                 <template v-slot:button-content>
                     <b-icon-people-circle />
                     <!--{{user.firstName}}-->
                 </template>
                 <b-dropdown-item to="/"><b-icon-house-door/> Dashboard</b-dropdown-item>
-                <b-dropdown-item to="/usermanager"><b-icon-people-fill/> User Settings</b-dropdown-item>
+                <b-dropdown-item id="Usermanager" to="/usermanager"><b-icon-people-fill/> User Settings</b-dropdown-item>
                 <b-dropdown-item to="/profile"><b-icon-person-lines-fill />Profile settings</b-dropdown-item>
-                <b-dropdown-item to="/login"><b-icon-lock /> Sign Out</b-dropdown-item>
+                <b-dropdown-item id="Signout" to="/login"><b-icon-lock /> Sign Out</b-dropdown-item>
             </b-nav-item-dropdown>
         </b-navbar>
     </div>
