@@ -41,8 +41,8 @@ export const router = new Router({
         },
         {
             // User manager pages
-            path: 'usermanager', component: UserManager, children: [
-                {path: '/', component: UserManager},
+            path: '/', component: Dashboard, children: [
+                {path: '/usermanager', component: UserManager},
                 {path: 'register', component: Register},
                 {path: 'edit', component: Edit},
                 {path: 'groups', comment: Users}
