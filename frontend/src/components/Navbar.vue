@@ -10,7 +10,7 @@
                 <!-- Administrator tools -->
                 <b-nav-item-dropdown right text="Administrator Manager" v-if="User.role === 'Admin'">
                     <b-dropdown-item to="usermanager"><b-icon-people-fill /> Users</b-dropdown-item>
-                    <b-dropdown-item href="#"><b-icon-person-fill /> New user</b-dropdown-item>
+                    <b-dropdown-item to="register"><b-icon-person-fill /> New user</b-dropdown-item>
                     <b-dropdown-divider></b-dropdown-divider>
                     <b-dropdown-item href="#"><b-icon-shield-lock-fill /> Policy</b-dropdown-item>
                     <b-dropdown-item href="#"><b-icon-shield /> New Policy</b-dropdown-item>

@@ -6,7 +6,6 @@ import Register from "../components/UserManager/Register";
 import Users from "../components/UserManager/Users";
 import Edit from "../components/UserManager/Edit";
 
-import UserManager from "../views/Usermanager";
 import Dashboard from "../views/Dashboard";
 import Notfound from "../views/Notfound";
 import Account from "../views/Account";
@@ -42,7 +41,7 @@ export const router = new Router({
         {
             // User manager pages
             path: '/', component: Dashboard, children: [
-                {path: '/usermanager', component: UserManager},
+                {path: '/usermanager', component: Users},
                 {path: 'register', component: Register},
                 {path: 'edit', component: Edit},
                 {path: 'groups', comment: Users}
