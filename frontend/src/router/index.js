@@ -2,8 +2,8 @@ import Router from 'vue-router';
 import Vue from 'vue';
 
 
-import Users from "../components/UserManager/Users";
 import Register from "../components/UserManager/Register";
+import Users from "../components/UserManager/Users";
 import Edit from "../components/UserManager/Edit";
 
 import UserManager from "../views/Usermanager";
@@ -12,11 +12,11 @@ import Notfound from "../views/Notfound";
 import Account from "../views/Account";
 import Login from '../views/Login';
 
+import Help from "../views/Help";
 import Home from "../components/Dashboard/Home";
 import Stats from "../components/Dashboard/Stats";
-import Missions from "../components/Dashboard/Missions";
 import Robots from "../components/Dashboard/Robots";
-import Help from "../views/Help";
+import Missions from "../components/Dashboard/Missions";
 
 Vue.use(Router);
 

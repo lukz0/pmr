@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-const baseurl = 'http://localhost:5000/';
+const baseurl = 'https://localhost:5001/';
 const user = {};
 
 context('Mirdash', () => {
@@ -8,7 +8,8 @@ context('Mirdash', () => {
         cy.visit(baseurl);
     });
 
-    it('submit invalid user and pass', () => {
+    // Try to login with invalid username
+    it('Submit invalid username and password', () => {
         cy.visit(`${baseurl}login`);
 
         cy.location('pathname').should('eq', '/login');
@@ -23,7 +24,8 @@ context('Mirdash', () => {
             .should('contain.text', 'incorrect');
     });
 
-    it('login as admin', () => {
+    // Try to login as administrator
+    it('Login as admin', () => {
         cy.visit(`${baseurl}login`)
             .location('pathname').should('eq', '/login');
         // Username must be all lowercase

@@ -41,7 +41,7 @@ namespace backend.Services
                 return null;
 
             var user = _context.Users.SingleOrDefault(u => u.UserName == username);
-
+            
             // check if username exists
             if (user == null)
                 return null;
@@ -53,8 +53,7 @@ namespace backend.Services
             // authentication successful
             return user;
         }
-
-
+        
         public IEnumerable<ApplicationUser> GetAll()
         {
             return _context.Users;
@@ -67,13 +66,15 @@ namespace backend.Services
 
         public ApplicationUser Create(ApplicationUser user, string password)
         {
+            user.UserName = user.UserName.ToLower();
+            
             // validation
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
 
             if (_context.Users.Any(x => x.UserName == user.UserName))
                 throw new AppException("Username \"" + user.UserName + "\" is already taken");
-
+            
             _userManager.CreateAsync(user, password).Wait();
             _context.SaveChanges();
 
@@ -93,8 +94,6 @@ namespace backend.Services
                 // throw error if the new username is already taken
                 if (_context.Users.Any(x => x.UserName == userParam.UserName))
                     throw new AppException("Username " + userParam.UserName + " is already taken");
-
-                user.UserName = userParam.UserName;
             }
 
             // update user properties if provided

@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using AutoMapper;
+using backend.Helpers;
 
 namespace backend.Models.Users
 {
@@ -9,7 +11,7 @@ namespace backend.Models.Users
 
         [Required]
         public string LastName { get; set; }
-
+        
         [Required]
         public string Username { get; set; }
 

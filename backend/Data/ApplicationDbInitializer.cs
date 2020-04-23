@@ -21,19 +21,19 @@ namespace backend.Data
             var userRole = new IdentityRole(Role.User);
             roleManager.CreateAsync(userRole).Wait();
 
-            // Create administrator users
+            // Create administrator users, username must be lowercase
             var admin = new ApplicationUser
             {
                 FirstName = "Admin",
                 LastName = "Strator",
-                UserName = "Admin",
+                UserName = "admin",
                 Email = "admin@mail.com",
                 Role = Role.Admin
             };
             userManager.CreateAsync(admin, "Password1.").Wait();
             userManager.AddToRoleAsync(admin, Role.Admin).Wait();
 
-            // Create user
+            // Create user, username must be lowercase
             var user = new ApplicationUser
             {
                 FirstName = "User",

@@ -1,4 +1,6 @@
-﻿namespace backend.Models.Users
+﻿using backend.Helpers;
+
+namespace backend.Models.Users
 {
     public class UserModel
     {
