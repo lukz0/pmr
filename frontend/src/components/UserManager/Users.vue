@@ -19,7 +19,6 @@
         props:{
             viewUsers: []
         },
-
         created() {
             this.getAll(this.$api);
         },

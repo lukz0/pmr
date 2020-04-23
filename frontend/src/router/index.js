@@ -1,55 +1,76 @@
-import Vue from 'vue';
 import Router from 'vue-router';
+import Vue from 'vue';
 
-import LoginPage from '../views/Login'
-import Dashboard from "../components/Dashboard/Dashboard";
-import MiRDash from "../views/MiRDash";
-import UserManager from "../components/UserManager/UserManager";
-import Profile from "../components/Profile/Profile";
-import Robots from "../components/Dashboard/Robots";
-import Missions from "../components/Dashboard/Missions";
-import Stats from "../components/Dashboard/Stats";
+
 import Users from "../components/UserManager/Users";
 import Register from "../components/UserManager/Register";
 import Edit from "../components/UserManager/Edit";
 
+import UserManager from "../views/Usermanager";
+import Dashboard from "../views/Dashboard";
+import Notfound from "../views/Notfound";
+import Account from "../views/Account";
+import Login from '../views/Login';
+
+import Home from "../components/Dashboard/Home";
+import Stats from "../components/Dashboard/Stats";
+import Missions from "../components/Dashboard/Missions";
+import Robots from "../components/Dashboard/Robots";
+import Help from "../views/Help";
+
 Vue.use(Router);
 
 export const router = new Router({
-  mode: 'history',
-  routes: [
-    // { path: '/', component: HomePage },
-    // { path: '/register', component: RegisterPage },
-    { path: '/login', component: LoginPage },
-    { path: '/', component: MiRDash, children: [
-        {path: '/', component: Dashboard, children: [
-            {path:'/', component: Robots},
-            {path:'missions', component: Missions},
-            {path:'stats', component: Stats}
-          ]},
-        {path: 'usermanager', component: UserManager, children: [
-            {path:'/', component: Users},
-            {path:'register', component: Register},
-            {path:'edit', component: Edit}
-          ]},
-        {path: 'profile', component: Profile, children: [
-            {path:'/'},
-            {path:'edit'}
-      ]},
-  ]},
-    // otherwise redirect to home
-    { path: '*', redirect: '/' }
-]});
+    mode: 'history',
+    routes: [
+        {
+            path: '/login', component: Login
+        },
+        {
+            path: '/help', component: Help
+        },
+        {
+            // Dashboard
+            path: '/', component: Dashboard, children: [
+                {path: '/', component: Home},
+                {path: '/dashboard', component: Home},
+                {path: '/stats', component: Stats},
+                {path: '/missions', component: Missions},
+                {path: '/robots', component: Robots}
+            ]
+        },
+        {
+            // User manager pages
+            path: 'usermanager', component: UserManager, children: [
+                {path: '/', component: UserManager},
+                {path: 'register', component: Register},
+                {path: 'edit', component: Edit},
+                {path: 'groups', comment: Users}
+            ]
+        },
+        {
+            // Account page
+            path: 'account', component: Account, children: [
+                {path: '/'},
+                {path: 'edit'}
+            ]
+        },
+        {
+            // 404 - Page not found
+            path: '*', component: Notfound
+        }
+    ]
+});
 
 router.beforeEach((to, from, next) => {
-  // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/login'];
-  const authRequired = !publicPages.includes(to.path);
-  const loggedIn = localStorage.getItem('user');
+    // Redirect to login page if not logged in and trying to access a restricted page
+    const publicPages = ['/login', '/404'];
+    const authRequired = !publicPages.includes(to.path);
+    const loggedIn = localStorage.getItem('user');
 
-  if (authRequired && !loggedIn) {
-    return next('/login');
-  }
+    if (authRequired && !loggedIn) {
+        return next('/login');
+    }
 
-  next();
+    next();
 });

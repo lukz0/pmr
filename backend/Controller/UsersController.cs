@@ -75,7 +75,8 @@ namespace backend.Controller
                 Username = user.UserName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Token = tokenString
+                Token = tokenString,
+                Role = user.Role
             });
         }
         

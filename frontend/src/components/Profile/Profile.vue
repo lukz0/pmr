@@ -7,8 +7,6 @@
         <p>Role:</p>
         <p>Edit user info, ask for new role</p>
     </div>
-
-
 </template>
 
 <script>

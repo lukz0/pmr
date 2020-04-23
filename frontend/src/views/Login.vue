@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="main-form">
         <b-form @submit.prevent="handleSubmit">
             <h1 class="h3 mb-3 font-weight-normal">Welcome back!</h1>
             <!-- Username label and input -->
@@ -67,7 +67,14 @@
     form {
         width: 100%;
         max-width: 330px;
-        padding: 15px;
         margin: 20px auto;
+    }
+    #main-form{
+        color: aliceblue;
+        margin: 65px auto;
+        background: #2b2b2b;
+        width: 450px;
+        border-radius: 4px;
+        padding: 21px;
     }
 </style>

@@ -26,8 +26,8 @@ context('Mirdash', () => {
     it('login as admin', () => {
         cy.visit(`${baseurl}login`)
             .location('pathname').should('eq', '/login');
-
-        cy.get('#Username').type('Admin');
+        // Username must be all lowercase
+        cy.get('#Username').type('admin');
         cy.get('#Password').type('Password1.');
         cy.get('#Submit').click();
 
@@ -42,7 +42,7 @@ context('Mirdash', () => {
         cy.visit(`${baseurl}login`)
             .location('pathname').should('eq', '/login');
 
-        cy.get('#Username').type('Admin');
+        cy.get('#Username').type('admin');
         cy.get('#Password').type('Password1.');
         cy.get('#Submit').click();
 

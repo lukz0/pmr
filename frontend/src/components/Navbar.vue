@@ -1,48 +1,47 @@
 <template>
-    <div>
-        <b-navbar toggleable="sm" type="dark" variant="dark">
-            <b-navbar-brand to="/">MiRDash</b-navbar-brand>
-            <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-            <b-collapse id="nav-collapse" is-nav>
-                <!--                everything inside here will collapse-->
-            </b-collapse>
+    <b-navbar toggleable="lg" type="dark" variant="dark">
+        <b-navbar-brand to="/">
+            <img src="@/assets/logo_dark.png">
+        </b-navbar-brand>
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <b-collapse id="nav-collapse" is-nav>
+            <b-navbar-nav>
 
-            <b-nav-item-dropdown right id="Userdropdown">
-                <!-- Using 'button-content' slot -->
-                <template v-slot:button-content>
-                    <b-icon-people-circle />
-                    <!--{{user.firstName}}-->
-                </template>
-                <b-dropdown-item to="/"><b-icon-house-door/> Dashboard</b-dropdown-item>
-                <b-dropdown-item id="Usermanager" to="/usermanager"><b-icon-people-fill/> User Settings</b-dropdown-item>
-                <b-dropdown-item to="/profile"><b-icon-person-lines-fill />Profile settings</b-dropdown-item>
-                <b-dropdown-item id="Signout" to="/login"><b-icon-lock /> Sign Out</b-dropdown-item>
-            </b-nav-item-dropdown>
-        </b-navbar>
-    </div>
+                <!-- Administrator tools -->
+                <b-nav-item-dropdown right text="Administrator Manager" v-if="User.role === 'Admin'">
+                    <b-dropdown-item to="usermanager"><b-icon-people-fill /> Users</b-dropdown-item>
+                    <b-dropdown-item href="#"><b-icon-person-fill /> New user</b-dropdown-item>
+                    <b-dropdown-divider></b-dropdown-divider>
+                    <b-dropdown-item href="#"><b-icon-shield-lock-fill /> Policy</b-dropdown-item>
+                    <b-dropdown-item href="#"><b-icon-shield /> New Policy</b-dropdown-item>
+                </b-nav-item-dropdown>
+            </b-navbar-nav>
 
+            <!-- Right aligned nav items -->
+            <b-navbar-nav class="ml-auto">
+                <b-nav-item-dropdown right>
+                    <!-- Using 'button-content' slot -->
+                    <template v-slot:button-content>
+                        <b-icon-people-circle /> {{User.firstName}} {{User.lastName}}
+                    </template>
+                    <b-dropdown-item href="#">
+                        <b-icon-person-lines-fill /> Account settings
+                    </b-dropdown-item>
+                    <b-dropdown-item to="login">
+                        <b-icon-lock /> Sign Out
+                    </b-dropdown-item>
+                </b-nav-item-dropdown>
+            </b-navbar-nav>
+        </b-collapse>
+    </b-navbar>
 </template>
 <script>
-    //import {mapActions, mapState} from 'vuex';
-
     export default {
-        name: "Navbar"
-        // created() {
-        //     this.createRobots();
-        // },
-        // computed:{
-        //     ...mapState('account', {
-        //         user: state => state.user
-        //     }),
-        //     ...mapState('robots',{
-        //         robots: state => state.robots
-        //     })
-        // },
-        // methods:{
-        //     ...mapActions('robots',{
-        //         createRobots: 'createTestData',
-        //         setRobot: 'setCurrentRobot'
-        //     })
-        // }
+        name: "Navbar",
+        props: ['User'],
     }
 </script>
+
+<style scoped>
+
+</style>
