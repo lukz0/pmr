@@ -24,14 +24,14 @@ export const router = new Router({
     mode: 'history',
     routes: [
         {
-            path: '/login', component: Login, title: 'Authentication'
+            path: '/login', component: Login, name: 'Authentication'
         },
         {
-            path: '/help', component: Help, title: 'Help'
+            path: '/help', component: Help, name: 'Help'
         },
         {
             // Dashboard
-            path: '/', component: Dashboard, title: 'Main dashboard', children: [
+            path: '/', component: Dashboard, name: 'Main dashboard', children: [
                 {path: '/', component: Home},
                 {path: '/dashboard', component: Home},
                 {path: '/stats', component: Stats},
@@ -73,6 +73,6 @@ router.beforeEach((to, from, next) => {
     }
 
     // Update the page title
-    document.title = to.title || 'MiRDash';
+    document.title = to.name || 'MiRDash'
     next();
 });

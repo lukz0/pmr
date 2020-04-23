@@ -20,6 +20,7 @@
                 <b-form-input
                         id="Password"
                         v-model="password"
+                        autocomplete="true"
                         type="password"
                         required
                         placeholder="Enter your password"
