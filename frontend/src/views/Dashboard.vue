@@ -19,6 +19,9 @@
   import Sidebar from "@/components/Sidebar";
 
   export default {
+    title(){
+      document.title = 'Dashboard'
+    },
     components: { Sidebar, Navbar },
     computed: {
       ...mapState({

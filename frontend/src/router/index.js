@@ -24,14 +24,14 @@ export const router = new Router({
     mode: 'history',
     routes: [
         {
-            path: '/login', component: Login
+            path: '/login', component: Login, title: 'Authentication'
         },
         {
-            path: '/help', component: Help
+            path: '/help', component: Help, title: 'Help'
         },
         {
             // Dashboard
-            path: '/', component: Dashboard, children: [
+            path: '/', component: Dashboard, title: 'Main dashboard', children: [
                 {path: '/', component: Home},
                 {path: '/dashboard', component: Home},
                 {path: '/stats', component: Stats},
@@ -64,7 +64,7 @@ export const router = new Router({
 
 router.beforeEach((to, from, next) => {
     // Redirect to login page if not logged in and trying to access a restricted page
-    const publicPages = ['/login', '/404'];
+    const publicPages = ['/login', '/help'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
 
@@ -72,5 +72,7 @@ router.beforeEach((to, from, next) => {
         return next('/login');
     }
 
+    // Update the page title
+    document.title = to.title || 'MiRDash';
     next();
 });
