@@ -11,24 +11,36 @@
                 :items="users">
             <template v-slot:cell(Edit)="data">
                 <b-button-group class="mx-1">
-                    <b-button  @click="$bvModal.show('bv-modal')">View/Edit</b-button>
-                    <b-button :id="`UsermanagerDelete${data.item.username}`" v-if="profile.id !== data.item.id"
-                              @click="deleteUser({id: data.item.id, api: $api})">Delete
+                    <b-button variant="info" @click="loadUser(data.item)">
+                        <b-icon-person-bounding-box />
+                        View/Edit</b-button>
+                    <b-button variant="warning" :id="`UsermanagerDelete${data.item.username}`" v-if="profile.id !== data.item.id"
+                              @click="deleteUser({id: data.item.id, api: $api})">
+                        <b-icon-person-dash />
+                        Delete
                     </b-button>
                 </b-button-group>
             </template>
         </b-table>
 
-        <b-modal id="bv-modal" hide-footer>
-            <template v-slot:modal-title>
-                Using <code>$bvModal</code> Methods
-            </template>
-            <div class="d-block text-center">
-                <h3>Hello From This Modal!</h3>
+        <b-modal v-model="modalShow">
+            <div class="card">
+                <img src="https://via.placeholder.com/286x180?text=Bruk" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                </ul>
+                <div class="card-body">
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                </div>
             </div>
-            <b-button class="mt-3" block @click="$bvModal.hide('bv-modal')">Close Me</b-button>
         </b-modal>
-
     </div>
 </template>
 
@@ -38,8 +50,9 @@
         name: "Users",
         data() {
             return {
+                modalShow: false,
+                user: {'Id': '', firstName:'', lastName:'', username:''},
                 fields: [
-                    { key: 'id', label: 'UserId', sortable: true },
                     { key: 'username', label: 'Username', sortable: true },
                     {
                         key: 'firstName',
@@ -65,8 +78,9 @@
                 getAll: 'getAll',
                 deleteUser: 'delete'
             }),
-            openModal() {
-                this.modalOpen = !this.modalOpen;
+            loadUser: function (user) {
+                this.user = user;
+                this.modalShow = !this.modalShow
             }
         },
         computed: {
@@ -79,7 +93,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

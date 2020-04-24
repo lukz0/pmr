@@ -31,7 +31,7 @@ export const router = new Router({
         {
             // Dashboard
             path: '/', component: Dashboard, children: [
-                {path: '/', component: Home, name: 'Main dashboard'},
+                {path: '/', component: Home},
                 {path: '/dashboard', component: Home, name: 'Main dashboard'},
                 {path: '/stats', component: Stats},
                 {path: '/missions', component: Missions},
@@ -49,9 +49,9 @@ export const router = new Router({
         },
         {
             // Account page
-            path: 'account', component: Profile, children: [
+            path: '/account', component: Profile, children: [
                 {path: '/profile', component: Profile, name: 'User Profile'},
-                {path: 'edit'}
+                {path: '/edit'}
             ]
         },
         {
