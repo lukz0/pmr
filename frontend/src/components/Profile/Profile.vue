@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Account</h1>
+        <h1>Account (This page is not done)</h1>
         <p>First Name: {{profile.firstName}}</p>
         <p>Last Name: {{profile.lastName}}</p>
         <p>Username: {{profile.username}}</p>
@@ -15,8 +15,8 @@
     export default {
         name: "Profile",
         computed:{
-            ...mapState('account', {
-                profile: state => state.user
+            ...mapState({
+                profile: state => state.account.user
             })
         }
     }

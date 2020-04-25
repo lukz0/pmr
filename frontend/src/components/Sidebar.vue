@@ -24,9 +24,9 @@
         </b-list-group>
 
         <!-- Administrator settings -->
-        <b-list-group style="margin-top: 20px" v-if="profile.role === 'Admin'">
-            <b-list-group-item to="usermanager" exact exact-active-class="active"><b-icon-people-fill /> Users </b-list-group-item>
-            <b-list-group-item to="register" exact exact-active-class="active"><b-icon-person-fill /> New user </b-list-group-item>
+        <b-list-group v-if="profile.role === 'Admin'">
+            <b-list-group-item to="usermanager" exact exact-active-class="active"><b-icon-people /> Users </b-list-group-item>
+            <b-list-group-item to="register" exact exact-active-class="active"><b-icon-person-plus /> New user </b-list-group-item>
             <b-list-group-item href="#" disabled><b-icon-shield-lock-fill /> Policy</b-list-group-item>
             <b-list-group-item href="#foobar" disabled><b-icon-shield /> New Policy</b-list-group-item>
         </b-list-group>
@@ -38,9 +38,15 @@
     export default {
         name: "Sidebar",
         computed:{
-            ...mapState('account', {
-                profile: state => state.user
+            ...mapState({
+                // state.account.user have meta info of the logged in user
+                profile: state => state.account.user
             })
         }
     }
 </script>
+<style>
+    .list-group{
+        margin-top: 20px;
+    }
+</style>

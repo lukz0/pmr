@@ -1,5 +1,7 @@
 <template>
-    <h1>Stats</h1>
+    <b-jumbotron>
+        <h2>Stats</h2>
+    </b-jumbotron>
 </template>
 
 <script>

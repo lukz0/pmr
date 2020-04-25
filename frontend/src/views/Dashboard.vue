@@ -1,6 +1,6 @@
 <template>
   <div>
-  <Navbar v-bind:User="account.user"/>
+  <Navbar/>
     <b-container fluid="">
       <b-row>
         <b-col sm="3" class="m-lg-2">
@@ -15,17 +15,13 @@
 </template>
 <script>
   import Navbar from "@/components/Navbar";
-  import { mapState, mapActions } from 'vuex'
   import Sidebar from "@/components/Sidebar";
+  import { mapState, mapActions } from 'vuex'
 
   export default {
-    title(){
-      document.title = 'Dashboard'
-    },
     components: { Sidebar, Navbar },
     computed: {
       ...mapState({
-        account: state => state.account,
         users: state => state.users.all
       })
     },

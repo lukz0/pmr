@@ -1,5 +1,7 @@
 <template>
-    <h1>Missions</h1>
+    <b-jumbotron>
+        <h2>Missions</h2>
+    </b-jumbotron>
 </template>
 
 <script>

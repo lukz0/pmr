@@ -1,5 +1,7 @@
 <template>
-    <h1>Robots</h1>
+    <b-jumbotron>
+        <h2>Robots</h2>
+    </b-jumbotron>
 </template>
 
 <script>

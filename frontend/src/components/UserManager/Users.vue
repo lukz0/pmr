@@ -1,9 +1,9 @@
 <template>
     <div id="UsermanagerUserlist" class="jumbotron">
-        <h1>
+        <h2>
             <b-icon-people-fill/>
             Manage Users
-        </h1>
+        </h2>
         <b-table
                 striped
                 hover

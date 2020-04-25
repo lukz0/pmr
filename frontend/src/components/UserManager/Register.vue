@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <h2>Register</h2>
+    <b-jumbotron>
+        <h2><b-icon-person-plus-fill/> Register</h2>
         <form @submit.prevent="handleSubmit">
             <div class="form-group">
                 <label for="firstName">First Name</label>
@@ -25,10 +25,9 @@
             <div class="form-group">
                 <button id="Submit" class="btn btn-primary" :disabled="status.registering">Register</button>
                 <b-spinner label="Loading..." v-show="status.registering"></b-spinner>
-                <router-link to="/login" class="btn btn-link">Cancel</router-link>
             </div>
         </form>
-    </div>
+    </b-jumbotron>
 </template>
 
 <script>

@@ -13,7 +13,7 @@
                     <template v-slot:button-content>
                         <b-icon-people-circle /> {{profile.firstName}} {{profile.lastName}}
                     </template>
-                    <b-dropdown-item href="#">
+                    <b-dropdown-item to="profile">
                         <b-icon-person-lines-fill /> Account settings
                     </b-dropdown-item>
                     <b-dropdown-item to="login">
@@ -30,8 +30,8 @@
     export default {
         name: "Navbar",
         computed:{
-            ...mapState('account', {
-                profile: state => state.user
+            ...mapState({
+                profile: state => state.account.user
             })
         }
     }
