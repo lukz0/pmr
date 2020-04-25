@@ -1,35 +1,46 @@
 <template>
-    <b-list-group>
-        <b-list-group-item to="/dashboard" exact exact-active-class="active">
-            <b-icon-house-door />
-            Dashboard
-        </b-list-group-item>
-        <b-list-group-item to="stats" exact exact-active-class="active">
-            <b-icon-bar-chart/>
-            Stats
-        </b-list-group-item>
-        <b-list-group-item to="missions" exact exact-active-class="active">
-            <b-icon-clipboard-data/>
-            Missions
-        </b-list-group-item>
-        <b-list-group-item to="robots" exact exact-active-class="active">
-            <b-icon-outlet/>
-            Robots
-        </b-list-group-item>
-        <b-list-group-item to="help">
-            <b-icon-question-circle/>
-            Help
-        </b-list-group-item>
-    </b-list-group>
+    <div>
+        <b-list-group>
+            <b-list-group-item to="/dashboard" exact exact-active-class="active">
+                <b-icon-house-door/>
+                Dashboard
+            </b-list-group-item>
+            <b-list-group-item to="stats" exact exact-active-class="active">
+                <b-icon-bar-chart/>
+                Stats
+            </b-list-group-item>
+            <b-list-group-item to="missions" exact exact-active-class="active">
+                <b-icon-clipboard-data/>
+                Missions
+            </b-list-group-item>
+            <b-list-group-item to="robots" exact exact-active-class="active">
+                <b-icon-outlet/>
+                Robots
+            </b-list-group-item>
+            <b-list-group-item to="help">
+                <b-icon-question-circle/>
+                Help
+            </b-list-group-item>
+        </b-list-group>
+
+        <!-- Administrator settings -->
+        <b-list-group style="margin-top: 20px" v-if="profile.role === 'Admin'">
+            <b-list-group-item to="usermanager" exact exact-active-class="active"><b-icon-people-fill /> Users </b-list-group-item>
+            <b-list-group-item to="register" exact exact-active-class="active"><b-icon-person-fill /> New user </b-list-group-item>
+            <b-list-group-item href="#" disabled><b-icon-shield-lock-fill /> Policy</b-list-group-item>
+            <b-list-group-item href="#foobar" disabled><b-icon-shield /> New Policy</b-list-group-item>
+        </b-list-group>
+    </div>
 </template>
 
 <script>
+    import {mapState} from "vuex";
     export default {
         name: "Sidebar",
-        data: function(){
-            return {
-                currentLocation: window.location.pathname
-            }
+        computed:{
+            ...mapState('account', {
+                profile: state => state.user
+            })
         }
     }
 </script>

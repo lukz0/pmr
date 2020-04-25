@@ -4,7 +4,7 @@
         <p>First Name: {{profile.firstName}}</p>
         <p>Last Name: {{profile.lastName}}</p>
         <p>Username: {{profile.username}}</p>
-        <p>Role:</p>
+        <p>Role: {{profile.role}}</p>
         <p>Edit user info, ask for new role</p>
     </div>
 </template>
