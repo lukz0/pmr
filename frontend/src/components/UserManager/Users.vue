@@ -1,5 +1,5 @@
 <template>
-    <div id="UsermanagerUserlist" class="jumbotron">
+    <div id="test-users-list" class="jumbotron">
         <h2>
             <b-icon-people-fill/>
             Manage Users
@@ -15,7 +15,7 @@
                         <b-icon-person-lines-fill/>
                         View/Edit
                     </b-button>
-                    <b-button variant="warning" :id="`UsermanagerDelete${data.item.username}`"
+                    <b-button variant="warning" :id="`test-delete-user${data.item.username}`"
                               v-if="profile.id !== data.item.id"
                               @click="deleteUser({id: data.item.id, api: $api})">
                         <b-icon-person-dash/>

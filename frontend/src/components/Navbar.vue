@@ -11,13 +11,14 @@
                 <b-nav-item-dropdown right>
                     <!-- Using 'button-content' slot -->
                     <template v-slot:button-content>
-                        <b-icon-people-circle /> {{profile.firstName}} {{profile.lastName}}
+                        <!-- test-userdropdown id is used in test -->
+                        <b-icon-people-circle id="test-userdropdown" /> {{profile.firstName}} {{profile.lastName}}
                     </template>
                     <b-dropdown-item to="profile">
                         <b-icon-person-lines-fill /> Account settings
                     </b-dropdown-item>
                     <b-dropdown-item to="login">
-                        <b-icon-lock /> Sign Out
+                        <b-icon-lock id="test-logout"/> Sign Out
                     </b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-navbar-nav>

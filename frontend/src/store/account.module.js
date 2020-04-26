@@ -39,6 +39,7 @@ const actions = {
                     setTimeout(() => {
                         // display success message after route change completes
                         dispatch('alert/success', 'Registration successful', { root: true });
+                        router.push("/usermanager");
                     })
                 },
                 error => {

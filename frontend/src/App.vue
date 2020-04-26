@@ -1,7 +1,7 @@
 <template>
   <div>
-<!--    <b-alert v-if="alert.message" :class="`alert ${alert.type}`" id="Alert" show>{{alert.message}}</b-alert>-->
     <b-modal
+            :id="Alert"
             v-model="alert.type"
             :header-bg-variant="headerBgVariant(alert.type)"
             ok-only>
@@ -20,8 +20,8 @@
     name: 'app',
     data(){
       return{
-          headerBgVariant : function (type) { return type !== true ? "success" : "danger"},
-          headerTitle: function (type) { return type !== true ? "Successfully resisted" : "Error"}
+          headerBgVariant : function (type) { return type === 'success' ? 'success' : 'danger'},
+          headerTitle: function (type) { return type === 'success' ? 'Successfully resisted' : 'Error'}
       }
     },
     computed: {
