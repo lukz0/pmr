@@ -4,8 +4,6 @@ import Vue from 'vue';
 
 import Register from "../components/UserManager/Register";
 import Users from "../components/UserManager/Users";
-import Edit from "../components/UserManager/Edit";
-
 import Dashboard from "../views/Dashboard";
 import Notfound from "../views/Notfound";
 import Login from '../views/Login';
@@ -13,9 +11,9 @@ import Login from '../views/Login';
 import Help from "../views/Help";
 import Home from "../components/Dashboard/Home";
 import Stats from "../components/Dashboard/Stats";
+import Profile from "../components/Profile/Profile";
 import Robots from "../components/Dashboard/Robots";
 import Missions from "../components/Dashboard/Missions";
-import Profile from "../components/Profile/Profile";
 
 Vue.use(Router);
 
@@ -43,7 +41,6 @@ export const router = new Router({
             path: '/', component: Dashboard, children: [
                 {path: '/usermanager', component: Users, name: 'Manger users'},
                 {path: 'register', component: Register, name: 'Add new User'},
-                {path: 'edit', component: Edit},
                 {path: 'groups', comment: Users}
             ]
         },

@@ -25,10 +25,18 @@
 
         <!-- Administrator settings -->
         <b-list-group v-if="profile.role === 'Admin'">
-            <b-list-group-item to="usermanager" exact exact-active-class="active" id="test-all-users"><b-icon-people /> Users </b-list-group-item>
-            <b-list-group-item to="register" exact exact-active-class="active" id="test-add-user"><b-icon-person-plus /> New user </b-list-group-item>
-            <b-list-group-item href="#" disabled><b-icon-shield-lock-fill /> Policy</b-list-group-item>
-            <b-list-group-item href="#foobar" disabled><b-icon-shield /> New Policy</b-list-group-item>
+            <b-list-group-item to="usermanager" exact exact-active-class="active" id="test-all-users">
+                <b-icon-people /> Users
+            </b-list-group-item>
+            <b-list-group-item to="register" exact exact-active-class="active" id="test-add-user">
+                <b-icon-person-plus /> New user
+            </b-list-group-item>
+            <b-list-group-item href="#" disabled>
+                <b-icon-shield-lock-fill /> Policy
+            </b-list-group-item>
+            <b-list-group-item href="#foobar" disabled>
+                <b-icon-shield /> New Policy
+            </b-list-group-item>
         </b-list-group>
     </div>
 </template>
