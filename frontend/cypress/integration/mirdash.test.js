@@ -6,6 +6,7 @@ const user = {};
 context('Mirdash', () => {
     beforeEach(() => {
         cy.visit(baseurl);
+        // load in some users from fixture/users.json
         cy.fixture('users.json').as('users');
     });
 
@@ -140,8 +141,8 @@ context('Mirdash', () => {
            .location('pathname').should('eq', '/usermanager');
 
       // Confirm that the user was registerd
-       cy.get('#test-users-list')
-           .should('contain', user.name);
+       cy.get('#test-users-list').should('contain', user.name);
+
         // Sign logout
        logout();
      }
