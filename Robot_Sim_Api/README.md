@@ -12,7 +12,12 @@ pip install -r requirements.txt
 ``
 
 * Try to run the application, if you get the error "ImportError: connot import name 'cachedproporty' from werkezeug'"
-* In you project go to ``\venv\lib\site-packages\fask_restplus\fields.py`` on line 17 update the line to
+* In your project go to ``\venv\lib\site-packages\fask_restplus\fields.py`` on line 17 update the line to
+``
+from werkzeug.utils import cached_property
+``
+
+* In your project go to ``\venv\lib\site-packages\fask_restplus\api.py`` on line 24 update the line to
 ``
 from werkzeug.utils import cached_property
 ``
