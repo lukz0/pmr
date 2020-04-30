@@ -75,7 +75,39 @@ status_model = api.model('status', {
     'velocity': fields.Nested(velocity_model)
 })
 
-status = [{}]
+status = [{
+    "allowed_methods": 'null',
+    "battery_percentage": 94.4000015258789,
+    "battery_time_remaining": 45305,
+    "distance_to_next_target": 0,
+    "errors": [],
+    "footprint": "[[0.506,-0.32],[0.506,0.32],[-0.454,0.32],[-0.454,-0.32]]",
+    "map_id": "e11fc4eb-b819-11e9-b021-94c69118fd1e",
+    "mission_queue_id": 'null',
+    "mission_queue_url": 'null',
+    "mission_text": "Starting...",
+    "mode_id": 7,
+    "mode_text": "Mission",
+    "moved": 143470.47,
+    "position": {
+        "orientation": 87.9072265625,
+        "x": 32.924983978271484,
+        "y": 37.166587829589844
+    },
+    "robot_model": "MiR200",
+    "robot_name": "MiR_S274",
+    "serial_number": "180200011100274",
+    "session_id": "bcf29362-4f7d-11e8-a97a-94c69118fd1e",
+    "state_id": 4,
+    "state_text": "Pause",
+    "unloaded_map_changes": 'false',
+    "uptime": 2925,
+    "user_prompt": 'null',
+    "velocity": {
+        "angular": 0,
+        "linear": 0
+    }
+}]
 
 
 # -----------------------------------------------------------
@@ -87,7 +119,7 @@ status = [{}]
 @api.doc(responses={202: 'Successfully retrieve the specified element'})
 @api.route('/status')
 class Status(Resource):
-    @api.marshal_with(status_model)
+    #@api.marshal_with(status_model)
     def get(self):
         return status
 
