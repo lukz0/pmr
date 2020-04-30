@@ -68,11 +68,9 @@ class RegisterID(Resource):
     @ns.expect(registers_model)
     @ns.marshal_with(registers_model)
     def put(self, i):
-        print(api.payload)
         return RegisterDAO.set(i, api.payload), 200
 
     @ns.expect(registers_model)
     @ns.marshal_with(registers_model)
     def post(self, i):
-        print(api.payload)
         return RegisterDAO.set(i, api.payload), 201
