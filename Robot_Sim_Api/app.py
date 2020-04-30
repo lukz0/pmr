@@ -5,7 +5,7 @@ from base64 import b64encode
 from hashlib import sha256
 from functools import wraps
 
-robot_base_url = 'api/v2.0.0'
+robot_base_url = '/api/v2.0.0'
 
 authorization_username = 'Admin'
 authorization_password = sha256(b'Password1.').hexdigest()
