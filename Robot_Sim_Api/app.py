@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_restplus import Api
+from flask_restplus import Api, fields, Resource
 from werkzeug.exceptions import *
 
 robot_base_url = '/api/v2.0.0'
