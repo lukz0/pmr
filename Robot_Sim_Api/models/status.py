@@ -1,4 +1,5 @@
 from app import *
+from flask_restplus import Resource, fields
 
 """
 General status information about the robot including battery voltage, state, uptime, total run distance, current job and map.
@@ -84,7 +85,7 @@ status = [{}]
 @api.doc(responses={400: 'Invalid ordering or Invalid filters or Wrong output fields or Invalid limits'})
 @api.doc(responses={404: 'Not found'})
 @api.doc(responses={202: 'Successfully retrieve the specified element'})
-@api.route('/json/status/')
+@api.route('/status')
 class Status(Resource):
     @api.marshal_with(status_model)
     def get(self):
