@@ -51,14 +51,11 @@ class RegisterDAOClass:
 RegisterDAO = RegisterDAOClass()
 
 
-@api.doc(responses={400: 'Invalid ordering or Invalid filters or Wrong output fields or Invalid limits'})
-@api.doc(responses={404: 'Not found'})
-@api.doc(responses={202: 'Successfully retrieve the specified element'})
 @api.route('/json/v2.0.0/registers/')
 class Register(Resource):
     @ns.marshal_with(registers_model)
     def get(self):
-        return list(RegisterDAO.dict.values())
+        return list(RegisterDAO.dict.values()), 200
 
 
 @api.route('/json/v2.0.0/registers/<int:i>')
@@ -66,16 +63,16 @@ class Register(Resource):
 class RegisterID(Resource):
     @ns.marshal_with(registers_model)
     def get(self, i):
-        return RegisterDAO.get(i)
+        return RegisterDAO.get(i), 200
 
     @ns.expect(registers_model)
     @ns.marshal_with(registers_model)
     def put(self, i):
         print(api.payload)
-        return RegisterDAO.set(i, api.payload)
+        return RegisterDAO.set(i, api.payload), 200
 
     @ns.expect(registers_model)
     @ns.marshal_with(registers_model)
     def post(self, i):
         print(api.payload)
-        return RegisterDAO.set(i, api.payload)
+        return RegisterDAO.set(i, api.payload), 201
