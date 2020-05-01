@@ -51,8 +51,9 @@ class RegisterDAOClass:
 RegisterDAO = RegisterDAOClass()
 
 
-@api.route('/json/v2.0.0/registers/')
+@api.route('/json/v2.0.0/registers')
 class Register(Resource):
+    @auth_required
     @ns.marshal_with(registers_model)
     def get(self):
         return list(RegisterDAO.dict.values()), 200
@@ -61,15 +62,18 @@ class Register(Resource):
 @api.route('/json/v2.0.0/registers/<int:i>')
 @ns.param('i', 'Register id')
 class RegisterID(Resource):
+    @auth_required
     @ns.marshal_with(registers_model)
     def get(self, i):
         return RegisterDAO.get(i), 200
 
+    @auth_required
     @ns.expect(registers_model)
     @ns.marshal_with(registers_model)
     def put(self, i):
         return RegisterDAO.set(i, api.payload), 200
 
+    @auth_required
     @ns.expect(registers_model)
     @ns.marshal_with(registers_model)
     def post(self, i):
