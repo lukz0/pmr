@@ -25,7 +25,8 @@ getMissionSpecific_model = api.model('GetMissionSpecific', {
     'hidden': fields.Boolean,
     'name': fields.String,
     'session_id': fields.String,
-    'valid': fields.Boolean
+    'valid': fields.Boolean,
+    'allowed_methods': fields.List(fields.String)
 })
 
 
