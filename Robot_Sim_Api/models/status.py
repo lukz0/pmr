@@ -164,13 +164,14 @@ status = [status_robot_1, status_robot_2]
 @api.doc(responses={400: 'Invalid ordering or Invalid filters or Wrong output fields or Invalid limits'})
 @api.doc(responses={404: 'Not found'})
 @api.doc(responses={202: 'Successfully retrieve the specified element'})
-@api.route('/json/v2.0.0/status/')
+@api.route('/json/v2.0.0/status')
 class Status(Resource):
+    @auth_required
     @api.marshal_with(status_model)
     def get(self):
         return status
 
-    #Fjerne?
+    @auth_required
     @api.expect(status_model)
     def post(self):
         status.append(api.payload)
