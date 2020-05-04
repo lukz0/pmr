@@ -1,6 +1,7 @@
 from models.mission import *
 from threading import Semaphore, Thread
 from ThreadedHeap import ThreadedHeap
+from datetime import datetime
 
 getMissionQueues_model = api.model('GetMissionQueue', {
     'id': fields.Integer,
@@ -57,7 +58,7 @@ class MissionQueueItem:
         self.control_posid = None
         self.started = None
         self.finished = None
-        self.ordered = None
+        self.ordered = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
         self.allowed_methods = ['PUT', 'GET', 'DELETE']
         self.aborted_callback = None
 
@@ -65,11 +66,12 @@ class MissionQueueItem:
         return str(self.__class__) + ': ' + str(self.__dict__)
 
     def __lt__(self, other):
-        return self.priority < other.priority if self.priority != other.priority else self.id < other.id
+        return self.priority > other.priority if self.priority != other.priority else self.id > other.id
 
     def stop(self):
         if self.state in [state_pending[0], state_running[0]]:
             self.state = 'Aborted'
+            self.finished = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
             if self.aborted_callback is not None:
                 try:
                     self.aborted_callback()
@@ -94,6 +96,7 @@ class MissionQueueItem:
 
     def run(self):
         self.state = state_running
+        self.started = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
 
     def get_url(self):
         return '/v2.0.0/mission_queue/{}'.format(self.id)
