@@ -6,6 +6,8 @@ const user = {};
 context('Mirdash', () => {
     beforeEach(() => {
         cy.visit(baseurl);
+        // load in some users from fixture/users.json
+        cy.fixture('users.json').as('users');
     });
 
     let login = function loginUser(username, password) {
@@ -111,4 +113,40 @@ context('Mirdash', () => {
             .should('be.visible')
             .should('contain.text', ' Username or password is incorrect ');
     });
+
+    // Register dummy
+    it('Register dummy users', function () {
+
+     for(let user of this.users){
+       cy.visit(`${baseurl}login`)
+           .location('pathname').should('eq', '/login');
+
+       // Sign in as admin
+       login('admin', 'Password1.');
+
+       cy.get('#test-add-user').click();
+       cy.location('pathname').should('eq', '/register');
+
+       cy.get('#Firstname').type(user.name);
+       cy.get('#Lastname').type(user.name);
+       cy.get('#Username').type(user.username);
+       cy.get('#Password').type('Password1.');
+
+       cy.get('#Submit').click();
+
+       // Will redirect to users page if successful
+       cy.location('pathname').should('eq', '/usermanager');
+
+       cy.get('#test-all-users').click()
+           .location('pathname').should('eq', '/usermanager');
+
+      // Confirm that the user was registerd
+       cy.get('#test-users-list').should('contain', user.name);
+
+        // Sign logout
+       logout();
+     }
+   })
+
+
 });
