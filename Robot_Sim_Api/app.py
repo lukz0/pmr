@@ -43,5 +43,3 @@ def auth_required(f):
         else:
             api.abort(401, 'Could not authorize')
     return decorated
-
-
