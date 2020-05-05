@@ -15,7 +15,7 @@ namespace backend.Data
         }
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public DbSet<Robot> Robots { get; set; }
         public DbSet<Mission> Missions { get; set; }
+        public DbSet<Robot> Robots { get; set; }
     }
 }
