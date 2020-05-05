@@ -36,7 +36,7 @@ class SingleMission:
         self.name = name
         self.allowed_methods = allowed_methods
         self.created_by_id = 'mirconst-guid-0000-0001-users0000000'
-        self.created_by = '/users/{}'.format(self.created_by_id)
+        self.created_by = '/v2.0.0/users/{}'.format(self.created_by_id)
         self.created_by_name = 'MiR'
         self.description = ''
         self.group_id = None
@@ -54,12 +54,12 @@ class SingleMission:
     url = property(get_url)
 
     def get_actions(self):
-        return '/missions/{}/actions'.format(self.guid)
+        return '/v2.0.0/missions/{}/actions'.format(self.guid)
 
     actions = property(get_actions)
 
     def get_definition(self):
-        return '/missions/{}/definition'.format(self.guid)
+        return '/v2.0.0/missions/{}/definition'.format(self.guid)
 
     definition = property(get_definition)
 

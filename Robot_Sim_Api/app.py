@@ -18,6 +18,7 @@ authorization_token = 'Basic {}'.format(
 print('Authorization token:', authorization_token)
 
 
+
 app = Flask(__name__)
 api = Api(app,
           version='1.0',

@@ -82,12 +82,12 @@ class MissionQueueItem:
         self.state = state_done
 
     def get_actions(self):
-        return '/mission_queue/{}/actions'.format(self.id)
+        return '/v2.0.0/mission_queue/{}/actions'.format(self.id)
 
     actions = property(get_actions)
 
     def get_mission(self):
-        return '/missions/{}'.format(self.mission_id)
+        return '/v2.0.0/missions/{}'.format(self.mission_id)
 
     mission = property(get_mission)
 
@@ -99,7 +99,7 @@ class MissionQueueItem:
         self.started = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
 
     def get_url(self):
-        return '/mission_queue/{}'.format(self.id)
+        return '/v2.0.0/mission_queue/{}'.format(self.id)
 
     url = property(get_url)
 
@@ -161,7 +161,7 @@ mission_runner = Thread(target=mission_runner_func)
 mission_runner.start()
 
 
-@api.route('/mission_queue')
+@api.route('/api/v2.0.0/mission_queue')
 class MissionQueue(Resource):
     @auth_required
     @ns.marshal_with(getMissionQueues_model)
@@ -177,7 +177,8 @@ class MissionQueue(Resource):
         api.abort(400, 'Request body needs to be application/json')
 
 
-@api.route('/mission_queue/<int:i>')
+
+@api.route('/api/v2.0.0/mission_queue/<int:i>')
 @ns.param('i', 'Mission id')
 class MissionQueueSpecific(Resource):
     @auth_required
