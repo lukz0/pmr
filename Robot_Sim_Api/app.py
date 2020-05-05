@@ -17,8 +17,6 @@ authorization_token = 'Basic {}'.format(
 )
 print('Authorization token:', authorization_token)
 
-
-
 app = Flask(__name__)
 api = Api(app,
           version='1.0',
@@ -43,4 +41,5 @@ def auth_required(f):
             return f(*args, **kwargs)
         else:
             api.abort(401, 'Could not authorize')
+
     return decorated
