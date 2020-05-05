@@ -1,12 +1,14 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Policy;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace backend.Models
 {
     public class Mission
     {
-        [JsonIgnore]
         public int Id { get; set; }
         
         public string Guid { get; set; }
@@ -15,9 +17,8 @@ namespace backend.Models
         
         public string Url { get; set; }
         
-        [JsonIgnore]
         public int RobotId { get; set; }
-        [JsonIgnore]
+        
         public Robot Robot { get; set; }
     }
 }
