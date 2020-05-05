@@ -1,5 +1,4 @@
-//import { authHeader } from '../services';
-import axios from 'axios';
+import axios from 'axios'
 
 export const userService = {
     login,
@@ -50,7 +49,7 @@ function update(user) {
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
-function _delete({ id }) {
+function _delete(id) {
     return axios.delete(`/users/${id}`)
         .then(r => handleResponse(r, null), e => handleResponse(e.response, e));
 }
@@ -58,8 +57,9 @@ function handleResponse(response, error) {
     if (error !== null) {
         if (response.status === 401) {
             // auto logout if 401 response returned from api
-            logout();
-            location.reload(true);
+            //logout();
+            console.log("You are about to logout")
+            //location.reload(true);
         }
         return Promise.reject(response.data.message || `${response.statusText}: ${error.message}`);
     } else {

@@ -14,6 +14,7 @@ const actions = {
                 error => commit('getAllFailure', error)
             );
     },
+
     delete({ commit }, id) {
         commit('deleteRequest', id);
 
@@ -45,6 +46,7 @@ const mutations = {
         )
     },
     deleteSuccess(state, id) {
+        // remove deleted user from state
         state.all.items = state.all.items.filter(user => user.id !== id)
     },
     deleteFailure(state, { id, error }) {

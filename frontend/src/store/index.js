@@ -7,8 +7,6 @@ import { account } from './account.module';
 import { users } from './users.module';
 
 Vue.use(Vuex);
-import axios from 'axios'
-axios.defaults.baseURL = location.origin
 
 export const store = new Vuex.Store({
   modules: {

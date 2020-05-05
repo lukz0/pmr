@@ -17,7 +17,7 @@
                     </b-button>
                     <b-button variant="warning" :id="`test-delete-user${data.item.username}`"
                               v-if="account.user.id !== data.item.id"
-                              @click="deleteUser({Id: data.item.Id})">
+                              @click="delete_user(data.item.id)">
                         <b-icon-person-dash/>
                         Delete
                     </b-button>
@@ -95,6 +95,9 @@
             loadUser: function (user) {
                 this.user = user;
                 this.modalShow = !this.modalShow
+            },
+            delete_user(id){
+                this.deleteUser(id);
             }
         },
         computed: {

@@ -9,19 +9,12 @@ import Vue from 'vue'
 
 Vue.config.productionTip = false;
 
+import axios from 'axios'
 
-// const api = axios.create({
-//   baseURL: "https://localhost:5001/"
-// });
-
-
-// const axiosPlugin = {
-//   install(Vue){
-//     Vue.prototype.$api = api;
-//   }
-// };
-//
-// Vue.use(axiosPlugin);
+axios.defaults.baseURL = location.origin
+var user = JSON.parse(localStorage.getItem('user'));
+if (user)
+  axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.token;
 
 new Vue({
   router,

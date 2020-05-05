@@ -25,38 +25,36 @@ context('Mirdash', () => {
           .location('pathname').should('eq', '/login');
     }
 
-    // Try to login with invalid username and password
-    it('Submit invalid username and password', () => {
-        cy.visit(`${baseurl}login`);
-
-        cy.location('pathname').should('eq', '/login');
-
-        // login invalid user
-        login('null', 'null');
-
-        cy.location('pathname').should('eq', '/login');
-        cy.get('.modal-body')
-            .should('be.visible')
-            .should('contain.text', ' Username or password is incorrect ');
-    });
-
-    // Try to login as administrator then logout
-    it('Login as admin', () => {
-        cy.visit(`${baseurl}login`)
-        .location('pathname').should('eq', '/login');
-
-        // Username must be all lowercase
-        login('admin', 'Password1.');
-
-        cy.location('pathname').should('eq', '/');
-
-        logout()
-    });
+    // // Try to login with invalid username and password
+    // it('Submit invalid username and password', () => {
+    //     cy.visit(`${baseurl}login`);
+    //
+    //     cy.location('pathname').should('eq', '/login');
+    //
+    //     // login invalid user
+    //     login('null', 'null');
+    //
+    //     cy.location('pathname').should('eq', '/login');
+    //     cy.get('.modal-body')
+    //         .should('be.visible')
+    //         .should('contain.text', ' Username or password is incorrect ');
+    // });
+    //
+    // // Try to login as administrator then logout
+    // it('Login as admin', () => {
+    //     cy.visit(`${baseurl}login`)
+    //     .location('pathname').should('eq', '/login');
+    //
+    //     // Username must be all lowercase
+    //     login('admin', 'Password1.');
+    //
+    //     cy.location('pathname').should('eq', '/');
+    //
+    //     logout()
+    // });
 
     // Try to Register a user using admin account
     it('Register new user', () => {
-        cy.visit(`${baseurl}login`)
-            .location('pathname').should('eq', '/login');
 
         login('admin', 'Password1.');
 
