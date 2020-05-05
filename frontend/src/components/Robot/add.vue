@@ -1,12 +1,10 @@
 <template>
-    <b-jumbotron>
-        <h2>Robots</h2>
-    </b-jumbotron>
+    <h1>Add new robot</h1>
 </template>
 
 <script>
     export default {
-        name: "Robots"
+        name: "add"
     }
 </script>
 

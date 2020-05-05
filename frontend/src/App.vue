@@ -20,6 +20,7 @@
     name: 'app',
     data(){
       return{
+          Alert: '',
           headerBgVariant : function (type) { return type === 'success' ? 'success' : 'danger'},
           headerTitle: function (type) { return type === 'success' ? 'Successfully resisted' : 'Error'}
       }
