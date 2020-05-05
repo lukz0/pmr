@@ -7,7 +7,7 @@ from functools import wraps
 
 robot_base_url = '/api/v2.0.0'
 
-authorization_username = 'Admin'
+authorization_username = 'admin'
 authorization_password = sha256(b'Password1.').hexdigest()
 authorization_token = 'Basic {}'.format(
     b64encode(bytes(
