@@ -54,7 +54,7 @@ namespace backend.Data
                 var robot = new Robot
                 {
                     Hostname = $"MiR_S274-{i + 1:D2}",
-                    BasePath = $"http://127.0.0.1:500{i}/json/v2.0.0",
+                    BasePath = $"http://127.0.0.1:500{i}/api/v2.0.0",
                     Username = "admin",
                     Password = "1q2w3e4R"
                 };

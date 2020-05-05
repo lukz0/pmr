@@ -71,6 +71,8 @@ namespace backend.Services
             // This method will be injected by the caller with appropriated data ex: requestUrl and authorization
             var request = new HttpRequestMessage(HttpMethod.Get, host.BasePath + "/missions");
             request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Authorization",
+                "Basic YWRtaW46M2I0ZjgzMDBjOGM1ZDkwNjc4YjdkYzNmNGQ1OWY5MGFkZTEwODIzNmFiNDEwNTA1YTlkNTk3OWUxZjk1NGQ1Zg==");
             try
             {
                 var client = _clientFactory.CreateClient();
@@ -87,7 +89,8 @@ namespace backend.Services
                     foreach (var mission in missions)
                     {
                         mission.RobotId = host.Id;
-                        if (!db.Missions.Any(m => m.Name.Contains(mission.Name)))
+                        if (!db.Missions.Any(m => m.Name.Contains(mission.Name) 
+                                                  && m.RobotId.Equals(mission.RobotId)))
                             db.Missions.Add(mission);
                     }
 
