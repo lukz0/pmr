@@ -4,23 +4,23 @@
         <form @submit.prevent="handleSubmit">
             <div class="form-group">
                 <label for="firstName">First Name</label>
-                <input id="Firstname" type="text" v-model="user.firstName" v-validate="'required'" name="firstName" class="form-control" :class="{ 'is-invalid': submitted && errors.has('firstName') }" />
-                <div v-if="submitted && errors.has('firstName')" class="invalid-feedback">{{ errors.first('firstName') }}</div>
+                <input id="Firstname" type="text" v-model="user.firstName" v-validate="'required'" name="firstName" class="form-control" :class="{ 'is-invalid': submitted && veeErrors.has('firstName') }" />
+                <div v-if="submitted && veeErrors.has('firstName')" class="invalid-feedback">{{ veeErrors.first('firstName') }}</div>
             </div>
             <div class="form-group">
                 <label for="lastName">Last Name</label>
-                <input id="Lastname" type="text" v-model="user.lastName" v-validate="'required'" name="lastName" class="form-control" :class="{ 'is-invalid': submitted && errors.has('lastName') }" />
-                <div v-if="submitted && errors.has('lastName')" class="invalid-feedback">{{ errors.first('lastName') }}</div>
+                <input id="Lastname" type="text" v-model="user.lastName" v-validate="'required'" name="lastName" class="form-control" :class="{ 'is-invalid': submitted && veeErrors.has('lastName') }" />
+                <div v-if="submitted && veeErrors.has('lastName')" class="invalid-feedback">{{ veeErrors.first('lastName') }}</div>
             </div>
             <div class="form-group">
                 <label for="username">Username</label>
-                <input id="Username" type="text" v-model="user.username" v-validate="'required'" name="username" class="form-control" :class="{ 'is-invalid': submitted && errors.has('username') }" />
-                <div v-if="submitted && errors.has('username')" class="invalid-feedback">{{ errors.first('username') }}</div>
+                <input id="Username" type="text" v-model="user.username" v-validate="'required'" name="username" class="form-control" :class="{ 'is-invalid': submitted && veeErrors.has('username') }" />
+                <div v-if="submitted && veeErrors.has('username')" class="invalid-feedback">{{ veeErrors.first('username') }}</div>
             </div>
             <div class="form-group">
                 <label htmlFor="password">Password</label>
-                <input id="Password" type="password" v-model="user.password" v-validate="{ required: true, min: 6 }" name="password" class="form-control" :class="{ 'is-invalid': submitted && errors.has('password') }" />
-                <div v-if="submitted && errors.has('password')" class="invalid-feedback">{{ errors.first('password') }}</div>
+                <input id="Password" type="password" v-model="user.password" v-validate="{ required: true, min: 6 }" name="password" class="form-control" :class="{ 'is-invalid': submitted && veeErrors.has('password') }" />
+                <div v-if="submitted && veeErrors.has('password')" class="invalid-feedback">{{ veeErrors.first('password') }}</div>
             </div>
             <div class="form-group">
                 <button id="Submit" class="btn btn-primary" :disabled="status.registering">Register</button>
@@ -54,7 +54,7 @@
                 this.submitted = true;
                 this.$validator.validate().then(valid => {
                     if (valid) {
-                        this.register({user: this.user, api: this.$api});
+                        this.register(this.user);
                     }
                 });
             }

@@ -13,7 +13,7 @@
                     <!-- Using 'button-content' slot -->
                     <template v-slot:button-content>
                         <!-- test-userdropdown id is used in test -->
-                        <b-icon-people-circle id="test-userdropdown" /> {{profile.firstName}} {{profile.lastName}}
+                        <b-icon-people-circle id="test-userdropdown" /> {{user.firstName}} {{user.lastName}}
                     </template>
                     <b-dropdown-item to="profile">
                         <b-icon-person-lines-fill /> Account settings
@@ -38,7 +38,7 @@
         },
         computed: {
             ...mapState({
-                profile: state => state.account.user
+                user: state => state.account.user
             })
         },
         methods: {

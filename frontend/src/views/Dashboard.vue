@@ -16,26 +16,8 @@
 <script>
   import Navbar from "@/components/Navbar";
   import Sidebar from "@/components/Sidebar";
-  import {mapActions, mapState} from 'vuex'
 
   export default {
-    components: { Sidebar, Navbar },
-    computed: {
-      ...mapState({
-        users: state => state.users.all
-      })
-    },
-    created () {
-      this.getAllUsers();
-    },
-    methods: {
-      ...mapActions('users', {
-        getAllUsers: 'getAll',
-        deleteUser: 'delete'
-      }),
-      delete_user(id){
-        this.deleteUser(id)
-      }
-    }
+    components: { Sidebar, Navbar}
   };
 </script>

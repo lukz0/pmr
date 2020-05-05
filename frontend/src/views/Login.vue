@@ -22,6 +22,7 @@
                         v-model="password"
                         autocomplete="true"
                         type="password"
+                        value="Password1."
                         required
                         placeholder="Enter your password"
                         :class="{ 'is-invalid': submitted && !password }"
@@ -46,11 +47,11 @@
             }
         },
         computed: {
-          ...mapState('account', ['status'])
+            ...mapState('account', ['status'])
         },
         created(){
-          // reset login status
-          this.logout();
+            // reset login status
+            this.logout();
         },
         methods: {
             ...mapActions('account', ['login', 'logout']),
@@ -58,7 +59,7 @@
                 this.submitted = true;
                 const { username, password } = this;
                 if (username && password) {
-                    this.login({ username: username, password: password, api: this.$api})
+                    this.login({ username, password })
                 }
             }
         }

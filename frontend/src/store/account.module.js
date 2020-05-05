@@ -1,4 +1,4 @@
-import { userService } from '../services/user.service';
+import { userService } from '../services';
 import { router } from '../router';
 
 const user = JSON.parse(localStorage.getItem('user'));
@@ -7,11 +7,10 @@ const state = user
     : { status: {}, user: null };
 
 const actions = {
-    login({ dispatch, commit }, payload) {
-        let { username, password, api } = payload;
+    login({ dispatch, commit }, { username, password }) {
         commit('loginRequest', { username });
 
-        userService.login({username: username, password: password, api: api})
+        userService.login(username, password)
             .then(
                 user => {
                     commit('loginSuccess', user);
@@ -27,19 +26,17 @@ const actions = {
         userService.logout();
         commit('logout');
     },
-    register({ dispatch, commit }, payload) {
-
-        let{user, api} = payload;
+    register({ dispatch, commit }, user) {
         commit('registerRequest', user);
 
-        userService.register({user: user, api: api})
+        userService.register(user)
             .then(
                 user => {
                     commit('registerSuccess', user);
+                    router.push('/usermanager');
                     setTimeout(() => {
                         // display success message after route change completes
                         dispatch('alert/success', 'Registration successful', { root: true });
-                        router.push("/usermanager");
                     })
                 },
                 error => {
@@ -67,11 +64,13 @@ const mutations = {
         state.status = {};
         state.user = null;
     },
-    registerRequest(state, user) { // eslint-disable-line no-unused-vars
+    registerRequest(state, user) {
         state.status = { registering: true };
+        console.log(user)
     },
-    registerSuccess(state, user) { // eslint-disable-line no-unused-vars
+    registerSuccess(state, user) {
         state.status = {};
+        console.log(user)
     },
     registerFailure(state, error) {
         state.status = {};

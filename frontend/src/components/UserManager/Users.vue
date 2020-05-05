@@ -16,8 +16,8 @@
                         View/Edit
                     </b-button>
                     <b-button variant="warning" :id="`test-delete-user${data.item.username}`"
-                              v-if="profile.id !== data.item.id"
-                              @click="deleteUser({id: data.item.id, api: $api})">
+                              v-if="account.user.id !== data.item.id"
+                              @click="deleteUser({Id: data.item.Id})">
                         <b-icon-person-dash/>
                         Delete
                     </b-button>
@@ -85,7 +85,7 @@
             }
         },
         created() {
-            this.getAll(this.$api);
+            this.getAll();
         },
         methods: {
             ...mapActions('users', {
@@ -98,11 +98,9 @@
             }
         },
         computed: {
-            ...mapState('users', {
-                users: state => state.users
-            }),
-            ...mapState('account', {
-                profile: state => state.user
+            ...mapState({
+                account: state => state.account,
+                users: state => state.users.all.items
             })
         }
     }

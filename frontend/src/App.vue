@@ -1,14 +1,27 @@
 <template>
   <div>
     <b-modal
-            :id="Alert"
-            v-model="alert.type"
+            :headerTextVariant="headerTextVariant"
+            v-model="alert.isVisible"
             :header-bg-variant="headerBgVariant(alert.type)"
             ok-only>
         <template v-slot:modal-title>
             {{ headerTitle(alert.type) }}
         </template>
         {{ alert.message }}
+        <template v-slot:modal-footer>
+            <div class="w-100">
+                <b-button
+                        variant="primary"
+                        size="sm"
+                        id="test_btn_ok"
+                        class="float-right w-100"
+                        @click="alert.isVisible=false"
+                >
+                    Ok
+                </b-button>
+            </div>
+        </template>
     </b-modal>
     <router-view></router-view>
   </div>
@@ -20,9 +33,9 @@
     name: 'app',
     data(){
       return{
-          Alert: '',
-          headerBgVariant : function (type) { return type === 'success' ? 'success' : 'danger'},
-          headerTitle: function (type) { return type === 'success' ? 'Successfully resisted' : 'Error'}
+          headerBgVariant : function (type) { return type !== 'alert-danger' ? 'success' : 'danger'},
+          headerTitle: function (type) { return type !== 'alert-danger' ? 'Successfully resisted' : 'Error'},
+          headerTextVariant: 'light'
       }
     },
     computed: {

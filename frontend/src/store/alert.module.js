@@ -1,6 +1,7 @@
 const state = {
     type: null,
-    message: null
+    message: null,
+    isVisible: false
 };
 
 const actions = {
@@ -19,10 +20,12 @@ const mutations = {
     success(state, message) {
         state.type = 'alert-success';
         state.message = message;
+        state.isVisible = true;
     },
     error(state, message) {
         state.type = 'alert-danger';
         state.message = message;
+        state.isVisible = true;
     },
     clear(state) {
         state.type = null;

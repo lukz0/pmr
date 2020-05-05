@@ -1,4 +1,5 @@
-import { authHeader } from '../services';
+//import { authHeader } from '../services';
+import axios from 'axios';
 
 export const userService = {
     login,
@@ -10,13 +11,14 @@ export const userService = {
     delete: _delete
 };
 
-function login({ username, password, api }) {
-    return api.post(`/users/authenticate`, { username: username, password: password })
+function login(username, password) {
+    return axios.post(`/users/authenticate`, { username, password })
         .then(r => handleResponse(r, null), e => handleResponse(e.response, e))
         .then(user => {
             // login successful if there's a jwt token in the response
             if (user.token) {
                 localStorage.setItem('user', JSON.stringify(user));
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.token;
             }
             return user;
         });
@@ -27,29 +29,29 @@ function logout() {
     localStorage.removeItem('user');
 }
 
-function register({ api, user }) {
-    return api.post(`/users/register`, user, { headers: authHeader() })
+function register(user) {
+    return axios.post(`/users/register`, user)
         .then(r => handleResponse(r, null), e => handleResponse(e.response, e));
 }
 
-function getAll(api) {
-    return api.get(`/users`, { headers: authHeader() })
+function getAll() {
+    return axios.get(`/users`)
         .then(r => handleResponse(r, null), e => handleResponse(e.response, e));
 }
 
-function getById(id, api) {
-    return api.get(`/users/${id}`, { headers: authHeader() })
+function getById(id) {
+    return axios.get(`/users/${id}`)
         .then(r => handleResponse(r, null), e => handleResponse(e.response, e));
 }
 
-function update(user, api) {
-    return api.put(`/users/${user.id}`, user, { headers: authHeader() })
+function update(user) {
+    return axios.put(`/users/${user.id}`, user)
         .then(r => handleResponse(r, null), e => handleResponse(e.response, e));
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
-function _delete({ id, api }) {
-    return api.delete(`/users/${id}`, { headers: authHeader() })
+function _delete({ id }) {
+    return axios.delete(`/users/${id}`)
         .then(r => handleResponse(r, null), e => handleResponse(e.response, e));
 }
 function handleResponse(response, error) {

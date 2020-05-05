@@ -72,10 +72,11 @@ context('Mirdash', () => {
         cy.get('#Submit').click();
 
         // Will redirect to users page if successful
-        cy.location('pathname').should('eq', '/usermanager');
-
-        cy.get('#test-all-users').click()
+        cy.get('#test_btn_ok').click()
             .location('pathname').should('eq', '/usermanager');
+        //
+        // cy.get('#test-all-users').click()
+        //     .location('pathname').should('eq', '/usermanager');
 
         cy.get('#test-users-list')
             .should('contain', user.username);
@@ -108,7 +109,6 @@ context('Mirdash', () => {
 
         login(user.username, 'Password1.')
 
-        cy.location('pathname').should('eq', '/login');
         cy.get('.modal-body')
             .should('be.visible')
             .should('contain.text', ' Username or password is incorrect ');
@@ -135,7 +135,8 @@ context('Mirdash', () => {
        cy.get('#Submit').click();
 
        // Will redirect to users page if successful
-       cy.location('pathname').should('eq', '/usermanager');
+       cy.get('#test_btn_ok').click()
+           .location('pathname').should('eq', '/usermanager');
 
        cy.get('#test-all-users').click()
            .location('pathname').should('eq', '/usermanager');
