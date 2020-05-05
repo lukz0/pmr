@@ -16,7 +16,7 @@
 <script>
   import Navbar from "@/components/Navbar";
   import Sidebar from "@/components/Sidebar";
-  import { mapState, mapActions } from 'vuex'
+  import {mapActions, mapState} from 'vuex'
 
   export default {
     components: { Sidebar, Navbar },

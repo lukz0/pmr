@@ -12,7 +12,8 @@ import Help from "../views/Help";
 import Home from "../components/Dashboard/Home";
 import Stats from "../components/Dashboard/Stats";
 import Profile from "../components/Profile/Profile";
-import Robots from "../components/Dashboard/Robots";
+import AddRobot from "../components/Robot/add";
+import Robots from "../components/Robot/Home"
 import Missions from "../components/Dashboard/Missions";
 
 Vue.use(Router);
@@ -32,8 +33,14 @@ export const router = new Router({
                 {path: '/', component: Home},
                 {path: '/dashboard', component: Home, name: 'Main dashboard'},
                 {path: '/stats', component: Stats},
-                {path: '/missions', component: Missions},
-                {path: '/robots', component: Robots}
+                {path: '/missions', component: Missions}
+            ]
+        },
+        {
+            // Robots
+            path: '/robots', component: Dashboard, children: [
+                { path: '/', component: Robots},
+                { path: '/robots/add', component: AddRobot}
             ]
         },
         {

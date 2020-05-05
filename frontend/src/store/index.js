@@ -9,8 +9,8 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   modules: {
-    alert,
-    account,
-    users
+    alert, // Represent the error message model
+    account, // The current logged in user
+    users // List of users (will be empty if you are not admin)
   }
 });

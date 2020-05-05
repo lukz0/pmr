@@ -5,19 +5,19 @@
                 <b-icon-house-door/>
                 Dashboard
             </b-list-group-item>
-            <b-list-group-item to="stats" exact exact-active-class="active">
+            <b-list-group-item to="/stats" exact exact-active-class="active">
                 <b-icon-bar-chart/>
                 Stats
             </b-list-group-item>
-            <b-list-group-item to="missions" exact exact-active-class="active">
+            <b-list-group-item to="/missions" exact exact-active-class="active">
                 <b-icon-clipboard-data/>
                 Missions
             </b-list-group-item>
-            <b-list-group-item to="robots" exact exact-active-class="active">
+            <b-list-group-item to="/robots" exact exact-active-class="active">
                 <b-icon-outlet/>
                 Robots
             </b-list-group-item>
-            <b-list-group-item to="help">
+            <b-list-group-item to="/help">
                 <b-icon-question-circle/>
                 Help
             </b-list-group-item>
@@ -25,10 +25,10 @@
 
         <!-- Administrator settings -->
         <b-list-group v-if="profile.role === 'Admin'">
-            <b-list-group-item to="usermanager" exact exact-active-class="active" id="test-all-users">
+            <b-list-group-item to="/usermanager" exact exact-active-class="active" id="test-all-users">
                 <b-icon-people /> Users
             </b-list-group-item>
-            <b-list-group-item to="register" exact exact-active-class="active" id="test-add-user">
+            <b-list-group-item to="/register" exact exact-active-class="active" id="test-add-user">
                 <b-icon-person-plus /> New user
             </b-list-group-item>
             <b-list-group-item href="#" disabled>

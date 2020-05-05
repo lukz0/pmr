@@ -8,6 +8,7 @@
 
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
+                <b-nav-item class="mr-2" @click="now"><b>{{time}}</b></b-nav-item>
                 <b-nav-item-dropdown right>
                     <!-- Using 'button-content' slot -->
                     <template v-slot:button-content>
@@ -30,10 +31,20 @@
 
     export default {
         name: "Navbar",
-        computed:{
+        data() {
+            return {
+                time: new Date()
+            }
+        },
+        computed: {
             ...mapState({
                 profile: state => state.account.user
             })
+        },
+        methods: {
+            now: function () {
+                this.time = new Date()
+            }
         }
     }
 </script>

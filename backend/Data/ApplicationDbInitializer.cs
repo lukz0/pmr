@@ -1,6 +1,7 @@
 ﻿using System;
 using backend.Models;
 using System.Linq;
+using System.Net.Mime;
 using backend.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
@@ -46,6 +47,31 @@ namespace backend.Data
             userManager.AddToRoleAsync(user, Role.User).Wait();
         }
 
+        public static async void CreateRobotAsync(ApplicationDbContext context)
+        {
+            for (var i = 0; i < 7; i++)
+            {
+                var robot = new Robot
+                {
+                    Hostname = $"MiR_S274-{i + 1:D2}",
+                    BasePath = $"http://127.0.0.1:500{i}/json/v2.0.0",
+                    Username = "admin",
+                    Password = "1q2w3e4R"
+                };
+                await context.Robots.AddAsync(robot);
+            }
+            await context.SaveChangesAsync();
+            var mission = new Mission
+            {
+                RobotId = context.Robots.First().Id,
+                Guid = "mirconst-guid-0000-0001-actionlist00",
+                Name = "Move",
+                Url = "/v2.0.0/missions/mirconst-guid-0000-0001-actionlist00"
+            };
+            await context.Missions.AddAsync(mission);
+            await context.SaveChangesAsync();
+        }
+
         public static void Init(ApplicationDbContext context, UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager, bool development)
         {
@@ -63,6 +89,7 @@ namespace backend.Data
 
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
+            CreateRobotAsync(context);
             CreateUsersAndRoles(userManager, roleManager);
             context.SaveChangesAsync();
         }

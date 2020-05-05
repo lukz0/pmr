@@ -33,7 +33,6 @@ namespace backend
                 // Initialise the database using the initializer from Data/ExampleDbInitializer.cs
                 ApplicationDbInitializer.Init(context, um, rm, environment.IsDevelopment());
             }
-
             host.Run();
         }
 
@@ -42,10 +41,6 @@ namespace backend
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                })
-                .ConfigureServices(service =>
-                {
-                    service.AddHostedService<RobotService>();
                 });
     }
 }
