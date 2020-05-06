@@ -8,7 +8,6 @@
                 <b-list-group-item to="edit">Modified</b-list-group-item>
             </b-list-group>
         </div>
-        <router-view></router-view>
     </b-jumbotron>
 </template>
 
@@ -17,7 +16,3 @@
         name: "Robots"
     }
 </script>
-
-<style scoped>
-
-</style>

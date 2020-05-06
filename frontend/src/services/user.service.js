@@ -57,9 +57,9 @@ function handleResponse(response, error) {
     if (error !== null) {
         if (response.status === 401) {
             // auto logout if 401 response returned from api
-            //logout();
+            logout();
             console.log("You are about to logout")
-            //location.reload(true);
+            location.reload(true);
         }
         return Promise.reject(response.data.message || `${response.statusText}: ${error.message}`);
     } else {
