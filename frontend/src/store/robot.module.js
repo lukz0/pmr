@@ -1,5 +1,4 @@
 import { robotService } from "../services/robot.service";
-//import { router } from '../router';
 
 const state = {
     all: {}
@@ -11,7 +10,7 @@ const actions = {
 
         robotService.getAll()
             .then(
-                robots => setTimeout(() => commit('getAllSuccess', robots), 9000),
+                robots => commit('getAllSuccess', robots),
                 error => console.log("Kunne ikke laste inn robotter"+ error)
             )
     }
