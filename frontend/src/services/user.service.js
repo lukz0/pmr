@@ -53,12 +53,12 @@ function _delete(id) {
     return axios.delete(`/users/${id}`)
         .then(r => handleResponse(r, null), e => handleResponse(e.response, e));
 }
+
 function handleResponse(response, error) {
     if (error !== null) {
         if (response.status === 401) {
             // auto logout if 401 response returned from api
             logout();
-            console.log("You are about to logout")
             location.reload(true);
         }
         return Promise.reject(response.data.message || `${response.statusText}: ${error.message}`);

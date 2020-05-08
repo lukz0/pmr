@@ -86,7 +86,7 @@ namespace backend.Controller
         {
             // map model to entity
             var user = _mapper.Map<ApplicationUser>(model);
-
+            
             try
             {
                 // create user
