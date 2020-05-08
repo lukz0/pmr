@@ -13,6 +13,7 @@
         <div class="text-center mt-5" v-if="robots.status.isLoading">
             <b-spinner variant="primary" style="width: 3rem; height: 3rem;" label="Large Busy"></b-spinner>
         </div>
+        <!-- TODO - dont't know why is must be included -->
         <p style="display: none">{{robots}}</p>
 
         <b-row align-v="center" v-if="!robots.status.isLoading" class="mt-1">
