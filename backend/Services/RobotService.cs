@@ -15,17 +15,17 @@ using Microsoft.Extensions.Logging;
 
 namespace backend.Services
 {
-    public class TimedHostedService : IHostedService, IDisposable
+    public class RobotService : IHostedService, IDisposable
     {
         private Timer _timer;
         private IServiceProvider Services { get; set; }
-        private readonly ILogger<TimedHostedService> _logger;
+        private readonly ILogger<RobotService> _logger;
         private readonly IHttpClientFactory _clientFactory;
 
         private Task<List<Robot>> Hosts { get; set; }
         
-        public TimedHostedService(
-            ILogger<TimedHostedService> logger,
+        public RobotService(
+            ILogger<RobotService> logger,
             IServiceProvider services,
             IHttpClientFactory clientFactory)
         {

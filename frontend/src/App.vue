@@ -34,7 +34,7 @@
     data(){
       return{
           headerBgVariant : function (type) { return type !== 'alert-danger' ? 'success' : 'danger'},
-          headerTitle: function (type) { return type !== 'alert-danger' ? 'Successfully resisted' : 'Error'},
+          headerTitle: function (type) { return type !== 'alert-danger' ? 'Successfully registered' : 'Error'},
           headerTextVariant: 'light'
       }
     },

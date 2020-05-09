@@ -1,4 +1,5 @@
 import { robotService } from "../services/robot.service";
+import { router } from '../router';
 
 const state = {
     all: {}
@@ -11,8 +12,20 @@ const actions = {
         robotService.getAll()
             .then(
                 robots => commit('getAllSuccess', robots),
-                error => console.log("Kunne ikke laste inn robotter"+ error)
+                error => commit('getAllFailure', error)
             )
+    },
+    add({dispatch, commit}, robot) {
+        commit('addRequest');
+
+        robotService.add(robot)
+            .then(robot => {
+                router.push('/robots');
+                dispatch('alert/success', 'The robot was added successful '+robot, { root: true });
+            },
+            error => {
+                dispatch('alert/error', error, { root: true });
+            });
     }
 }
 
@@ -23,6 +36,12 @@ const mutations = {
     getAllSuccess(state, robots) {
         state.all = { items: robots }
         state.status = { isLoading: false }
+    },
+    getAllFailure(state, error) {
+        state.all = { error }
+    },
+    addRequest(state) {
+        state.all = { adding: true }
     }
 }
 

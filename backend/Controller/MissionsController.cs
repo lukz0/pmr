@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace backend.Controller
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class MissionsController : ControllerBase
     {

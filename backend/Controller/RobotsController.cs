@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace backend.Controller
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class RobotsController : ControllerBase
     {
@@ -23,12 +23,13 @@ namespace backend.Controller
             _context = context;
         }
 
-        // GET: api/Robots
+        // GET: /Robots
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Robot>>> GetRobots()=> await _context.Robots.ToListAsync();
+        public async Task<ActionResult<IEnumerable<Robot>>> GetRobots() =>
+            await _context.Robots.OrderByDescending(o => o.Id).ToListAsync();
         
 
-        // GET: api/Robots/5
+        // GET: /Robots/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Robot>> GetRobot(int id)
         {
@@ -40,7 +41,7 @@ namespace backend.Controller
             return robot;
         }
 
-        // PUT: api/Robots/5
+        // PUT: /Robots/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRobot(int id, Robot robot)
         {
@@ -70,7 +71,7 @@ namespace backend.Controller
             return NoContent();
         }
 
-        // POST: api/Robots
+        // POST: /Robots
         [HttpPost]
         public async Task<ActionResult<Robot>> PostRobot(Robot robot)
         {
@@ -80,7 +81,7 @@ namespace backend.Controller
             return CreatedAtAction("GetRobot", new { id = robot.Id }, robot);
         }
 
-        // DELETE: api/Robots/5
+        // DELETE: /Robots/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Robot>> DeleteRobot(int id)
         {

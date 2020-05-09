@@ -99,7 +99,7 @@ namespace backend
             services.AddScoped<IUserService, UserService>();
 
             services.AddHttpClient();
-            services.AddHostedService<TimedHostedService>();
+            services.AddHostedService<RobotService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

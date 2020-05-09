@@ -4,13 +4,19 @@ export * from './user.service'
 import axios from 'axios'
 
 export const robotService = {
-    getAll
+    getAll,
+    add,
 }
 
 
 function getAll() {
-    return axios.get(`/api/robots`)
+    return axios.get(`/robots`)
         .then(r => handleResponse(r, null), e => handleResponse(e.response, e))
+}
+
+function add(robot) {
+    return axios.post(`/robots`, robot)
+        .then(r => handleResponse(r, null), e => handleResponse(e.response, e));
 }
 
 function handleResponse(response, error) {
