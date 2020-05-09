@@ -19,9 +19,9 @@ const actions = {
         commit('addRequest');
 
         robotService.add(robot)
-            .then(robot => {
+            .then(() => {
                 router.push('/robots');
-                dispatch('alert/success', 'The robot was added successful '+robot, { root: true });
+                dispatch('alert/success', 'The robot was added successful ', { root: true });
             },
             error => {
                 dispatch('alert/error', error, { root: true });

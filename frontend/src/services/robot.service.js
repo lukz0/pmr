@@ -8,17 +8,18 @@ export const robotService = {
     add,
 }
 
-
+// Get all relisted robots
 function getAll() {
     return axios.get(`/robots`)
         .then(r => handleResponse(r, null), e => handleResponse(e.response, e))
 }
-
+// Register new robot
 function add(robot) {
     return axios.post(`/robots`, robot)
         .then(r => handleResponse(r, null), e => handleResponse(e.response, e));
 }
 
+// handle requests
 function handleResponse(response, error) {
     if (error !== null) {
         if (response.status === 401) {
