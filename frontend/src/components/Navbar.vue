@@ -8,7 +8,7 @@
 
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
-                <b-nav-item class="mr-2" @click="now"><b>{{time}}</b></b-nav-item>
+                <b-nav-item class="mr-2"><b>{{time}}</b></b-nav-item>
                 <b-nav-item-dropdown right>
                     <!-- Using 'button-content' slot -->
                     <template v-slot:button-content>
@@ -41,10 +41,8 @@
                 user: state => state.account.user
             })
         },
-        methods: {
-            now: function () {
-                this.time = new Date()
-            }
+        created(){
+            setInterval(() => this.time = new Date(), 100)
         }
     }
 </script>

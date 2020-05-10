@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Policy;
@@ -85,7 +86,6 @@ namespace backend.Services
 
                     var missions =
                         await JsonSerializer.DeserializeAsync<List<Mission>>(responseStream, jsonSerializerOptions);
-
                     foreach (var mission in missions)
                     {
                         mission.RobotId = host.Id;

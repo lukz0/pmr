@@ -38,8 +38,14 @@
     import { mapState, mapActions } from 'vuex'
     export default {
         name: "Robots",
+        data(){
+            return {
+                polling: null
+            }
+        },
         created() {
             this.getAll()
+            this.pollData()
         },
         methods: {
             ...mapActions('robots', {
@@ -47,12 +53,25 @@
             }),
             loadPlaceholder(text){
                 return 'https://dummyimage.com/418x150/000/518c8b?text='+text
+            },
+            pollData () {
+                this.polling = setInterval(() => {
+                    this.$store.dispatch('robots/getAll')
+                }, 1000)
             }
         },
         computed: {
             ...mapState({
                robots: state => state.robots
             })
+        },
+        beforeDestroy() {
+            clearInterval(this.polling)
         }
     }
 </script>
+<style scoped>
+    .badge{
+        font-size: 22px;
+    }
+</style>

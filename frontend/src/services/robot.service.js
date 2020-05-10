@@ -1,6 +1,4 @@
 import {userService} from "./user.service";
-
-export * from './user.service'
 import axios from 'axios'
 
 export const robotService = {

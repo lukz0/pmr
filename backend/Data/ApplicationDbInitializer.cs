@@ -49,7 +49,7 @@ namespace backend.Data
 
         public static async void CreateRobotAsync(ApplicationDbContext context)
         {
-            for (var i = 0; i < 7; i++)
+            for (var i = 0; i < 4; i++)
             {
                 var robot = new Robot
                 {

@@ -12,7 +12,7 @@ Vue.config.productionTip = false;
 import axios from 'axios'
 
 axios.defaults.baseURL = location.origin
-var user = JSON.parse(localStorage.getItem('user'));
+const user = JSON.parse(localStorage.getItem('user'));
 if (user)
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.token;
 
