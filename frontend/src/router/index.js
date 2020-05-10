@@ -4,16 +4,16 @@ import Vue from 'vue';
 
 import Register from "../components/UserManager/Register";
 import Users from "../components/UserManager/Users";
-import Dashboard from "../views/Dashboard";
-import Notfound from "../views/Notfound";
-import Login from '../views/Login';
-
+import AddRobot from "../components/Robot/Add";
+import Robots from "../components/Robot/Home"
 import Help from "../views/Help";
+
+import Login from '../views/Login';
+import Notfound from "../views/Notfound";
+import Dashboard from "../views/Dashboard";
 import Home from "../components/Dashboard/Home";
 import Stats from "../components/Dashboard/Stats";
 import Profile from "../components/Profile/Profile";
-import AddRobot from "../components/Robot/add";
-import Robots from "../components/Robot/Home"
 import Missions from "../components/Dashboard/Missions";
 
 Vue.use(Router);

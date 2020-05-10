@@ -9,11 +9,11 @@ using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace backend.Controller
+namespace backend.Controllers
 {
     [Authorize]
-    [Route("[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class MissionsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -24,7 +24,7 @@ namespace backend.Controller
         }
 
         // GET: api/Missions
-        [HttpGet]
+        [HttpGet("missions")]
         public async Task<ActionResult<IEnumerable<Mission>>> GetMissions() => await _context.Missions.ToListAsync();
         
         [HttpGet("robotId={id}")]

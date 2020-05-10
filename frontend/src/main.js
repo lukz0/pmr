@@ -5,13 +5,12 @@ import { router } from './router'
 import { store } from './store'
 import App from './App.vue'
 
+import axios from 'axios'
 import Vue from 'vue'
 
 Vue.config.productionTip = false;
 
-import axios from 'axios'
-
-axios.defaults.baseURL = location.origin
+axios.defaults.baseURL = location.origin+'/api'
 const user = JSON.parse(localStorage.getItem('user'));
 if (user)
   axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.token;

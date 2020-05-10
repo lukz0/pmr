@@ -9,11 +9,11 @@ using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace backend.Controller
+namespace backend.Controllers
 {
     [Authorize]
-    [Route("[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class RobotsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
