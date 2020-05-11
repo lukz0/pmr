@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Policy;
@@ -59,6 +60,33 @@ namespace backend.Services
             {
                 await LoadMissions(host, db);
             }
+        }
+
+        // Todo - Create a request architecture 
+        private async Task<Stream> RequestData(string authorization, string path)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, path);
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Authorization", "Basic " + authorization);
+
+            try
+            {
+                var client = _clientFactory.CreateClient();
+                client.DefaultRequestHeaders.Accept.Clear();
+                var response = await client.SendAsync(request);
+                
+                if (response.IsSuccessStatusCode)
+                {
+                    return  await response.Content.ReadAsStreamAsync();
+                }
+               
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            return null;
         }
 
         private async Task LoadMissions(Robot host, ApplicationDbContext db)
