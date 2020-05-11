@@ -65,9 +65,13 @@ const mutations = {
     }
 };
 
+const getters = {
+    usersCount: state => state.all
+}
 export const users = {
     namespaced: true,
     state,
     actions,
-    mutations
+    mutations,
+    getters
 };
