@@ -1,5 +1,5 @@
 <template>
-    <b-jumbotron>
+    <b-jumbotron class="mt-4">
         <h2>Robots</h2>
         <div>
             <b-list-group horizontal="md">

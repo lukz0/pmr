@@ -1,5 +1,5 @@
 <template>
-    <b-jumbotron>
+    <b-jumbotron class="mt-4">
         <b-card-group deck>
             <b-card bg-variant="primary" text-variant="white" class="text-center sm">
                 <template v-slot:header>

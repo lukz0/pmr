@@ -1,5 +1,5 @@
 <template>
-    <b-jumbotron>
+    <b-jumbotron class="mt-4">
         <h1>Add new robot</h1>
         <div>
             <b-form @submit.prevent="handleSubmit">
