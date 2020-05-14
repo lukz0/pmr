@@ -22,11 +22,11 @@
                 <input id="email" type="email" v-model="user.email" v-validate="'required'" name="email" class="form-control" :class="{ 'is-invalid': submitted && veeErrors.has('email') }" />
                 <div v-if="submitted && veeErrors.has('username')" class="invalid-feedback">{{ veeErrors.first('email') }}</div>
             </div>
-            <b-form-group id="input-group-3" label="Food:" label-for="input-3">
+            <b-form-group id="input-group-3" label="Role:" label-for="input-3">
                 <b-form-select
                         id="input-3"
                         v-model="user.role"
-                        :options="foods"
+                        :options="roles"
                         required
                 ></b-form-select>
             </b-form-group>
@@ -50,7 +50,7 @@
     export default {
         data () {
             return {
-                foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
+                roles: [{ text: 'Select One', value: null }, 'Admin', 'User'],
                 user: {
                     firstName: '',
                     lastName: '',
