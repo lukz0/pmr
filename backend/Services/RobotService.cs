@@ -59,36 +59,10 @@ namespace backend.Services
             foreach (var host in Hosts.Result)
             {
                 await LoadMissions(host, db);
+                await LoadStatus(host);
             }
         }
-
-        // Todo - Create a request architecture 
-        private async Task<Stream> RequestData(string authorization, string path)
-        {
-            var request = new HttpRequestMessage(HttpMethod.Get, path);
-            request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Authorization", "Basic " + authorization);
-
-            try
-            {
-                var client = _clientFactory.CreateClient();
-                client.DefaultRequestHeaders.Accept.Clear();
-                var response = await client.SendAsync(request);
-                
-                if (response.IsSuccessStatusCode)
-                {
-                    return  await response.Content.ReadAsStreamAsync();
-                }
-               
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-
-            return null;
-        }
-
+        
         private async Task LoadMissions(Robot host, ApplicationDbContext db)
         {
             var jsonSerializerOptions = new JsonSerializerOptions
@@ -96,17 +70,12 @@ namespace backend.Services
                 PropertyNameCaseInsensitive = false,
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
-
-            // This method will be injected by the caller with appropriated data ex: requestUrl and authorization
-            var request = new HttpRequestMessage(HttpMethod.Get, host.BasePath + "/missions");
-            request.Headers.Add("Accept", "application/json");
-            request.Headers.Add("Authorization",
-                "Basic YWRtaW46M2I0ZjgzMDBjOGM1ZDkwNjc4YjdkYzNmNGQ1OWY5MGFkZTEwODIzNmFiNDEwNTA1YTlkNTk3OWUxZjk1NGQ1Zg==");
+            
             try
             {
                 var client = _clientFactory.CreateClient();
                 client.DefaultRequestHeaders.Accept.Clear();
-                var response = await client.SendAsync(request);
+                var response = await client.SendAsync(HttpRequestMessage(host, "/missions"));
                 
                 if (response.IsSuccessStatusCode)
                 {
@@ -134,9 +103,25 @@ namespace backend.Services
                 robot.IsOnline = false;
                 db.Update(robot);
                 db.SaveChanges();
-                _logger.LogCritical("The Robot may be is offline");
-                _logger.LogInformation("ErrorMessage: "+ e.Message);
+                _logger.LogCritical("The Robot may be is offline: "+ e.Message);
             }
+        }
+
+        private async Task LoadStatus(Robot host)
+        {
+            if (!host.IsOnline) await Task.CompletedTask;
+            
+            
+        }
+
+        private static HttpRequestMessage HttpRequestMessage(Robot host, string path)
+        {
+            // This method will be injected by the caller with appropriated data ex: requestUrl and authorization
+            var request = new HttpRequestMessage(HttpMethod.Get, host.BasePath + path);
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Authorization",
+                "Basic YWRtaW46M2I0ZjgzMDBjOGM1ZDkwNjc4YjdkYzNmNGQ1OWY5MGFkZTEwODIzNmFiNDEwNTA1YTlkNTk3OWUxZjk1NGQ1Zg==");
+            return request;
         }
 
 

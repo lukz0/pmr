@@ -75,6 +75,9 @@ namespace backend.Services
             if (_context.Users.Any(x => x.UserName == user.UserName))
                 throw new AppException("Username \"" + user.UserName + "\" is already taken");
             
+            if (_context.Users.Any(x => x.Email == user.Email))
+                throw new AppException("Email \"" + user.Email + "\" is already taken");
+            
             _userManager.CreateAsync(user, password).Wait();
             _context.SaveChanges();
 
@@ -96,6 +99,15 @@ namespace backend.Services
                     throw new AppException("Username " + userParam.UserName + " is already taken");
             }
 
+            if (!string.IsNullOrWhiteSpace(userParam.Email) && userParam.Email != user.Email)
+            {
+                if (_context.Users.Any(x => x.Email == userParam.Email))
+                    throw new AppException("Email " + userParam.Email + " is already taken");
+            }
+
+            if (!string.IsNullOrWhiteSpace(userParam.Role))
+                user.Role = userParam.Role;
+            
             // update user properties if provided
             if (!string.IsNullOrWhiteSpace(userParam.FirstName))
                 user.FirstName = userParam.FirstName;
