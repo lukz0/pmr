@@ -42,12 +42,12 @@
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input id="email" type="email" v-model="user.email" v-validate="'required'" name="email" class="form-control" :class="{ 'is-invalid': submitted && veeErrors.has('email') }" />
+                <input id="Email" type="email" v-model="user.email" v-validate="'required'" name="email" class="form-control" :class="{ 'is-invalid': submitted && veeErrors.has('email') }" />
                 <div v-if="submitted && veeErrors.has('username')" class="invalid-feedback">{{ veeErrors.first('email') }}</div>
             </div>
-            <b-form-group id="input-group-3" label="Role:" label-for="input-3">
+            <b-form-group id="Input-group-3" label="Role:" label-for="input-3">
                 <b-form-select
-                        id="input-3"
+                        id="Input-3"
                         v-model="user.role"
                         :options="roles"
                         required

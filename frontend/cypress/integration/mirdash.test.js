@@ -11,18 +11,18 @@ context('Mirdash', () => {
     });
 
     let login = function loginUser(username, password) {
-      cy.visit(`${baseurl}login`)
-          .location('pathname').should('eq', '/login');
+        cy.visit(`${baseurl}login`)
+            .location('pathname').should('eq', '/login');
 
-      cy.get('#Username').type(username);
-      cy.get('#Password').type(password);
-      cy.get('#Submit').click();
+        cy.get('#Username').type(username);
+        cy.get('#Password').type(password);
+        cy.get('#Submit').click();
     }
 
     let logout = function logoutUser() {
-      cy.get('#test-userdropdown').click();
-      cy.get('#test-logout').click()
-          .location('pathname').should('eq', '/login');
+        cy.get('#test-userdropdown').click();
+        cy.get('#test-logout').click()
+            .location('pathname').should('eq', '/login');
     }
 
     // Try to login with invalid username and password
@@ -43,7 +43,7 @@ context('Mirdash', () => {
     // Try to login as administrator then logout
     it('Login as admin', () => {
         cy.visit(`${baseurl}login`)
-        .location('pathname').should('eq', '/login');
+            .location('pathname').should('eq', '/login');
 
         // Username must be all lowercase
         login('admin', 'Password1.');
@@ -67,6 +67,8 @@ context('Mirdash', () => {
         cy.get('#Lastname').type('Smith');
         cy.get('#Username').type(user.username);
         cy.get('#Password').type('Password1.');
+        cy.get('#Email').type(`${user.username}@gmail.com`);
+        cy.get('#Input-3').select('User');
         cy.get('#Submit').click();
 
         // Will redirect to users page if successful
@@ -85,9 +87,9 @@ context('Mirdash', () => {
     // Login the registerd user from above
     it('Login new user', () => {
 
-      login(user.username, 'Password1.')
+        login(user.username, 'Password1.')
 
-      logout()
+        logout()
     });
 
     // Login as admin and delete the registed user from above
@@ -111,41 +113,4 @@ context('Mirdash', () => {
             .should('be.visible')
             .should('contain.text', ' Username or password is incorrect ');
     });
-
-    // Register dummy
-    it('Register dummy users', function () {
-
-     for(let user of this.users){
-       cy.visit(`${baseurl}login`)
-           .location('pathname').should('eq', '/login');
-
-       // Sign in as admin
-       login('admin', 'Password1.');
-
-       cy.get('#test-add-user').click();
-       cy.location('pathname').should('eq', '/register');
-
-       cy.get('#Firstname').type(user.name);
-       cy.get('#Lastname').type(user.name);
-       cy.get('#Username').type(user.username);
-       cy.get('#Password').type('Password1.');
-
-       cy.get('#Submit').click();
-
-       // Will redirect to users page if successful
-       cy.get('#test_btn_ok').click()
-           .location('pathname').should('eq', '/usermanager');
-
-       cy.get('#test-all-users').click()
-           .location('pathname').should('eq', '/usermanager');
-
-      // Confirm that the user was registerd
-       cy.get('#test-users-list').should('contain', user.name);
-
-        // Sign logout
-       logout();
-     }
-   })
-
-
 });
