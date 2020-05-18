@@ -3,9 +3,9 @@
         <h1>Add new robot</h1>
         <div>
             <b-form @submit.prevent="handleSubmit">
-                <b-form-group label="Hostname" label-for="input-1">
+                <b-form-group label="Hostname" label-for="Robotname">
                     <b-form-input
-                            id="label-1"
+                            id="Robotname"
                             v-model=robot.hostname
                             type="text"
                             required
@@ -13,21 +13,21 @@
                 </b-form-group>
 
                 <b-form-group
-                        label="IP-address"
-                        label-for="input-2"
+                        label="ip address or domain name"
+                        label-for="Address"
                         :description=description(robot.basePath)>
                     <b-form-input
-                            id="input-2"
+                            id="Address"
                             v-model=robot.basePath
                             required
-                            placeholder="Enter robot API-address" />
+                            placeholder="Enter robot address" />
                 </b-form-group>
 
-                <b-form-group label="UserToken" label-for="input-3">
-                    <b-form-input id="input-3" placeholder="Token" />
+                <b-form-group label="UserToken" label-for="User-token">
+                    <b-form-input id="User-token" placeholder="Token" />
                 </b-form-group>
 
-                <b-button type="submit" variant="primary">Connect</b-button>
+                <b-button type="submit" variant="primary" id="Add-robot-submit">Connect</b-button>
             </b-form>
         </div>
     </b-jumbotron>
