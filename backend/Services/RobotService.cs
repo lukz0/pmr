@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Policy;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using backend.Data;
@@ -22,7 +23,7 @@ namespace backend.Services
         private Timer _timer;
         private IServiceProvider Services { get; set; }
         private readonly ILogger<RobotService> _logger;
-        private readonly IHttpClientFactory _clientFactory;
+        private readonly HttpClient _client;
 
         private Task<List<Robot>> Hosts { get; set; }
         
@@ -33,7 +34,7 @@ namespace backend.Services
         {
             _logger = logger;
             Services = services;
-            _clientFactory = clientFactory;
+            _client = clientFactory.CreateClient();
         }
 
         public Task StartAsync(CancellationToken stoppingToken)
@@ -59,7 +60,7 @@ namespace backend.Services
             foreach (var host in Hosts.Result)
             {
                 await LoadMissions(host, db);
-                await LoadStatus(host);
+                await LoadStatus(host, db);
             }
         }
         
@@ -73,9 +74,8 @@ namespace backend.Services
             
             try
             {
-                var client = _clientFactory.CreateClient();
-                client.DefaultRequestHeaders.Accept.Clear();
-                var response = await client.SendAsync(HttpRequestMessage(host, "/missions"));
+                _client.DefaultRequestHeaders.Accept.Clear();
+                var response = await _client.SendAsync(HttpRequestMessage(host, "/missions"));
                 
                 if (response.IsSuccessStatusCode)
                 {
@@ -98,20 +98,51 @@ namespace backend.Services
             }
             catch (Exception e)
             {
-                
-                var robot = db.Robots.Find(host.Id);
-                robot.IsOnline = false;
-                db.Update(robot);
-                db.SaveChanges();
-                _logger.LogCritical("The Robot may be is offline: "+ e.Message);
+                SetRobotOffline(host, db, e);
             }
         }
 
-        private async Task LoadStatus(Robot host)
+        private async Task LoadStatus(Robot host, ApplicationDbContext db)
         {
+            // No need to send request when robot is offline
             if (!host.IsOnline) await Task.CompletedTask;
             
+            byte[] jsonUtf8Bytes;
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = false,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true,
+            };
             
+            try
+            {
+                _client.DefaultRequestHeaders.Accept.Clear();
+                var response = await _client.SendAsync(HttpRequestMessage(host, "/status"));
+                
+                if (response.IsSuccessStatusCode)
+                {
+                    await using var responseStream = await response.Content.ReadAsStreamAsync();
+                    
+                    var statusDeserializeAsync =
+                        await JsonSerializer.DeserializeAsync<Status>(responseStream, jsonSerializerOptions);
+                    Console.WriteLine("Pause" + statusDeserializeAsync);
+                }
+            }
+            catch (Exception e)
+            {
+                SetRobotOffline(host, db, e);
+            }
+            
+        }
+
+        private void SetRobotOffline(Robot host, ApplicationDbContext db, Exception e)
+        {
+            var robot = db.Robots.Find(host.Id);
+            robot.IsOnline = false;
+            db.Update(robot);
+            db.SaveChanges();
+            _logger.LogCritical("The Robot may be is offline: " + e.Message);
         }
 
         private static HttpRequestMessage HttpRequestMessage(Robot host, string path)

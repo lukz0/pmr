@@ -169,7 +169,7 @@ class Status(Resource):
     @auth_required
     @api.marshal_with(status_model)
     def get(self):
-        return status
+        return status_robot_1
 
     @auth_required
     @api.expect(status_model)
