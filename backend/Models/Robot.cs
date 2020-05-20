@@ -11,9 +11,8 @@ namespace backend.Models
         public string GuId { get; set; }
         public string BasePath { get; set; }
         public string Hostname { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
         
+        public string Token { get; set; }
         public bool IsOnline { get; set; }
     }
 }

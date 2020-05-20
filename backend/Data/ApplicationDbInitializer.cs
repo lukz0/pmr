@@ -55,8 +55,7 @@ namespace backend.Data
                 {
                     Hostname = $"MiR_S274-{i + 1:D2}",
                     BasePath = $"http://127.0.0.1:500{i}/api/v2.0.0",
-                    Username = "admin",
-                    Password = "1q2w3e4R"
+                    Token = "YWRtaW46M2I0ZjgzMDBjOGM1ZDkwNjc4YjdkYzNmNGQ1OWY5MGFkZTEwODIzNmFiNDEwNTA1YTlkNTk3OWUxZjk1NGQ1Zg==",
                 };
                 await context.Robots.AddAsync(robot);
             }

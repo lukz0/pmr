@@ -120,7 +120,7 @@ namespace backend.Services
             var request = new HttpRequestMessage(HttpMethod.Get, host.BasePath + path);
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Authorization",
-                "Basic YWRtaW46M2I0ZjgzMDBjOGM1ZDkwNjc4YjdkYzNmNGQ1OWY5MGFkZTEwODIzNmFiNDEwNTA1YTlkNTk3OWUxZjk1NGQ1Zg==");
+                $"Basic {host.Token}");
             return request;
         }
 
