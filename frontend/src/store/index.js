@@ -6,6 +6,7 @@ import { alert } from './alert.module';
 import { account } from './account.module';
 import { users } from './users.module';
 import { robots } from "./robot.module";
+import {missions} from "./missions.module"
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export const store = new Vuex.Store({
     alert, // Represent the error message model
     account, // The current logged in user
     users, // List of users (will be empty if you are not admin)
-    robots,
+    robots, // List of robots
+    missions // List of missions
   }
 });

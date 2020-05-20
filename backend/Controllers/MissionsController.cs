@@ -24,7 +24,7 @@ namespace backend.Controllers
         }
 
         // GET: api/Missions
-        [HttpGet("missions")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Mission>>> GetMissions() => await _context.Missions.ToListAsync();
         
         [HttpGet("robotId={id}")]
