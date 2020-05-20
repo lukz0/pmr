@@ -49,11 +49,10 @@ namespace backend.Data
 
         public static async void CreateRobotAsync(ApplicationDbContext context)
         {
-            for (var i = 0; i < 4; i++)
+            for (var i = 1; i <= 4; i++)
             {
-                var robot = new Robot
-                {
-                    Hostname = $"MiR_S274-{i + 1:D2}",
+                var robot = new Robot {
+                    Hostname = $"MiR_S274-{i + 0:D2}",
                     BasePath = $"http://127.0.0.1:500{i}/api/v2.0.0",
                     Username = "admin",
                     Password = "1q2w3e4R"

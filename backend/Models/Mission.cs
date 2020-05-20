@@ -1,11 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Security.Policy;
-using System.Text.Json.Serialization;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace backend.Models
+﻿namespace backend.Models
 {
     public class Mission
     {

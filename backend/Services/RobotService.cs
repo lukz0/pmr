@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Security.Policy;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
 using backend.Data;
 using backend.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
+using System.Threading;
+using System.Text.Json;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace backend.Services
 {
@@ -26,7 +22,7 @@ namespace backend.Services
         private readonly HttpClient _client;
 
         private Task<List<Robot>> Hosts { get; set; }
-        
+
         public RobotService(
             ILogger<RobotService> logger,
             IServiceProvider services,
@@ -63,30 +59,32 @@ namespace backend.Services
                 await LoadStatus(host, db);
             }
         }
-        
+
+        private readonly JsonSerializerOptions _options = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            PropertyNameCaseInsensitive = false,
+            IgnoreNullValues = true,
+            WriteIndented = true,
+        };
+
         private async Task LoadMissions(Robot host, ApplicationDbContext db)
         {
-            var jsonSerializerOptions = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = false,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
-            
             try
             {
                 _client.DefaultRequestHeaders.Accept.Clear();
                 var response = await _client.SendAsync(HttpRequestMessage(host, "/missions"));
-                
+
                 if (response.IsSuccessStatusCode)
                 {
                     await using var responseStream = await response.Content.ReadAsStreamAsync();
 
                     var missions =
-                        await JsonSerializer.DeserializeAsync<List<Mission>>(responseStream, jsonSerializerOptions);
+                        await JsonSerializer.DeserializeAsync<List<Mission>>(responseStream, _options);
                     foreach (var mission in missions)
                     {
                         mission.RobotId = host.Id;
-                        if (!db.Missions.Any(m => m.Name.Contains(mission.Name) 
+                        if (!db.Missions.Any(m => m.Name.Contains(mission.Name)
                                                   && m.RobotId.Equals(mission.RobotId)))
                             db.Missions.Add(mission);
                     }
@@ -106,34 +104,39 @@ namespace backend.Services
         {
             // No need to send request when robot is offline
             if (!host.IsOnline) await Task.CompletedTask;
-            
-            byte[] jsonUtf8Bytes;
-            var jsonSerializerOptions = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = false,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                WriteIndented = true,
-            };
-            
+
             try
             {
                 _client.DefaultRequestHeaders.Accept.Clear();
                 var response = await _client.SendAsync(HttpRequestMessage(host, "/status"));
-                
+
                 if (response.IsSuccessStatusCode)
                 {
                     await using var responseStream = await response.Content.ReadAsStreamAsync();
-                    
-                    var statusDeserializeAsync =
-                        await JsonSerializer.DeserializeAsync<Status>(responseStream, jsonSerializerOptions);
-                    Console.WriteLine("Pause" + statusDeserializeAsync);
+                    var status = await JsonSerializer.DeserializeAsync<Status>(responseStream, _options);
+
+                    status.RobotId = host.Id;
+                    var isAvalible = db.Statuses.Any(s => s.SerialNumber.Equals(status.SerialNumber));
+                    if (isAvalible)
+                    {
+                        var currentStatus = db.Statuses.First(s => s.SerialNumber.Equals(status.SerialNumber));
+                        
+                        status.Id = currentStatus.Id;
+                        host.Hostname = status.RobotName;
+                        db.Statuses.Update(status);
+                        db.SaveChanges();
+                        return;
+                    }
+
+                    db.Statuses.Add(status);
+
+                    db.SaveChanges();
                 }
             }
             catch (Exception e)
             {
-                SetRobotOffline(host, db, e);
+                //SetRobotOffline(host, db, e);
             }
-            
         }
 
         private void SetRobotOffline(Robot host, ApplicationDbContext db, Exception e)
@@ -142,7 +145,7 @@ namespace backend.Services
             robot.IsOnline = false;
             db.Update(robot);
             db.SaveChanges();
-            _logger.LogCritical("The Robot may be is offline: " + e.Message);
+            _logger.LogCritical("The Robot may be is offline: " + host.BasePath);
         }
 
         private static HttpRequestMessage HttpRequestMessage(Robot host, string path)

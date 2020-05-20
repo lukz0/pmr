@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
@@ -24,7 +22,7 @@ namespace backend.Controllers
         }
 
         // GET: api/Missions
-        [HttpGet("missions")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Mission>>> GetMissions() => await _context.Missions.ToListAsync();
         
         [HttpGet("robotId={id}")]

@@ -1,7 +1,7 @@
 ﻿using backend.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using backend.Models.Robots;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 
 namespace backend.Data
@@ -15,9 +15,8 @@ namespace backend.Data
         }
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public DbSet<Mission> Missions { get; set; }
-        
-        public DbSet<Status> Statuses { get; set; }
         public DbSet<Robot> Robots { get; set; }
+        public DbSet<Mission> Missions { get; set; }
+        public DbSet<Status> Statuses { get; set; }
     }
 }

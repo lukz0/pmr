@@ -96,7 +96,7 @@ status_robot_1 = {
     },
     'robot_model': "MiR200",
     'robot_name': "MiR_S274",
-    'serial_number': "180200011100274",
+    'serial_number': "180200011100275",
     'session_id': "bcf29362-4f7d-11e8-a97a-94c69118fd1e",
     'state_id': 4,
     'state_text': "Pause",
@@ -110,8 +110,8 @@ status_robot_1 = {
         'user_group': 'null'
     },
     'velocity': {
-        "angular": 0.0,
-        "linear": 0.0
+        "angular": 3,
+        "linear": 0.33
     }
 }
 
@@ -149,8 +149,8 @@ status_robot_2 = {
         'user_group': 'null'
     },
     'velocity': {
-        "angular": 0.0,
-        "linear": 0.0
+        "angular": 0.2,
+        "linear": 0.4
     }
 }
 

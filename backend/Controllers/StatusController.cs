@@ -25,8 +25,12 @@ namespace backend.Controllers
 
         // GET: api/Status
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Status>>> GetStatuses()=> await _context.Statuses.ToListAsync();
-        
+        public async Task<ActionResult<IEnumerable<Status>>> GetStatuses()
+        {
+            return await _context.Statuses.Include(r => r.Velocity)
+                .Include(u => u.UserPrompt)
+                .Include(p => p.Position).ToListAsync();
+        }
 
         // GET: api/Status/5
         [HttpGet("{id}")]
@@ -34,17 +38,24 @@ namespace backend.Controllers
         {
             var status = await _context.Statuses.FindAsync(id);
 
-            if (status == null) return NotFound();
-            
+            if (status == null)
+            {
+                return NotFound();
+            }
 
             return status;
         }
 
         // PUT: api/Status/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStatus(int id, Status status)
         {
-            if (id != status.Id) return BadRequest();
+            if (id != status.Id)
+            {
+                return BadRequest();
+            }
 
             _context.Entry(status).State = EntityState.Modified;
 
@@ -55,22 +66,28 @@ namespace backend.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!StatusExists(id))
+                {
                     return NotFound();
-                
-                throw;
+                }
+                else
+                {
+                    throw;
+                }
             }
 
             return NoContent();
         }
 
         // POST: api/Status
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<Status>> PostStatus(Status status)
         {
             _context.Statuses.Add(status);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStatus", new { id = status.Id }, status);
+            return CreatedAtAction("GetStatus", new {id = status.Id}, status);
         }
 
         // DELETE: api/Status/5
@@ -79,8 +96,9 @@ namespace backend.Controllers
         {
             var status = await _context.Statuses.FindAsync(id);
             if (status == null)
+            {
                 return NotFound();
-            
+            }
 
             _context.Statuses.Remove(status);
             await _context.SaveChangesAsync();
@@ -88,6 +106,9 @@ namespace backend.Controllers
             return status;
         }
 
-        private bool StatusExists(int id)=> _context.Statuses.Any(e => e.Id == id);
+        private bool StatusExists(int id)
+        {
+            return _context.Statuses.Any(e => e.Id == id);
+        }
     }
 }
