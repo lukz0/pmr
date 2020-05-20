@@ -76,6 +76,13 @@ status_model = api.model('status', {
     'velocity': fields.Nested(velocity_model)
 })
 
+robot_name = "MiR_S274"
+while True:
+    new_robot_name = input("enter robot name")
+    if len(new_robot_name) < 1:
+        robot_name = new_robot_name
+    break
+
 status_robot_1 = {
     'battery_percentage': 59.56,
     'battery_time_remaining': 46505,
@@ -95,7 +102,7 @@ status_robot_1 = {
         "y": 37.166587829589844
     },
     'robot_model': "MiR200",
-    'robot_name': "MiR_S274",
+    'robot_name': robot_name,
     'serial_number': "180200011100274",
     'session_id': "bcf29362-4f7d-11e8-a97a-94c69118fd1e",
     'state_id': 4,

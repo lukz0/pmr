@@ -12,6 +12,7 @@ while True:
     except ValueError:
         print("port must be an integer")
 
+
 if __name__ == '__main__':
     # debug changed to False to avoid server restarts while being used by a script
     # you can temporary change to true while developing to restart server automatically on code change
