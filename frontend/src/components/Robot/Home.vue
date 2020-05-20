@@ -20,8 +20,8 @@
             <b-col md="4" v-for="robot in robots.all.items" :key="robot.id">
                 <b-card :img-src="loadPlaceholder(robot.hostname)" img-alt="Image" img-top class="mt-3">
                     <b-card-text>
-                        <b>Hostname: </b> {{robot.hostname}}<br>
-                        <b>Ip-address: </b>{{robot.basePath}}
+                        <b :id="`Robotname-${robot.hostname}`">Hostname: </b> {{robot.hostname}}<br>
+                        <b :id="`Robotaddress-${robot.hostname}`">Ip-address: </b>{{robot.basePath}}
                     </b-card-text>
                     <template v-slot:footer>
                         <small class="text-muted">Last online 2 days ago</small>

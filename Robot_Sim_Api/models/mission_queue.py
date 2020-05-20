@@ -148,6 +148,8 @@ def mission_runner_func():
     timer_semaphore = Semaphore(value=0)
     while True:
         item = missionQueueDAO.pending_queue.heappop()
+        if item is None:
+            break
         item.set_aborted_callback(lambda: timer_semaphore.release())
         item.run()
         aborted = timer_semaphore.acquire(timeout=10)
@@ -158,6 +160,7 @@ def mission_runner_func():
 
 
 mission_runner = Thread(target=mission_runner_func)
+mission_runner.daemon = True
 mission_runner.start()
 
 

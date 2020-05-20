@@ -96,7 +96,7 @@ status_robot_1 = {
     },
     'robot_model': "MiR200",
     'robot_name': "MiR_S274",
-    'serial_number': "180200011100275",
+    'serial_number': "180200011100274",
     'session_id': "bcf29362-4f7d-11e8-a97a-94c69118fd1e",
     'state_id': 4,
     'state_text': "Pause",
@@ -176,3 +176,7 @@ class Status(Resource):
     def post(self):
         status.append(api.payload)
         return {"success": "true", "description": "Successfully added mission to mission queue", "id": "320"}, 201
+
+    @staticmethod
+    def robot_name(name):
+        status_robot_1['robot_name'] = name

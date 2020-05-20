@@ -3,6 +3,21 @@
 const baseurl = 'https://localhost:5001/';
 const user = {};
 
+class Robot {
+    constructor() {
+        this.port = 10001 + Math.floor(Math.random() * 10000);
+        this.name = Math.random().toString(36).substring(2);
+    }
+
+    getAddr() {
+        return `127.0.0.1:${this.port}`;
+    }
+
+    getURL() {
+        return `http://${this.getAddr()}/api/v2.0.0`;
+    }
+}
+
 context('Mirdash', () => {
     beforeEach(() => {
         cy.visit(baseurl);
@@ -17,13 +32,15 @@ context('Mirdash', () => {
         cy.get('#Username').type(username);
         cy.get('#Password').type(password);
         cy.get('#Submit').click();
-    }
+    };
 
     let logout = function logoutUser() {
         cy.get('#test-userdropdown').click();
         cy.get('#test-logout').click()
             .location('pathname').should('eq', '/login');
-    }
+    };
+
+    let loginAdmin = login.bind(this, 'admin', 'Password1.');
 
     // Try to login with invalid username and password
     it('Submit invalid username and password', () => {
@@ -42,11 +59,7 @@ context('Mirdash', () => {
 
     // Try to login as administrator then logout
     it('Login as admin', () => {
-        cy.visit(`${baseurl}login`)
-            .location('pathname').should('eq', '/login');
-
-        // Username must be all lowercase
-        login('admin', 'Password1.');
+        loginAdmin();
 
         cy.location('pathname').should('eq', '/');
 
@@ -56,7 +69,7 @@ context('Mirdash', () => {
     // Try to Register a user using admin account
     it('Register new user', () => {
 
-        login('admin', 'Password1.');
+        loginAdmin();
 
         cy.get('#test-add-user').click();
         cy.location('pathname').should('eq', '/register');
@@ -86,7 +99,6 @@ context('Mirdash', () => {
 
     // Login the registerd user from above
     it('Login new user', () => {
-
         login(user.username, 'Password1.')
 
         logout()
@@ -94,7 +106,7 @@ context('Mirdash', () => {
 
     // Login as admin and delete the registed user from above
     it('Delete new user', () => {
-        login('admin', 'Password1.')
+        loginAdmin();
 
         cy.get('#test-all-users').click();
         cy.location('pathname').should('eq', '/usermanager');
@@ -112,5 +124,34 @@ context('Mirdash', () => {
         cy.get('.modal-body')
             .should('be.visible')
             .should('contain.text', ' Username or password is incorrect ');
+    });
+
+    it('Add new robot', () => {
+        const robot = new Robot();
+        loginAdmin();
+
+        cy.get('a[href="/robots"]').click();
+        cy.location('pathname').should('eq', '/robots');
+
+        cy.get('a[href="/robots/add"]').click();
+        cy.location('pathname').should('eq', '/robots/add');
+
+        cy.get('#Robotname').type(robot.name);
+        cy.get('#Address').type(robot.getAddr());
+
+        cy.get('#Add-robot-submit').click();
+
+        cy.get('body').then(b => {
+            cy.wrap(b).find(`#Robotname-${robot.name}`).its('length').then(l => {
+                expect(l).greaterThan(0);
+            });
+            cy.wrap(b).find(`#Robotaddress-${robot.name}`).its('length').then(l => {
+                expect(l).greaterThan(0);
+            });
+        });
+
+        cy.get('#test_btn_ok').click();
+
+        logout();
     });
 });

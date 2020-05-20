@@ -120,7 +120,7 @@ namespace backend.Services
                     if (isAvalible)
                     {
                         var currentStatus = db.Statuses.First(s => s.SerialNumber.Equals(status.SerialNumber));
-                        
+
                         status.Id = currentStatus.Id;
                         host.Hostname = status.RobotName;
                         db.Statuses.Update(status);
@@ -136,6 +136,7 @@ namespace backend.Services
             catch (Exception e)
             {
                 //SetRobotOffline(host, db, e);
+                  _logger.LogCritical("The Robot may be is offline");
             }
         }
 
@@ -154,7 +155,7 @@ namespace backend.Services
             var request = new HttpRequestMessage(HttpMethod.Get, host.BasePath + path);
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Authorization",
-                "Basic YWRtaW46M2I0ZjgzMDBjOGM1ZDkwNjc4YjdkYzNmNGQ1OWY5MGFkZTEwODIzNmFiNDEwNTA1YTlkNTk3OWUxZjk1NGQ1Zg==");
+                $"Basic {host.Token}");
             return request;
         }
 
