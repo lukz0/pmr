@@ -24,7 +24,6 @@
                         <b :id="`Robotaddress-${robot.hostname}`">Ip-address: </b>{{robot.basePath}}
                     </b-card-text>
                     <template v-slot:footer>
-                        <small class="text-muted">Last online 2 days ago</small>
                         <b-badge href="#" variant="success" class="float-right" v-if="robot.isOnline">Online</b-badge>
                         <b-badge href="#" variant="danger" class="float-right" v-if="!robot.isOnline">Offline</b-badge>
                     </template>
@@ -72,6 +71,6 @@
 </script>
 <style scoped>
     .badge{
-        font-size: 22px;
+        font-size: 14px;
     }
 </style>
