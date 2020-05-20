@@ -23,8 +23,24 @@
                             placeholder="Enter robot address" />
                 </b-form-group>
 
-                <b-form-group label="UserToken" label-for="User-token">
-                    <b-form-input id="User-token" placeholder="Token" />
+                <b-form-group
+                        label="Robot API Username"
+                        label-for="Address">
+                    <b-form-input
+                            id="RUsername"
+                            v-model=robot.username
+                            required
+                            placeholder="Enter robot address" />
+                </b-form-group>
+                <b-form-group
+                        label="Robot API Password"
+                        label-for="Address">
+                    <b-form-input
+                            id="RPassword"
+                            v-model=robot.password
+                            required
+                            placeholder="Enter robot address"
+                            type="password" />
                 </b-form-group>
 
                 <b-button type="submit" variant="primary" id="Add-robot-submit">Connect</b-button>
@@ -34,7 +50,8 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex'
+    import { mapActions } from 'vuex';
+    import { sha256 } from 'js-sha256';
 
     export default {
         data() {
@@ -45,6 +62,7 @@
                     basePath: '',
                     username: "admin",
                     password: "1q2w3e4R",
+                    get token() {return btoa(`${this.username}:${sha256(this.password)}`)},
                     hostname: '',
                     isOnline: false
                 },
