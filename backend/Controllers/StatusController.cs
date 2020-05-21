@@ -25,12 +25,9 @@ namespace backend.Controllers
 
         // GET: api/Status
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Status>>> GetStatuses()
-        {
-            return await _context.Statuses.Include(r => r.Velocity)
+        public async Task<ActionResult<IEnumerable<Status>>> GetStatuses()=> await _context.Statuses.Include(r => r.Velocity)
                 .Include(u => u.UserPrompt)
                 .Include(p => p.Position).ToListAsync();
-        }
 
         // GET: api/Status/5
         [HttpGet("{id}")]
@@ -106,9 +103,6 @@ namespace backend.Controllers
             return status;
         }
 
-        private bool StatusExists(int id)
-        {
-            return _context.Statuses.Any(e => e.Id == id);
-        }
+        private bool StatusExists(int id) => _context.Statuses.Any(e => e.Id == id);
     }
 }

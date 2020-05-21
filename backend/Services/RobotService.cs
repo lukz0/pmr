@@ -136,7 +136,7 @@ namespace backend.Services
             catch (Exception e)
             {
                 //SetRobotOffline(host, db, e);
-                  _logger.LogCritical("The Robot may be is offline");
+                _logger.LogCritical("The Robot may be is offline"+ e.Message);
             }
         }
 
