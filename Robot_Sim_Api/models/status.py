@@ -1,4 +1,8 @@
 from app import *
+import datetime
+from models.mission_queue import mission_queue_id, missionQueueDAO
+from models.statistics import distance_list
+from main import mainvars
 
 """
 General status information about the robot including battery voltage, state, uptime, total run distance, current job and map.
@@ -36,7 +40,7 @@ position_model = api.model('position', {
 
 user_prompt_model = api.model('user_prompt', {
     'guid': fields.String,
-    'options': fields.String,  # array av string? < string > array
+    'options': fields.List(fields.String),
     'question': fields.String,
     'timeout': fields.Float,
     'user_group': fields.String
@@ -76,85 +80,68 @@ status_model = api.model('status', {
     'velocity': fields.Nested(velocity_model)
 })
 
-status_robot_1 = {
-    'battery_percentage': 59.56,
-    'battery_time_remaining': 46505,
-    'distance_to_next_target': 0.0,
-    'errors': {}, # se på envelop
-    'footprint': "[[0.506,-0.32],[0.506,0.32],[-0.454,0.32],[-0.454,-0.32]]",
-    'map_id': "e11fc4eb-b819-11e9-b021-94c69118fd1e",
-    'mission_queue_id': 0,
-    'mission_queue_url': 'null',
-    'mission_text': "Starting...",
-    'mode_id': 7,
-    'mode_text': "Mission",
-    'moved': 143470.47,
-    'position': {
-        "orientation": 87.9072265625,
-        "x": 32.924983978271484,
-        "y": 37.166587829589844
-    },
-    'robot_model': "MiR200",
-    'robot_name': "MiR_S274",
-    'serial_number': "180200011100274",
-    'session_id': "bcf29362-4f7d-11e8-a97a-94c69118fd1e",
-    'state_id': 4,
-    'state_text': "Pause",
-    'unloaded_map_changes': False,
-    'uptime': 1830,
-    'user_prompt': {
-        'guid': '.',
-        'options': 'null',  # array av string? < string > array
-        'question': 'null',
-        'timeout': 0,
-        'user_group': 'null'
-    },
-    'velocity': {
-        "angular": 3,
-        "linear": 0.33
-    }
-}
+starttime = datetime.datetime.now()
+serial = None
 
-status_robot_2 = {
-    'battery_percentage': 69.56,
-    'battery_time_remaining': 4650,
-    'distance_to_next_target': 0.0,
-    'errors': {}, # se på envelop
-    'footprint': "[[0.506,-0.32],[0.506,0.32],[-0.454,0.32],[-0.454,-0.32]]",
-    'map_id': "e11fc4eb-b819-11e9-b021-94c69118fd1e",
-    'mission_queue_id': 2,
-    'mission_queue_url': '/v2.0.0/mission_queue/2',
-    'mission_text': "Starting...",
-    'mode_id': 7,
-    'mode_text': "Mission",
-    'moved': 111470.97,
-    'position': {
-        "orientation": 36.90265625,
-        "x": 11.924983978271484,
-        "y": 16.166587829589844
-    },
-    'robot_model': "MiR200",
-    'robot_name': "MiR_S365",
-    'serial_number': "180200011100697",
-    'session_id': "lpo29682-4f7d-11e8-a97b-94c69118fd1e",
-    'state_id': 3,
-    'state_text': "Ready",
-    'unloaded_map_changes': False,
-    'uptime': 1960,
-    'user_prompt': {
-        'guid': 'null',
-        'options': 'null',  # array av string? < string > array
-        'question': 'null',
-        'timeout': 0,
-        'user_group': 'null'
-    },
-    'velocity': {
-        "angular": 0.2,
-        "linear": 0.4
-    }
-}
 
-status = [status_robot_1, status_robot_2]
+def get_uptime():
+    return int((datetime.datetime.now()-starttime).total_seconds())
+
+
+def get_serial():
+    global serial
+    if serial is not None:
+        return serial
+    port_str = str(mainvars["port"])
+    serial_str = "180200011100697"
+    try:
+        serial = ''.join([serial_str[:len(serial_str)-len(port_str)], port_str])
+    except IndexError:
+        serial = port_str[:len(serial_str)]
+    return serial
+
+
+def generate_status():
+    battery_percent = (lambda t: (t.microsecond/1000 + t.second*1000 + t.minute*60000)/3.6e6 * 100)(datetime.datetime.now())
+    battery_time = 6685*battery_percent
+    return {
+        "battery_precentage": battery_percent,
+        "battery_time_remaining": battery_time,
+        "distance_to_next_target": 0.0,
+        "errors": {},
+        "footprint": "[[0.506,-0.32],[0.506,0.32],[-0.454,0.32],[-0.454,-0.32]]",
+        "map_id": "e11fc4eb-b819-11e9-b021-94c69118fd1e",
+        "mission_queue_id": mission_queue_id,
+        "mission_queue_url": "/v2.0.0/mission_queue/{}".format(mission_queue_id),
+        "mission_text": missionQueueDAO.get(mission_queue_id).state if mission_queue_id != 0 else "",
+        "mode_id": 7,
+        "mode_text": "Mission",
+        "moved": distance_list[-1].distance,
+        "position": {
+            "orientation": battery_percent * 3.6,
+            "x": battery_percent,
+            "y": 100-battery_percent
+        },
+        "robot_model": "MiR200",
+        "robot_name": mainvars["robotname"],
+        "serial_number": get_serial(),
+        "session_id": "bcf29362-4f7d-11e8-a97a-94c69118fd1e",
+        "state_id": 3,
+        "state_text": "Ready",
+        "unloaded_map_changes": False,
+        "uptime": get_uptime(),
+        "user_prompt": {
+            "guid": "",
+            "options": [],
+            "question": "",
+            "timeout": 0,
+            "user_group": ""
+        },
+        "velocity": {
+            "angular": battery_percent/100,
+            "linear": 1-(battery_percent/100)
+        }
+    }
 
 
 # -----------------------------------------------------------
@@ -169,18 +156,4 @@ class Status(Resource):
     @auth_required
     @api.marshal_with(status_model)
     def get(self):
-        return status_robot_1
-
-    @auth_required
-    @api.expect(status_model)
-    def post(self):
-        status.append(api.payload)
-        return {"success": "true", "description": "Successfully added mission to mission queue", "id": "320"}, 201
-
-    @staticmethod
-    def robot_name(name):
-        status_robot_1['robot_name'] = name
-
-
-def set_robot_name(name):
-    Status.robot_name(name)
+        return generate_status()
