@@ -92,7 +92,7 @@ def get_serial():
     global serial
     if serial is not None:
         return serial
-    port_str = str(mainvars["port"])
+    port_str = str(mainvars.port)
     serial_str = "180200011100697"
     try:
         serial = ''.join([serial_str[:len(serial_str)-len(port_str)], port_str])
@@ -123,7 +123,7 @@ def generate_status():
             "y": 100-battery_percent
         },
         "robot_model": "MiR200",
-        "robot_name": mainvars["robotname"],
+        "robot_name": mainvars.robotname,
         "serial_number": get_serial(),
         "session_id": "bcf29362-4f7d-11e8-a97a-94c69118fd1e",
         "state_id": 3,
