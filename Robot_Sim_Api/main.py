@@ -3,6 +3,7 @@ from models.status import *
 from models.registers import *
 from models.mission import *
 from models.mission_queue import *
+from models.statistics import *
 
 port = 0
 while True:
