@@ -1,6 +1,6 @@
 from app import *
 import datetime
-from models.mission_queue import mission_queue_id, missionQueueDAO
+from models.mission_queue import missionQueueDAO
 from models.statistics import distance_list
 from main import mainvars
 
@@ -111,9 +111,9 @@ def generate_status():
         "errors": {},
         "footprint": "[[0.506,-0.32],[0.506,0.32],[-0.454,0.32],[-0.454,-0.32]]",
         "map_id": "e11fc4eb-b819-11e9-b021-94c69118fd1e",
-        "mission_queue_id": mission_queue_id,
-        "mission_queue_url": "/v2.0.0/mission_queue/{}".format(mission_queue_id),
-        "mission_text": missionQueueDAO.get(mission_queue_id).state if mission_queue_id != 0 else "",
+        "mission_queue_id": missionQueueDAO.running_i,
+        "mission_queue_url": "/v2.0.0/mission_queue/{}".format(missionQueueDAO.running_i),
+        "mission_text": missionQueueDAO.get(missionQueueDAO.running_i).state if missionQueueDAO.running_i != 0 else "",
         "mode_id": 7,
         "mode_text": "Mission",
         "moved": distance_list[-1].distance,

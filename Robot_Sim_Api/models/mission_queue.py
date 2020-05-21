@@ -109,6 +109,7 @@ class MissionQueueDAOClass:
         self.pending_queue = ThreadedHeap()
         self.all_queue = []
         self.current_i = 0
+        self.running_i = 0
 
     def add(self, post_data):
         if 'mission_id' not in post_data:
@@ -144,9 +145,6 @@ class MissionQueueDAOClass:
 missionQueueDAO = MissionQueueDAOClass()
 
 
-mission_queue_id = 0
-
-
 def mission_runner_func():
     timer_semaphore = Semaphore(value=0)
     while True:
@@ -155,8 +153,7 @@ def mission_runner_func():
             break
         item.set_aborted_callback(lambda: timer_semaphore.release())
         item.run()
-        global mission_queue_id
-        mission_queue_id = item.id
+        missionQueueDAO.running_i = item.id
         aborted = timer_semaphore.acquire(timeout=10)
         item.set_aborted_callback(None)
         if not aborted:
