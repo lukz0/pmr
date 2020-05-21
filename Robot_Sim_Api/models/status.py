@@ -102,10 +102,10 @@ def get_serial():
 
 
 def generate_status():
-    battery_percent = (lambda t: (t.microsecond/1000 + t.second*1000 + t.minute*60000)/3.6e6 * 100)(datetime.datetime.now())
+    battery_percent = 100-(lambda t: (t.microsecond/1000 + t.second*1000 + t.minute*60000)/3.6e6 * 100)(datetime.datetime.now())
     battery_time = 6685*battery_percent
     return {
-        "battery_precentage": battery_percent,
+        "battery_percentage": battery_percent,
         "battery_time_remaining": battery_time,
         "distance_to_next_target": 0.0,
         "errors": {},
