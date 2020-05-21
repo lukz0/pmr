@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Account (This page is not done)</h1>
+        <h3>Account</h3>
         <p>First Name: {{profile.firstName}}</p>
         <p>Last Name: {{profile.lastName}}</p>
         <p>Username: {{profile.username}}</p>

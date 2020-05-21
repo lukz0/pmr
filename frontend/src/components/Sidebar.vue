@@ -17,10 +17,6 @@
                 <b-icon-outlet/>
                 Robots
             </b-list-group-item>
-            <b-list-group-item to="/help">
-                <b-icon-question-circle/>
-                Help
-            </b-list-group-item>
         </b-list-group>
 
         <!-- Administrator settings -->
@@ -31,11 +27,12 @@
             <b-list-group-item to="/register" exact exact-active-class="active" id="test-add-user">
                 <b-icon-person-plus /> New user
             </b-list-group-item>
-            <b-list-group-item href="#" disabled>
-                <b-icon-shield-lock-fill /> Policy
-            </b-list-group-item>
-            <b-list-group-item href="#foobar" disabled>
-                <b-icon-shield /> New Policy
+        </b-list-group>
+
+        <!-- Administrator settings -->
+        <b-list-group>
+            <b-list-group-item to="/account" exact exact-active-class="active" id="test-account">
+                <b-icon-people /> Account
             </b-list-group-item>
         </b-list-group>
     </div>
