@@ -1,5 +1,6 @@
 from models.users import *
 from models.status import *
+from models.status import Status
 from models.registers import *
 from models.mission import *
 from models.mission_queue import *
@@ -8,7 +9,7 @@ from models.statistics import *
 port = 0
 while True:
     try:
-        status_name = Status.robot_name(name=input("Enter robot name: "))
+        set_robot_name(input("Enter robot name: "))
         port = int(input("Enter port number"))
         break
     except ValueError:

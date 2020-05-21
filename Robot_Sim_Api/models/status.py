@@ -180,3 +180,7 @@ class Status(Resource):
     @staticmethod
     def robot_name(name):
         status_robot_1['robot_name'] = name
+
+
+def set_robot_name(name):
+    Status.robot_name(name)
