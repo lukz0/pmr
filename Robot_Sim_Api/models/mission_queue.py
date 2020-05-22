@@ -151,6 +151,8 @@ def mission_runner_func():
         item = missionQueueDAO.pending_queue.heappop()
         if item is None:
             break
+        if item.state == state_pending:
+            continue
         item.set_aborted_callback(lambda: timer_semaphore.release())
         item.run()
         missionQueueDAO.running_i = item.id
