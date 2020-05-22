@@ -1,5 +1,5 @@
 <template>
-    <div id="test-users-list" class="jumbotron">
+    <b-jumbotron id="test-users-list" class="mt-4">
         <b-container class="bv-example-row">
             <b-row>
                 <b-col>
@@ -23,9 +23,7 @@
                 </b-col>
             </b-row>
         </b-container>
-
-
-    </div>
+    </b-jumbotron>
 </template>
 
 <script>
