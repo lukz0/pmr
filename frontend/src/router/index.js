@@ -53,9 +53,8 @@ export const router = new Router({
         },
         {
             // Account page
-            path: '/account', component: Profile, children: [
-                {path: '/profile', component: Profile, name: 'User Profile'},
-                {path: '/edit'}
+            path: '/account', component: Dashboard, children: [
+                {path: '/', component: Profile, name: 'User Profile'}
             ]
         },
         {

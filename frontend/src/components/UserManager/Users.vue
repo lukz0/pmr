@@ -13,7 +13,7 @@
                 <b-button-group class="mx-1">
                     <b-button variant="info" @click="loadUser(data.item)">
                         <b-icon-person-lines-fill/>
-                        View/Edit
+                        Edit
                     </b-button>
                     <b-button variant="warning" :id="`test-delete-user${data.item.username}`"
                               v-if="account.user.id !== data.item.id"
