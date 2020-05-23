@@ -1,5 +1,5 @@
 <template>
-    <div id="test-users-list" class="jumbotron">
+    <b-jumbotron class="mt-4" id="test-users-list" >
         <h2>
             <b-icon-people-fill/>
             Manage Users
@@ -55,7 +55,7 @@
                 </table>
             </div>
         </b-modal>
-    </div>
+    </b-jumbotron>
 </template>
 
 <script>

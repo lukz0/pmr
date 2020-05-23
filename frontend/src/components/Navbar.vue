@@ -15,9 +15,6 @@
                         <!-- test-userdropdown id is used in test -->
                         <b-icon-people-circle id="test-userdropdown" /> {{user.firstName}} {{user.lastName}}
                     </template>
-                    <b-dropdown-item to="profile">
-                        <b-icon-person-lines-fill /> Account settings
-                    </b-dropdown-item>
                     <b-dropdown-item to="login">
                         <b-icon-lock id="test-logout"/> Sign Out
                     </b-dropdown-item>
