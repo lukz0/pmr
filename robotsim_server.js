@@ -11,20 +11,18 @@ const startRobot = (n, name) => {
     if (robotmap.has(n)) {
         return [false, 'robot already running on port\n'];
     }
-    // TODO give port to robot
     try {
-        const rob = child_process.spawn('pipenv', ['run', 'python', '/robotsim/main.py'], { env: { ...process.env, 'PIPENV_PIPFILE': '/robotsim/Pipfile' } });
+        const rob = child_process.spawn('pipenv', ['run', 'python', '/robotsim2/main.py'], { env: { ...process.env, 'PIPENV_PIPFILE': '/robotsim2/Pipfile' } });
         robotmap.set(n, [rob, name]);
         rob.stdin.write(`${removeNewlines(name)}\n${n}\n`);
-        //rob.stderr.on('data', d => console.log(d.toString('utf8')));
-        //rob.stdout.on('data', d => console.log(d.toString('utf8')));
+        rob.stderr.on('data', d => undefined);
+        rob.stdout.on('data', d => undefined);
         return [true, `robot ${n} created\n`];
     } catch (e) {
         return [false, String(e).concat('\n')];
     }
 }
 
-// TODO: use name
 const addHandler = (n, name, res) => {
     if (n <= 10000 || n >= 20000) {
         res.writeHead(400);
