@@ -1,7 +1,11 @@
 ﻿namespace backend.Services
 {
-    public class RobotServiceBase
+    public abstract class RobotServiceBase
     {
-        
+        // will write this later
+        public RobotServiceBase()
+        {
+            
+        }
     }
 }

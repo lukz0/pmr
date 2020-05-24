@@ -83,7 +83,7 @@ namespace backend.Controllers
         {
             _context.Statuses.Add(status);
             await _context.SaveChangesAsync();
-
+            
             return CreatedAtAction("GetStatus", new {id = status.Id}, status);
         }
 

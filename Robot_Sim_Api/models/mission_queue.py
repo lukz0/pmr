@@ -1,3 +1,4 @@
+import json
 from models.mission import *
 from threading import Semaphore, Thread
 from ThreadedHeap import ThreadedHeap
@@ -152,7 +153,7 @@ def mission_runner_func():
             break
         item.set_aborted_callback(lambda: timer_semaphore.release())
         item.run()
-        aborted = timer_semaphore.acquire(timeout=10)
+        aborted = timer_semaphore.acquire(timeout=20)
         item.set_aborted_callback(None)
         if not aborted:
             item.done()
@@ -176,6 +177,10 @@ class MissionQueue(Resource):
     @ns.marshal_with(getMissionSpecific_model)
     def post(self):
         if api.payload is not None:
+            # try:
+            #     payload = json.loads(api.payload)
+            #     return missionQueueDAO.add(payload)
+            # except:
             return missionQueueDAO.add(api.payload)
         api.abort(400, 'Request body needs to be application/json')
 
