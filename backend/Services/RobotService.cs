@@ -200,9 +200,7 @@ namespace backend.Services
                         var isAvailable = db.MissionQueuesResponse.Any(s => s.Id.Equals(queuesResponse.Id));
 
                         if (isAvailable)
-                        {
                             db.MissionQueuesResponse.Update(queuesResponse);
-                        }
                         else
                         {
                             var missq = new MissionQueuesResponse
@@ -216,12 +214,7 @@ namespace backend.Services
                             await db.MissionQueuesResponse.AddAsync(missq);
                         }
                     }
-
                     await db.SaveChangesAsync();
-                    // db.MissionQueuesResponse.Add(response);
-                    // host.IsOnline = true;
-                    // db.Robots.Update(host);
-                    // db.SaveChanges();
                 }
             }
             catch (Exception e)
