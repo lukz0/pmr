@@ -27,7 +27,7 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MissionQueueRequest>>> GetMissionQueueRequests()
         {
-            return await _context.MissionQueueRequests.Include(r => r.Robot).ToListAsync();
+            return await _context.MissionQueueRequests.Include(r => r.RobotId).ToListAsync();
         }
 
         // GET: api/MissionQueueRequest/5

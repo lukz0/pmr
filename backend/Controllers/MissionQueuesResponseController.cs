@@ -29,6 +29,22 @@ namespace backend.Controllers
         {
             return await _context.MissionQueuesResponse.Include(r => r.Robot).ToListAsync();
         }
+        
+        // GET: api/MissionQueuesResponse/5
+        [HttpGet("robot={id}")]
+        public async Task<List<MissionQueuesResponse>> GetMissionQueuesResponseByRobot(int id)
+        {
+            var responses =await  _context.MissionQueuesResponse.Where(r => r.RobotId==id).ToListAsync();
+            
+
+            if (responses == null)
+            {
+                return null;
+            }
+
+            return responses;
+        }
+        
 
         // GET: api/MissionQueuesResponse/5
         [HttpGet("{id}")]
