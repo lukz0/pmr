@@ -33,74 +33,102 @@
             <div>
                 <b-form @submit="onSubmit" @reset="onReset" v-if="show">
                     <b-form-group
-                            id="input-group-1"
+                            id="input-edit-email-group"
                             label="Email address:"
-                            label-for="input-1"
-                            description="We'll never share your email with anyone else."
+                            label-for="input-edit-email"
+                            description="Enter new email"
                     >
                         <b-form-input
-                                id="input-1"
+                                id="input-edit-email"
                                 v-model="form.email"
                                 type="email"
                                 required
                         ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group id="input-group-2" label="Your Name:" label-for="input-2">
+                    <b-form-group
+                            id="input-edit-username-group"
+                            label="Username:"
+                            label-for="input-edit-username"
+                    >
                         <b-form-input
-                                id="input-2"
-                                v-model="form.name"
+                                id="input-edit-username"
+                                v-model="form.username"
+                                type="text"
                                 required
-                                placeholder="Enter name"
                         ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group id="input-group-3" label="Food:" label-for="input-3">
-                        <b-form-select
-                                id="input-3"
-                                v-model="form.food"
-                                :options="foods"
+                    <b-form-group
+                            id="input-edit-firstname-group"
+                            label="Firstname:"
+                            label-for="input-edit-firstname"
+                    >
+                        <b-form-input
+                                id="input-edit-firstname"
+                                v-model="form.firstname"
+                                type="text"
                                 required
-                        ></b-form-select>
+                        ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group id="input-group-4">
-                        <b-form-checkbox-group v-model="form.checked" id="checkboxes-4">
-                            <b-form-checkbox value="me">Check me out</b-form-checkbox>
-                            <b-form-checkbox value="that">Check that out</b-form-checkbox>
-                        </b-form-checkbox-group>
+                    <b-form-group
+                            id="input-edit-lastname-group"
+                            label="Lastname:"
+                            label-for="input-edit-lastname"
+                    >
+                        <b-form-input
+                                id="input-edit-lastname"
+                                v-model="form.lastname"
+                                type="text"
+                                required
+                        ></b-form-input>
+                    </b-form-group>
+
+                    <b-form-group
+                            id="input-edit-oldpassword-group"
+                            label="Old password:"
+                            label-for="input-edit-oldpassword"
+                    >
+                        <b-form-input
+                                id="input-edit-oldpassword"
+                                v-model="form.oldpassword"
+                                type="password"
+                                required
+                        ></b-form-input>
+                    </b-form-group>
+
+                    <b-form-group
+                            id="input-edit-newpassword-group"
+                            label="New password:"
+                            label-for="input-edit-newpassword"
+                    >
+                        <b-form-input
+                                id="input-edit-newpassword"
+                                v-model="form.newpassword"
+                                type="password"
+                                required
+                        ></b-form-input>
+                    </b-form-group>
+
+                    <b-form-group
+                            id="input-edit-newpassword-confim-group"
+                            label="Confirm new password:"
+                            label-for="input-edit-newpassword-confirm"
+                            :description="confirmnewpasswordstate === false ? 'these password are not equal' : ''"
+                    >
+                        <b-form-input
+                                id="input-edit-newpassword-confirm"
+                                v-model="confirmnewpassword"
+                                type="password"
+                                :state=confirmnewpasswordstate
+                                required
+                        ></b-form-input>
                     </b-form-group>
 
                     <b-button type="submit" variant="primary">Submit</b-button>
                     <b-button type="reset" variant="danger">Reset</b-button>
                 </b-form>
-                <b-card class="mt-3" header="Form Data Result">
-                    <pre class="m-0">{{ form }}</pre>
-                </b-card>
-            </div>
-            <div>
-                <table class="table table-borderless table-hover">
-                    <tr>
-                        <th>UserId</th>
-                        <td>{{user.id}}</td>
-                    </tr>
-                    <tr>
-                        <th>Name</th>
-                        <td>{{user.firstName}} {{user.lastName}} </td>
-                    </tr>
-                    <tr>
-                        <th>Username</th>
-                        <td>{{user.username}}</td>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <td>{{user.email}}</td>
-                    </tr>
-                    <tr>
-                        <th>Role</th>
-                        <td>{{user.role}}</td>
-                    </tr>
-                </table>
             </div>
         </b-modal>
     </b-jumbotron>
@@ -131,14 +159,14 @@
                     },
                     {key: 'Edit', label: '#'}],
                 form: {
-                    name: '',
+                    firstname: '',
+                    lastname: '',
                     username: '',
                     email: '',
-                    Role: '',
-                    food: null,
-                    checked: []
+                    oldpassword: '',
+                    newpassword: ''
                 },
-                foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
+                confirmnewpassword: '',
                 show: true
             }
         },
@@ -179,7 +207,11 @@
             ...mapState({
                 account: state => state.account,
                 users: state => state.users.all.items
-            })
+            }),
+            confirmnewpasswordstate: function () {
+                return this.confirmnewpassword === '' ? null :
+                    this.confirmnewpassword === this.form.newpassword;
+            }
         }
     }
 </script>
