@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <h1>Account (This page is not done)</h1>
+    <b-jumbotron class="mt-4">
+        <h3>Account</h3>
         <p>First Name: {{profile.firstName}}</p>
         <p>Last Name: {{profile.lastName}}</p>
         <p>Username: {{profile.username}}</p>
         <p>Role: {{profile.role}}</p>
         <p>Edit user info, ask for new role</p>
-    </div>
+    </b-jumbotron>
 </template>
 
 <script>

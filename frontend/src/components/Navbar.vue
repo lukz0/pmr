@@ -8,16 +8,13 @@
 
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
-                <b-nav-item class="mr-2"><b>{{time}}</b></b-nav-item>
+                <b-nav-item class="mr-2"><b>{{time.getDate()}}.{{time.getMonth()}}.{{time.getFullYear()}}  {{time.getHours()}}:{{time.getMinutes()}}</b></b-nav-item>
                 <b-nav-item-dropdown right>
                     <!-- Using 'button-content' slot -->
                     <template v-slot:button-content>
                         <!-- test-userdropdown id is used in test -->
                         <b-icon-people-circle id="test-userdropdown" /> {{user.firstName}} {{user.lastName}}
                     </template>
-                    <b-dropdown-item to="profile">
-                        <b-icon-person-lines-fill /> Account settings
-                    </b-dropdown-item>
                     <b-dropdown-item to="login">
                         <b-icon-lock id="test-logout"/> Sign Out
                     </b-dropdown-item>

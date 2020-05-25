@@ -1,5 +1,5 @@
 <template>
-    <div id="test-users-list" class="jumbotron">
+    <b-jumbotron class="mt-4" id="test-users-list" >
         <h2>
             <b-icon-people-fill/>
             Manage Users
@@ -13,7 +13,7 @@
                 <b-button-group class="mx-1">
                     <b-button variant="info" @click="loadUser(data.item)">
                         <b-icon-person-lines-fill/>
-                        View/Edit
+                        Edit
                     </b-button>
                     <b-button variant="warning" :id="`test-delete-user${data.item.username}`"
                               v-if="account.user.id !== data.item.id"
@@ -55,7 +55,7 @@
                 </table>
             </div>
         </b-modal>
-    </div>
+    </b-jumbotron>
 </template>
 
 <script>
