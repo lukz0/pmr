@@ -11,13 +11,18 @@
                 <b-col cols="8">
                     <h2>Missions</h2>
                     <div v-if="currentRobot">
-                        <b-list-group v-for="m in missions.all.items" :key="m.id">
+                        <b-list-group v-for="m in missions.all.missionsList" :key="m.id">
                             <b-list-group-item button v-if="m.robotId === currentRobot.id">{{m.name}}</b-list-group-item>
                         </b-list-group>
-                        </div>
+                    </div>
                 </b-col>
                 <b-col cols="4">
                     <h2>Queue</h2>
+                    <div>
+                        <b-list-group v-for="m in missions.all.queueList" :key="m.id">
+                            <b-list-group-item button v-if="m.robotId === currentRobot.id">{{m.name}}</b-list-group-item>
+                        </b-list-group>
+                    </div>
                 </b-col>
             </b-row>
     </b-jumbotron>
@@ -45,7 +50,8 @@
             }),
             select(robot){
                 this.currentRobot = robot;
-                console.log(this.missions.all.items)
+                console.log(this.missions.all.missionsList)
+                console.log(this.missions.all.queueList)
                 //console.log(this.currentRobot);
             }
         },

@@ -24,7 +24,6 @@ namespace backend.Services
         private IServiceProvider Services { get; set; }
         private readonly ILogger<RobotService> _logger;
         private readonly HttpClient _client;
-
         private Task<List<Robot>> Hosts { get; set; }
 
         public RobotService(
@@ -240,8 +239,7 @@ namespace backend.Services
                 $"Basic {host.Token}");
             return request;
         }
-
-
+        
         public Task StopAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("Timed Hosted Service is stopping.");

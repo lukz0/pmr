@@ -4,9 +4,8 @@ import Vue from 'vue';
 
 import Register from "../components/UserManager/Register";
 import Users from "../components/UserManager/Users";
-import AddRobot from "../components/Robot/Add";
-import Robots from "../components/Robot/Home"
-import Help from "../views/Help";
+import AddRobot from "../components/Dashboard/Add";
+import Robots from "../components/Dashboard/Robots"
 
 import Login from '../views/Login';
 import Notfound from "../views/Notfound";
@@ -15,6 +14,7 @@ import Home from "../components/Dashboard/Home";
 import Stats from "../components/Dashboard/Stats";
 import Profile from "../components/Profile/Profile";
 import Missions from "../components/Dashboard/Missions";
+import Edit from "../components/UserManager/Edit"
 
 Vue.use(Router);
 
@@ -23,9 +23,6 @@ export const router = new Router({
     routes: [
         {
             path: '/login', component: Login, name: 'Authentication'
-        },
-        {
-            path: '/help', component: Help, name: 'Help'
         },
         {
             // Dashboard
@@ -48,6 +45,7 @@ export const router = new Router({
             path: '/', component: Dashboard, children: [
                 {path: '/usermanager', component: Users, name: 'Manger users'},
                 {path: 'register', component: Register, name: 'Add new User'},
+                {path: 'edit', component: Edit, name: 'Edit User'},
                 {path: 'groups', comment: Users}
             ]
         },
@@ -66,7 +64,7 @@ export const router = new Router({
 
 router.beforeEach((to, from, next) => {
     // Redirect to login page if not logged in and trying to access a restricted page
-    const publicPages = ['/login', '/help'];
+    const publicPages = ['/login'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
 
