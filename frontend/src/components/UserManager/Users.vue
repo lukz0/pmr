@@ -25,7 +25,7 @@
             </template>
         </b-table>
 
-        <b-modal v-model="modalShow" header-bg-variant="dark" header-text-variant="light">
+        <b-modal v-model="modalShow" header-bg-variant="dark" header-text-variant="light" @ok="handleOk">
             <template v-slot:modal-title>
                 <b-icon-person-bounding-box/>
                 {{user.firstName}} {{user.lastName}} profile card
@@ -126,8 +126,7 @@
                         ></b-form-input>
                     </b-form-group>
 
-                    <b-button type="submit" variant="primary">Submit</b-button>
-                    <b-button type="reset" variant="danger">Reset</b-button>
+                    <b-button id="input-edit-submit" type="submit" variant="primary" style="display:none;">Submit</b-button>
                 </b-form>
             </div>
         </b-modal>
@@ -176,18 +175,29 @@
         methods: {
             ...mapActions('users', {
                 getAll: 'getAll',
-                deleteUser: 'delete'
+                deleteUser: 'delete',
+            }),
+            ...mapActions('account', {
+                updateUser: 'update'
             }),
             loadUser: function (user) {
                 this.user = user;
-                this.modalShow = !this.modalShow
+                this.form.email = user.email;
+                this.form.username = user.username;
+                this.form.firstname = user.firstName;
+                this.form.lastname = user.lastName;
+                this.modalShow = true;
             },
             delete_user(id){
                 this.deleteUser(id);
             },
             onSubmit(evt) {
                 evt.preventDefault()
-                alert(JSON.stringify(this.form))
+                this.$validator.validate().then(valid => {
+                    if (valid) {
+                        this.updateUser({form: this.form, id: this.user.id});
+                    }
+                });
             },
             onReset(evt) {
                 evt.preventDefault()
@@ -201,6 +211,10 @@
                 this.$nextTick(() => {
                     this.show = true
                 })
+            },
+            handleOk(evt) {
+                evt.preventDefault()
+                document.getElementById('input-edit-submit').click();
             }
         },
         computed: {

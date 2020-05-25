@@ -45,6 +45,20 @@ const actions = {
                     dispatch('alert/error', error, { root: true });
                 }
             );
+    },
+    update({ dispatch, commit }, userUpdateObj) {
+        userService.update({ ...userUpdateObj.form, id: userUpdateObj.id })
+            .then(
+                user => {
+                    commit('updateSuccess', user);
+                    setTimeout(() => {
+                        dispatch('alert/success', 'Update successful', { root: true });
+                    })
+                }, error => {
+                    commit('updateFailure', error);
+                    dispatch('alert/error', error, { root: true });
+                }
+            )
     }
 };
 
@@ -76,6 +90,16 @@ const mutations = {
     registerFailure(state, error) {
         state.status = {};
         console.log(error)
+    },
+    updateRequest(state, _user) {
+        state.status = { updating: true };
+    },
+    updateSuccess(state, _user) {
+        state.status = {};
+    },
+    updateFailure(state, _error) {
+        state.status = {};
+        console.log(_error)
     }
 };
 
