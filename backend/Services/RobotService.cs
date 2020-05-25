@@ -47,26 +47,33 @@ namespace backend.Services
             return Task.CompletedTask;
         }
 
-        private void LoadData()
+        private async void LoadData()
         {
+            ApplicationDbContext db = null;
             try
             {
                 using var serviceScope = Services.CreateScope();
-                var db = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                db = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 Hosts = db.Robots.ToListAsync();
             }
             catch (InvalidOperationException e)
             {
                 _logger.LogError(e, "Invalid operation at Services.RobotService.LoadData()");
             }
+
+            if (db != null)
+            {
+                await db.DisposeAsync();
+            }
         }
 
         private async void BackgroundWork(object state)
         {
+            ApplicationDbContext db = null;
             try
             {
                 LoadData();
-                var db = Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                db = Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 foreach (var host in Hosts.Result)
                 {
                     await LoadMissions(host, db);
@@ -78,6 +85,11 @@ namespace backend.Services
             catch (Exception e)
             {
                 _logger.LogError(e, "Exception at Services.RobotService.BackgroundWork");
+            }
+
+            if (db != null)
+            {
+                await db.DisposeAsync();
             }
         }
 
