@@ -131,7 +131,7 @@
                     },
                     {key: 'Edit', label: '#'}],
                 form: {
-                    name: this.user.name,
+                    name: '',
                     username: '',
                     email: '',
                     Role: '',
