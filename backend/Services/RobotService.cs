@@ -26,7 +26,7 @@ namespace backend.Services
         private IServiceProvider Services { get; set; }
         private readonly ILogger<RobotService> _logger;
         private readonly HttpClient _client;
-        private Task<List<Robot>> Hosts { get; set; }
+        private List<Robot> Hosts { get; set; }
 
         public RobotService(
             ILogger<RobotService> logger,
@@ -54,7 +54,7 @@ namespace backend.Services
             {
                 using var serviceScope = Services.CreateScope();
                 db = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                Hosts = db.Robots.ToListAsync();
+                Hosts = await db.Robots.ToListAsync();
             }
             catch (InvalidOperationException e)
             {
@@ -74,7 +74,7 @@ namespace backend.Services
             {
                 LoadData();
                 db = Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                foreach (var host in Hosts.Result)
+                foreach (var host in Hosts)
                 {
                     await LoadMissions(host, db);
                     await LoadStatus(host, db);
