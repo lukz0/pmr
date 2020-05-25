@@ -26,9 +26,17 @@ namespace backend.Controllers
         // GET: api/Status
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Status>>> GetStatuses()=> await _context.Statuses.Include(r => r.Velocity)
-                .Include(u => u.UserPrompt)
+                .Include(r => r.Robot)
                 .Include(p => p.Position).ToListAsync();
 
+        // GET: api/Status/5
+        [HttpGet("robotid={id}")]
+        public List<Status> GetStatusByRobot(int id)
+        {
+            var status = _context.Statuses.Where(r => r.RobotId == id).ToList();
+            return status;
+        }
+        
         // GET: api/Status/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Status>> GetStatus(int id)
@@ -44,8 +52,6 @@ namespace backend.Controllers
         }
 
         // PUT: api/Status/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStatus(int id, Status status)
         {

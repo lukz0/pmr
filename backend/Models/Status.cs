@@ -7,10 +7,11 @@ namespace backend.Models
 {
     public class Status
     {
+        [JsonIgnore]
         public int Id { get; set; }
-        
+        [JsonIgnore]
         public int RobotId { get; set; }
-        
+        [JsonIgnore]
         public Robot Robot { get; set; }
         
         [JsonPropertyName("battery_percentage")]
@@ -39,7 +40,7 @@ namespace backend.Models
         
         [JsonPropertyName("mission_text")]
         public string MissionText { get; set; }
-        
+
         [JsonPropertyName("mode_id")]
         public int ModeId { get; set; }
         
@@ -52,7 +53,7 @@ namespace backend.Models
         
         [JsonPropertyName("robot_model")]
         public string RobotModel { get; set; }
-        
+
         [JsonPropertyName("robot_name")]
         public string RobotName { get; set; }
         
@@ -73,7 +74,7 @@ namespace backend.Models
         
         public int Uptime { get; set; }
         
-        [JsonPropertyName("user_prompt")]
+        [JsonPropertyName("user_prompt"), JsonIgnore]
         public UserPrompt UserPrompt { get; set; }
         
         public Velocity Velocity { get; set; }
