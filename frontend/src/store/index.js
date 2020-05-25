@@ -7,6 +7,7 @@ import { account } from './account.module';
 import { users } from './users.module';
 import { robots } from "./robot.module";
 import {missions} from "./missions.module"
+import { status } from "./status.module"
 
 Vue.use(Vuex);
 
@@ -16,6 +17,7 @@ export const store = new Vuex.Store({
     account, // The current logged in user
     users, // List of users (will be empty if you are not admin)
     robots, // List of robots
-    missions // List of missions
+    missions, // List of missions,
+    status
   }
 });

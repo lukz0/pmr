@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { requestService } from "./request.service";
 
-export const missionsService = {
-    getAll
+export const statusService = {
+    getByRobotId
 }
 
 // Get all missions
-function getAll() {
-    return axios.get(`/missions`)
+function getByRobotId(id) {
+    return axios.get(`/status/robotid=`+id)
         .then(r => requestService.handleResponse(r, null), e => requestService.handleResponse(e.response, e))
 }

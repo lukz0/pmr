@@ -1,3 +1,4 @@
+import { requestService } from "../services";
 import { userService } from '../services';
 import { router } from '../router';
 
@@ -23,7 +24,7 @@ const actions = {
             );
     },
     logout({ commit }) {
-        userService.logout();
+        requestService.logout();
         commit('logout');
     },
     register({ dispatch, commit }, user) {

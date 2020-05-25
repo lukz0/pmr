@@ -5,8 +5,22 @@
 </template>
 
 <script>
+    import { mapState, mapActions } from 'vuex'
     export default {
-        name: "Stats"
+        name: "Stats",
+        created() {
+            this.status
+        },
+        methods: {
+            ...mapActions('status', {
+                status: 'getByRobotId'
+            })
+        },
+        computed: {
+            ...mapState({
+                status: state => state.status
+            })
+        }
     }
 </script>
 

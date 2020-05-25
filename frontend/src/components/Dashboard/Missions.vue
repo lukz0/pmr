@@ -1,6 +1,5 @@
 <template>
-    <b-jumbotron id="test-users-list" class="mt-4">
-        <b-container class="bv-example-row">
+    <b-jumbotron class="mt-4">
             <b-row>
                 <b-col>
                     <b-dropdown id="dropdown-1" text="Select robot" class="m-md-2">
@@ -12,17 +11,15 @@
                 <b-col cols="8">
                     <h2>Missions</h2>
                     <div v-if="currentRobot">
-                        <div v-for="m in missions.all.items" :key="m.id">
-                            <p v-if="m.robotId === currentRobot.id">{{m.name}}</p>
+                        <b-list-group v-for="m in missions.all.items" :key="m.id">
+                            <b-list-group-item button v-if="m.robotId === currentRobot.id">{{m.name}}</b-list-group-item>
+                        </b-list-group>
                         </div>
-                    </div>
-
                 </b-col>
                 <b-col cols="4">
                     <h2>Queue</h2>
                 </b-col>
             </b-row>
-        </b-container>
     </b-jumbotron>
 </template>
 
@@ -60,9 +57,3 @@
         }
     }
 </script>
-
-
-
-<style scoped>
-
-</style>
