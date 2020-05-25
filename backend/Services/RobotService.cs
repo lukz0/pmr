@@ -47,9 +47,16 @@ namespace backend.Services
 
         private void LoadData()
         {
-            using var serviceScope = Services.CreateScope();
-            var db = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            Hosts = db.Robots.ToListAsync();
+            try
+            {
+                using var serviceScope = Services.CreateScope();
+                var db = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                Hosts = db.Robots.ToListAsync();
+            }
+            catch (InvalidOperationException e)
+            {
+                _logger.LogError(e, "Invalid operation at Services.RobotService.LoadData()");
+            }
         }
 
         private async void BackgroundWork(object state)
