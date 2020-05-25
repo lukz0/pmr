@@ -25,21 +25,21 @@ export default {
     methods: {
         fillData() {
             this.datacollection = {
-                labels: ["",""],
+                labels: ["Battery level"],
                 datasets: [
                     {
-                        label: 'Robot3X-323',
+                        label : "Robotx",
                         backgroundColor: '#007a98',
-                        data: [12,0]
+                        data: [12]
                     }, {
-                        label: 'MILRXX293',
+                        label : "Robx",
                         backgroundColor: '#dac7ff',
-                        data: [20,0]
+                        data: [20]
                     },
                     {
-                        label: 'Rob4344-SS',
+                        label : "Robx",
                         backgroundColor: '#ffe744',
-                        data: [11,0]
+                        data: [121]
                     }
                 ]
             }

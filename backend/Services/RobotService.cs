@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using backend.Data;
 using backend.Models;
 using System.Net.Http;
+using Newtonsoft.Json;
 using System.Threading;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Net.Http.Headers;
-using System.Text;
+using System.Collections.Generic;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace backend.Services
@@ -42,7 +41,7 @@ namespace backend.Services
         {
             _logger.LogInformation("Timed Hosted Service running.");
 
-            _timer = new Timer(BackgroundWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(10));
+            _timer = new Timer(BackgroundWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
 
             return Task.CompletedTask;
         }
@@ -110,7 +109,7 @@ namespace backend.Services
         private async Task LoadStatus(Robot host, ApplicationDbContext db)
         {
             // No need to send request when robot is offline
-            if (!host.IsOnline) await Task.CompletedTask;
+            if (!host.IsOnline) return;
 
             try
             {
@@ -143,7 +142,7 @@ namespace backend.Services
             }
             catch (Exception e)
             {
-                _logger.LogCritical("The Robot may be is offline");
+                _logger.LogCritical("The Robot may be is offline: No status could be loaded");
             }
         }
 

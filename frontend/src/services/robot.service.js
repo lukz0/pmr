@@ -11,13 +11,14 @@ function getAll() {
     return axios.get(`/robots`)
         .then(r => handleResponse(r, null), e => handleResponse(e.response, e))
 }
-
 // Register new robot
-let add = (robot) => axios.post(`/robots`, robot).then(r => handleResponse(r, null), e => handleResponse(e.response, e));
-
+function add(robot) {
+    return axios.post(`/robots`, robot)
+        .then(r => handleResponse(r, null), e => handleResponse(e.response, e));
+}
 
 // handle requests
-let handleResponse = (response, error) => {
+function handleResponse(response, error) {
     if (error !== null) {
         if (response.status === 401) {
             // auto logout if 401 response returned from api

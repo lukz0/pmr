@@ -1,5 +1,5 @@
 from flask import Flask, request, make_response
-from flask_restx import Api, Resource, fields
+from flask_restplus import Api, Resource, fields
 from werkzeug.exceptions import *
 from base64 import b64encode
 from hashlib import sha256

@@ -156,18 +156,4 @@ class Status(Resource):
     @auth_required
     @api.marshal_with(status_model)
     def get(self):
-<<<<<<< HEAD:Robot_Sim_Api/models/status.py
-        return status[0]
-
-    @auth_required
-    @api.expect(status_model)
-    def post(self):
-        status.append(api.payload)
-        return {"success": "true", "description": "Successfully added mission to mission queue", "id": "320"}, 201
-
-    @staticmethod
-    def robot_name(name):
-        status_robot_1['robot_name'] = name
-=======
         return generate_status()
->>>>>>> dev:Robot_Sim_Api_2/models/status.py
