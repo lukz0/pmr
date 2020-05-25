@@ -75,41 +75,9 @@ namespace backend.Services
                     await GetQueue(host, db);
                 }
             }
-            catch (InvalidOperationException e)
+            catch (Exception e)
             {
-                _logger.LogError(e, "Invalid operation at Services.RobotService.BackgroundWork()");
-            }
-            catch (NpgsqlException e)
-            {
-                _logger.LogError(e, "Npsql exception at Services.RobotService.BackgroundWork()");
-            }
-            catch (EndOfStreamException e)
-            {
-                _logger.LogError(e,"End of stream exception at Services.RobotService.BackgroundWork()");
-            }
-            catch (AggregateException ae)
-            {
-                ae.Handle(exception =>
-                {
-                    if (exception is InvalidOperationException)
-                    {
-                        _logger.LogError(exception, "Invalid operation at Services.RobotService.BackgroundWork()");
-                        return true;
-                    }
-                    else if (exception is NpgsqlException)
-                    {
-                        _logger.LogError(exception, "Npsql exception at Services.RobotService.BackgroundWork()");
-                        return true;
-                    }
-                    else if (exception is EndOfStreamException)
-                    {
-                        _logger.LogError(exception,
-                            "End of stream exception at Services.RobotService.BackgroundWork()");
-                        return true;
-                    }
-
-                    return false;
-                });
+                _logger.LogError(e, "Exception at Services.RobotService.BackgroundWork");
             }
         }
 
