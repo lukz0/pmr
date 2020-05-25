@@ -10,10 +10,12 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.Collections.Generic;
+using System.IO;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace backend.Services
@@ -61,14 +63,53 @@ namespace backend.Services
 
         private async void BackgroundWork(object state)
         {
-            LoadData();
-            var db = Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            foreach (var host in Hosts.Result)
+            try
             {
-                await LoadMissions(host, db);
-                await LoadStatus(host, db);
-                await PostToQueue(host, db);
-                await GetQueue(host, db);
+                LoadData();
+                var db = Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                foreach (var host in Hosts.Result)
+                {
+                    await LoadMissions(host, db);
+                    await LoadStatus(host, db);
+                    await PostToQueue(host, db);
+                    await GetQueue(host, db);
+                }
+            }
+            catch (InvalidOperationException e)
+            {
+                _logger.LogError(e, "Invalid operation at Services.RobotService.BackgroundWork()");
+            }
+            catch (NpgsqlException e)
+            {
+                _logger.LogError(e, "Npsql exception at Services.RobotService.BackgroundWork()");
+            }
+            catch (EndOfStreamException e)
+            {
+                _logger.LogError(e,"End of stream exception at Services.RobotService.BackgroundWork()");
+            }
+            catch (AggregateException ae)
+            {
+                ae.Handle(exception =>
+                {
+                    if (exception is InvalidOperationException)
+                    {
+                        _logger.LogError(exception, "Invalid operation at Services.RobotService.BackgroundWork()");
+                        return true;
+                    }
+                    else if (exception is NpgsqlException)
+                    {
+                        _logger.LogError(exception, "Npsql exception at Services.RobotService.BackgroundWork()");
+                        return true;
+                    }
+                    else if (exception is EndOfStreamException)
+                    {
+                        _logger.LogError(exception,
+                            "End of stream exception at Services.RobotService.BackgroundWork()");
+                        return true;
+                    }
+
+                    return false;
+                });
             }
         }
 

@@ -248,6 +248,60 @@ namespace backend.Migrations
                     b.ToTable("Missions");
                 });
 
+            modelBuilder.Entity("backend.Models.MissionQueueRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Guid")
+                        .HasColumnType("text");
+
+                    b.Property<int>("MissionId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<int>("RobotId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MissionId");
+
+                    b.HasIndex("RobotId");
+
+                    b.ToTable("MissionQueueRequests");
+                });
+
+            modelBuilder.Entity("backend.Models.MissionQueuesResponse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("RobotId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("State")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RobotId");
+
+                    b.ToTable("MissionQueuesResponse");
+                });
+
             modelBuilder.Entity("backend.Models.Robot", b =>
                 {
                     b.Property<int>("Id")
@@ -482,6 +536,30 @@ namespace backend.Migrations
                 });
 
             modelBuilder.Entity("backend.Models.Mission", b =>
+                {
+                    b.HasOne("backend.Models.Robot", "Robot")
+                        .WithMany()
+                        .HasForeignKey("RobotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("backend.Models.MissionQueueRequest", b =>
+                {
+                    b.HasOne("backend.Models.Mission", "Mission")
+                        .WithMany()
+                        .HasForeignKey("MissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.Robot", "Robot")
+                        .WithMany()
+                        .HasForeignKey("RobotId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("backend.Models.MissionQueuesResponse", b =>
                 {
                     b.HasOne("backend.Models.Robot", "Robot")
                         .WithMany()
