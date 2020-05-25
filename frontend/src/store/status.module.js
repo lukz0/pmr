@@ -1,5 +1,4 @@
 import { statusService } from "../services/status.service";
-import { router } from '../router';
 
 const state = {
     all: {}
