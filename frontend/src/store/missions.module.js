@@ -14,11 +14,6 @@ const actions = {
                 missions => commit('getAllMissionsSuccess', missions),
                 error => commit('getAllMissionsFailure', error)
             )
-        missionsService.getAllMissionQues()
-            .then(
-                missionQueue => commit('getAllQueuesSuccess', missionQueue),
-                error => commit('getAllQueuesFailure', error)
-            )
     }
 }
 
@@ -31,13 +26,6 @@ const mutations = {
         state.status = { isLoading: false }
     },
     getAllMissionsFailure(state, error) {
-        state.all = { error }
-    },
-    getAllQueuesSuccess(state, queues) {
-        state.all = { queueList: queues }
-        state.status = { isLoading: false }
-    },
-    getAllQueuesFailure(state, error) {
         state.all = { error }
     }
 }

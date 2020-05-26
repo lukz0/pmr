@@ -12,15 +12,19 @@
                     <h2>Missions</h2>
                     <div v-if="currentRobot">
                         <b-list-group v-for="m in missions.all.missionsList" :key="m.id">
-                            <b-list-group-item button v-if="m.robotId === currentRobot.id">{{m.name}}</b-list-group-item>
+                            <div v-if="m.robotId === currentRobot.id">
+                                <b-list-group-item button>{{m.name}}</b-list-group-item>
+                                <b-button variant="primary" @click="addToQueue(m)">Add to queue</b-button>
+                            </div>
                         </b-list-group>
                     </div>
                 </b-col>
                 <b-col cols="4">
                     <h2>Queue</h2>
-                    <div>
-                        <b-list-group v-for="m in missions.all.queueList" :key="m.id">
-                            <b-list-group-item button v-if="m.robotId === currentRobot.id">{{m.name}}</b-list-group-item>
+                    <div v-if="currentRobot">
+                        <b-list-group v-for="q in missionQueue.all.missionQueue" :key="q.id">
+                            <b-list-group-item button>{{q.url}}</b-list-group-item>
+                            <b-button variant="primary">{{q.state}}</b-button>
                         </b-list-group>
                     </div>
                 </b-col>
@@ -34,30 +38,56 @@
         name: "Missions",
         data(){
             return {
-                currentRobot: null
+                currentRobot: null,
+                polling: null,
+                addRequestBody: {
+                    mission_id: null,
+                    name: "",
+                    guid: "",
+                    description: ""
+                }
             }
         },
         created() {
             this.getAllMissions();
             this.getAllRobots();
+            this.pollData()
         },
         methods: {
             ...mapActions('missions', {
                 getAllMissions: 'getAll'
             }),
+            ...mapActions('missionQueue', {
+                getMissionQueue: 'getMissionQueue',
+                addMissionToQueue: 'addMissionToQueue'
+            }),
             ...mapActions('robots', {
                 getAllRobots: 'getAll'
             }),
+            pollData () {
+                this.polling = setInterval(() => {
+                    if(this.currentRobot){this.getMissionQueue(this.currentRobot.id)}
+                }, 1000)
+            },
             select(robot){
                 this.currentRobot = robot;
-                console.log(this.missions.all.missionsList)
-                console.log(this.missions.all.queueList)
-                //console.log(this.currentRobot);
+                this.getMissionQueue(robot.id);
+            },
+            addToQueue(mission){
+                this.fillInRequestBody(mission)
+                this.addMissionToQueue({mission: this.addRequestBody, id: this.currentRobot.id})
+            },
+            fillInRequestBody(mission){
+                this.addRequestBody.mission_id = mission.id
+                this.addRequestBody.guid = mission.guide
+                this.addRequestBody.name = mission.name
+                this.addRequestBody.description = "A mission is a Mission"
             }
         },
         computed: {
             ...mapState({
                 missions: state => state.missions,
+                missionQueue: state => state.missionQueue,
                 robots: state => state.robots
             })
         }
