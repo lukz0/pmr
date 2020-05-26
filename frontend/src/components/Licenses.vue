@@ -7,7 +7,7 @@
       :key="license[0]+'@'+license[1]"
     >
       <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-button block variant="info" @click="toggle(licenseI)">{{license[0]+" v."+license[1]}}</b-button>
+        <b-button block variant="info" @click="toggle(licenseI)"><b-icon icon="caret-down-fill" variant="light" style="z-index:1" v-bind:rotate="license[3] ? '180' : '0'"></b-icon> {{license[0]+" v."+license[1]}}</b-button>
       </b-card-header>
       <b-collapse
         :id="license[0]+'@'+license[1]"
