@@ -92,12 +92,14 @@ const mutations = {
         console.log(error)
     },
     updateRequest(state, _user) {
-        state.status = { updating: true };
+        state.status = { updating: true, updateSuccess: state.status.updateSuccess };
     },
     updateSuccess(state, _user) {
+        state.status.updateSuccess(true);
         state.status = {};
     },
     updateFailure(state, _error) {
+        state.status.updateSuccess(false);
         state.status = {};
         console.log(_error)
     }

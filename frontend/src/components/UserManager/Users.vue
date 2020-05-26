@@ -193,10 +193,16 @@
             },
             onSubmit(evt) {
                 evt.preventDefault()
+                const updated = new Promise((resolve) => {
+                    this.account.status.updateSuccess = (r) => resolve(r);
+                });
                 this.$validator.validate().then(valid => {
                     if (valid) {
                         this.updateUser({form: this.form, id: this.user.id});
                     }
+                });
+                updated.then(result => {
+                    if (result) this.modalShow = false;
                 });
             },
             onReset(evt) {
