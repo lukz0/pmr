@@ -84,8 +84,7 @@ namespace backend.Controllers
             
             img.Dispose();
             drawing.Dispose();
-        
-            img = new Bitmap((int) textSize.Width, (int)textSize.Height);
+            img = new Bitmap((int) textSize.Width == 0 ? 1 : (int)textSize.Width, (int)textSize.Height == 0 ? 1 : (int)textSize.Height);
         
             drawing = Graphics.FromImage(img);
         
