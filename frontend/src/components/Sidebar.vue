@@ -2,12 +2,8 @@
     <div>
         <b-list-group>
             <b-list-group-item to="/dashboard" exact exact-active-class="active">
-                <b-icon-house-door/>
-                Dashboard
-            </b-list-group-item>
-            <b-list-group-item to="/stats" exact exact-active-class="active">
                 <b-icon-bar-chart/>
-                Stats
+                Dashboard
             </b-list-group-item>
             <b-list-group-item to="/missions" exact exact-active-class="active">
                 <b-icon-clipboard-data/>
@@ -32,7 +28,7 @@
         <!-- Administrator settings -->
         <b-list-group>
             <b-list-group-item to="/account" exact exact-active-class="active" id="test-account">
-                <b-icon-people /> Account
+                <b-icon-person /> My account
             </b-list-group-item>
         </b-list-group>
     </div>

@@ -26,9 +26,8 @@ namespace backend.Controllers
         // GET: api/MissionQueueRequest
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MissionQueueRequest>>> GetMissionQueueRequests()
-        {
-            return await _context.MissionQueueRequests.Include(r => r.RobotId).ToListAsync();
-        }
+        => await _context.MissionQueueRequests.Include(r => r.RobotId).ToListAsync();
+        
 
         // GET: api/MissionQueueRequest/5
         [HttpGet("{id}")]
@@ -49,7 +48,6 @@ namespace backend.Controllers
         [HttpPost("robotId={id}")]
         public async Task<ActionResult<MissionQueueRequest>> PostMissionQueueRequest(MissionQueueRequest missionQueueRequest, int id)
         {
-            // TODO - Confirm if the host exists
             missionQueueRequest.RobotId = id;
             _context.MissionQueueRequests.Add(missionQueueRequest);
             await _context.SaveChangesAsync();
@@ -74,8 +72,7 @@ namespace backend.Controllers
         }
 
         private bool MissionQueueRequestExists(int id)
-        {
-            return _context.MissionQueueRequests.Any(e => e.Id == id);
-        }
+        => _context.MissionQueueRequests.Any(e => e.Id == id);
+        
     }
 }

@@ -3,28 +3,34 @@
         <b-card-group deck>
             <b-card bg-variant="primary" text-variant="white" class="text-center sm">
                 <template v-slot:header>
-                    <h2><b-icon-outlet/> Robots</h2>
+                    <h4>
+                        <b-icon-outlet/>
+                        Robots
+                    </h4>
                 </template>
-                <b-card-text><h1>3</h1></b-card-text>
+                <b-card-text><h2>3</h2></b-card-text>
             </b-card>
             <b-card bg-variant="secondary" text-variant="white" class="text-center">
                 <template v-slot:header>
-                    <h2><b-icon-clipboard/> Missions</h2>
+                    <h4>
+                        <b-icon-clipboard/>
+                        Missions
+                    </h4>
                 </template>
-                <b-card-text><h1>3</h1></b-card-text>
+                <b-card-text><h2>3</h2></b-card-text>
             </b-card>
             <b-card bg-variant="success" text-variant="white" class="text-center">
                 <template v-slot:header>
-                    <h2>
+                    <h4>
                         <b-icon-people/>
                         Users
-                    </h2>
+                    </h4>
                 </template>
-                <b-card-text><h1>32</h1></b-card-text>
+                <b-card-text><h2>32</h2></b-card-text>
             </b-card>
         </b-card-group>
-        <Status class="float-right"></Status>
-        <BarStatus class="float-right"></BarStatus>
+        <Status class="float-right w-25"></Status>
+        <BarStatus class="float-right w-25"></BarStatus>
     </b-jumbotron>
 </template>
 

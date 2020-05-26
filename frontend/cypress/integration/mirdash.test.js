@@ -139,6 +139,9 @@ context('Mirdash', () => {
         cy.get('#Robotname').type(robot.name);
         cy.get('#Address').type(robot.getAddr());
 
+        cy.get('#RUsername').type('admin');
+        cy.get('#RPassword').type('Password1.');
+
         cy.get('#Add-robot-submit').click();
 
         cy.get('body').then(b => {

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { requestService } from "./request.service";
+import {requestService} from "./request.service";
 
 export const robotService = {
     getAll,

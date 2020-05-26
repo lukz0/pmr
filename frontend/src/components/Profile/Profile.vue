@@ -1,11 +1,29 @@
 <template>
     <b-jumbotron class="mt-4">
-        <h3>Account</h3>
-        <p>First Name: {{profile.firstName}}</p>
-        <p>Last Name: {{profile.lastName}}</p>
-        <p>Username: {{profile.username}}</p>
-        <p>Role: {{profile.role}}</p>
-        <p>Edit user info, ask for new role</p>
+        <b-card-group deck>
+            <b-card>
+                <template slot="header">
+                    <h3>User account</h3>
+                </template>
+                <p class="card-text mt-2">
+                    <b-form-group label="Full name">
+                    <b-form-input :value="profile.firstName + ' ' + profile.lastName" trim disabled></b-form-input>
+                    </b-form-group>
+
+                    <b-form-group label="Username">
+                        <b-form-input :value="profile.username" trim disabled></b-form-input>
+                    </b-form-group>
+
+                    <b-form-group label="Role">
+                        <b-form-input :value="profile.role" trim disabled></b-form-input>
+                    </b-form-group>
+
+                    <b-button type="submit" variant="info" to="usermanager" class="mt-5 w-100">
+                        <b-icon-person-lines-fill/>
+                        Edit profile</b-button>
+                </p>
+            </b-card>
+        </b-card-group>
     </b-jumbotron>
 </template>
 

@@ -156,7 +156,7 @@ def mission_runner_func():
         item.set_aborted_callback(lambda: timer_semaphore.release())
         item.run()
         missionQueueDAO.running_i = item.id
-        aborted = timer_semaphore.acquire(timeout=10)
+        aborted = timer_semaphore.acquire(timeout=20)
         item.set_aborted_callback(None)
         if not aborted:
             item.done()

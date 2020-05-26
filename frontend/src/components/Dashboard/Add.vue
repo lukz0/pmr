@@ -1,7 +1,7 @@
 <template>
     <b-jumbotron class="mt-4">
-        <h1>Add new robot</h1>
-        <div>
+        <h2>Add new robot</h2>
+        <div class="w-auto">
             <b-form @submit.prevent="handleSubmit">
                 <b-form-group label="Hostname" label-for="Robotname">
                     <b-form-input
@@ -13,7 +13,7 @@
                 </b-form-group>
 
                 <b-form-group
-                        label="ip address or domain name"
+                        label="IP-address or domain name"
                         label-for="Address"
                         :description=description(robot.basePath)>
                     <b-form-input
@@ -43,7 +43,7 @@
                             type="password" />
                 </b-form-group>
 
-                <b-button type="submit" variant="primary" id="Add-robot-submit">Connect</b-button>
+                <b-button type="submit" variant="info" id="Add-robot-submit" class="w-100"><b-icon-plug/> Connect to robot</b-button>
             </b-form>
         </div>
     </b-jumbotron>
@@ -60,8 +60,8 @@
                 robot: {
                     guId: null,
                     basePath: '',
-                    username: "admin",
-                    password: "1q2w3e4R",
+                    username: '',
+                    password: '',
                     get token() {return btoa(`${this.username}:${sha256(this.password)}`)},
                     hostname: '',
                     isOnline: false

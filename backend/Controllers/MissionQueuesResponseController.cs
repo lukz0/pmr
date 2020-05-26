@@ -26,21 +26,21 @@ namespace backend.Controllers
         // GET: api/MissionQueuesResponse
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MissionQueuesResponse>>> GetMissionQueuesResponse()
-        {
-            return await _context.MissionQueuesResponse.Include(r => r.Robot).ToListAsync();
-        }
+        => await _context.MissionQueuesResponse.Include(r => r.Robot).ToListAsync();
+        
         
         // GET: api/MissionQueuesResponse/5
         [HttpGet("robot={id}")]
         public async Task<List<MissionQueuesResponse>> GetMissionQueuesResponseByRobot(int id)
         {
-            var responses =await  _context.MissionQueuesResponse.Where(r => r.RobotId==id).ToListAsync();
+            var responses = await _context.MissionQueuesResponse
+                .Where(r => r.RobotId == id)
+                .OrderByDescending(o => o.Id)
+                .ToListAsync();
             
-
             if (responses == null)
-            {
                 return null;
-            }
+            
 
             return responses;
         }
@@ -53,9 +53,7 @@ namespace backend.Controllers
             var missionQueuesResponse = await _context.MissionQueuesResponse.FindAsync(id);
 
             if (missionQueuesResponse == null)
-            {
                 return NotFound();
-            }
 
             return missionQueuesResponse;
         }
@@ -64,11 +62,8 @@ namespace backend.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMissionQueuesResponse(int id, MissionQueuesResponse missionQueuesResponse)
         {
-            if (id != missionQueuesResponse.Id)
-            {
-                return BadRequest();
-            }
-
+            if (id != missionQueuesResponse.Id) return BadRequest();
+            
             _context.Entry(missionQueuesResponse).State = EntityState.Modified;
 
             try
@@ -92,8 +87,7 @@ namespace backend.Controllers
         
 
         private bool MissionQueuesResponseExists(int id)
-        {
-            return _context.MissionQueuesResponse.Any(e => e.Id == id);
-        }
+        => _context.MissionQueuesResponse.Any(e => e.Id == id);
+        
     }
 }

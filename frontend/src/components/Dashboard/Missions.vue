@@ -1,42 +1,82 @@
 <template>
     <b-jumbotron class="mt-4">
-            <b-row>
-                <b-col>
-                    <b-dropdown id="dropdown-1" text="Select robot" class="m-md-2">
-                        <b-dropdown-item v-for="robot in robots.all.items" :key="robot.id" @click="select(robot)">{{robot.hostname}}</b-dropdown-item>
-                    </b-dropdown>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col cols="8">
-                    <h2>Missions</h2>
-                    <div v-if="currentRobot">
-                        <b-list-group v-for="m in missions.all.missionsList" :key="m.id">
-                            <div v-if="m.robotId === currentRobot.id">
-                                <b-list-group-item button>{{m.name}}</b-list-group-item>
-                                <b-button variant="primary" @click="addToQueue(m)">Add to queue</b-button>
-                            </div>
-                        </b-list-group>
-                    </div>
-                </b-col>
-                <b-col cols="4">
-                    <h2>Queue</h2>
-                    <div v-if="currentRobot">
-                        <b-list-group v-for="q in missionQueue.all.missionQueue" :key="q.id">
-                            <b-list-group-item button>{{q.url}}</b-list-group-item>
-                            <b-button variant="primary">{{q.state}}</b-button>
-                        </b-list-group>
-                    </div>
-                </b-col>
-            </b-row>
+
+        <b-row>
+            <b-dropdown id="dropdown-1" text="Select robot" class="m-md-2 w-100">
+                <b-dropdown-item
+                        class="w-100"
+                        v-for="robot in robots.all.items" :key="robot.id" @click="select(robot)">{{robot.hostname}}
+                </b-dropdown-item>
+            </b-dropdown>
+        </b-row>
+
+        <b-card-group deck v-if="currentRobot">
+            <b-card no-body>
+                <template v-slot:header>
+                    <h4 class="text-center">
+                        <b-icon-clipboard-data class="float-left"/>
+                        Missions on {{currentRobot.hostname}}
+                        <b-badge variant="success" class="float-right d-inline" v-if="currentRobot.isOnline">Online
+                        </b-badge>
+                        <b-badge variant="danger" class="float-right" v-if="!currentRobot.isOnline">Offline</b-badge>
+                    </h4>
+                </template>
+                <b-list-group flush v-for="m in missions.all.missionsList" :key="m.id">
+                    <b-list-group-item v-if="m.robotId === currentRobot.id">
+                        {{m.name}}
+                        <b-button variant="primary" class="float-right" @click="addToQueue(m)"
+                                  v-if="currentRobot.isOnline">Add +
+                        </b-button>
+                    </b-list-group-item>
+                </b-list-group>
+            </b-card>
+
+            <b-card no-body v-cloak>
+                <template v-slot:header>
+                    <h3 class="text-center">Queue</h3>
+                </template>
+                <div id="queue-list">
+                    <b-list-group flush v-for="q in missionQueue.all.missionQueue" :key="q.id" v-cloak>
+
+                        <b-list-group-item variant="primary" v-if="q.state === 'Done'">
+                            {{q.url}}
+                            <b-badge class="badge-dark float-right" title="State"> {{q.state}}
+                                <b-icon-check-all/>
+                            </b-badge>
+                        </b-list-group-item>
+
+                        <b-list-group-item variant="success" v-if="q.state === 'Running'">
+                            {{q.url}}
+                            <b-badge class="badge-info float-right" title="State"> {{q.state}} ..</b-badge>
+                            <b-spinner variant="success" class="float-left" type="grow" label="Spinning"/>
+                        </b-list-group-item>
+
+                        <b-list-group-item variant="warning" v-if="q.state === 'Pending'">
+                            {{q.url}}
+                            <b-badge class="badge-primary float-right" title="State"> {{q.state}} ..</b-badge>
+                            <b-spinner variant="success" class="float-left" label="Spinning"/>
+                        </b-list-group-item>
+
+                        <b-list-group-item variant="danger" v-if="q.state === 'Aborted'">
+                            {{q.url}}
+                            <b-badge class="badge-info float-right" title="State"> {{q.state}} ..</b-badge>
+                        </b-list-group-item>
+
+                    </b-list-group>
+                </div>
+            </b-card>
+        </b-card-group>
+
+
     </b-jumbotron>
 </template>
 
 <script>
-    import {mapState, mapActions} from 'vuex'
+    import {mapActions, mapState} from 'vuex'
+
     export default {
         name: "Missions",
-        data(){
+        data() {
             return {
                 currentRobot: null,
                 polling: null,
@@ -90,6 +130,39 @@
                 missionQueue: state => state.missionQueue,
                 robots: state => state.robots
             })
+        },
+        beforeDestroy() {
+            clearInterval(this.polling)
         }
     }
 </script>
+<style scoped>
+    .badge {
+        font-size: 14px;
+    }
+
+    .list-group {
+        margin-top: 0;
+    }
+
+    #queue-list {
+        max-height: 940px;
+        overflow-y: auto;
+    }
+    ::-webkit-scrollbar {
+        width: 15px;
+    }
+
+    ::-webkit-scrollbar-track {
+        border-radius: 0;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background:black;
+        border-radius: 0;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgb(54, 56, 58);
+    }
+</style>
