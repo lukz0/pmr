@@ -7,6 +7,7 @@ import Users from "../components/UserManager/Users";
 import AddRobot from "../components/Dashboard/Add";
 import Robots from "../components/Dashboard/Robots"
 
+import About from '../views/About';
 import Login from '../views/Login';
 import Notfound from "../views/Notfound";
 import Dashboard from "../views/Dashboard";
@@ -23,6 +24,10 @@ export const router = new Router({
     routes: [
         {
             path: '/login', component: Login, name: 'Authentication'
+        },
+        {
+            // Licenses and description
+            path: '/about', component: About, name: 'About'
         },
         {
             // Dashboard
@@ -64,7 +69,7 @@ export const router = new Router({
 
 router.beforeEach((to, from, next) => {
     // Redirect to login page if not logged in and trying to access a restricted page
-    const publicPages = ['/login'];
+    const publicPages = ['/login', '/about'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');
 
