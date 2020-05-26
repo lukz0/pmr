@@ -17,7 +17,7 @@
 
         <b-row align-v="center" v-if="!robots.status.isLoading" class="mt-1">
             <b-col md="4" v-for="robot in robots.all.items" :key="robot.id">
-                <b-card :img-src="loadPlaceholder(robot.hostname)" img-alt="Image" img-top class="mt-3">
+                <b-card :img-src="'/api/dummyimage/'+encodeURIComponent(robot.hostname)" img-alt="Image" img-top class="mt-3">
                     <div class="float-right">
                         <b-badge variant="success" class="float-right" v-if="robot.isOnline">Online</b-badge>
                         <b-badge variant="danger" class="float-right" v-if="!robot.isOnline">Offline</b-badge>

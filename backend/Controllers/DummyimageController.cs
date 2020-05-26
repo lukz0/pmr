@@ -14,19 +14,6 @@ namespace backend.Controllers
     [Route("api/[controller]")]
     public class DummyimageController : Controller
     {
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> Index(ImageRequest content)
-        {
-            Image img = await ImageUtils.GetImage(content.ImageText);
-            MemoryStream ms = new MemoryStream();
-            img.Save(ms, ImageFormat.Png);
-            var imgBytes = ms.ToArray();
-            img.Dispose();
-            ms.Dispose();
-            return File(imgBytes, "image/png");
-        }
-        
         [HttpGet("{text}")]
         [AllowAnonymous]
         public async Task<IActionResult> Index(string text) {
@@ -47,19 +34,38 @@ namespace backend.Controllers
     public static class ImageUtils
     {
         static Font _font = new Font(
-            FontFamily.GenericMonospace,
+            new FontFamily("Roboto"),
             300,
-            FontStyle.Bold,
+            FontStyle.Regular,
             GraphicsUnit.Pixel);
         public static async Task<Image> GetImage(string text)
         {
-            Image txtImage = await DrawText(text, _font, Color.DarkGreen, Color.Black);
+            Image txtImage = await DrawText(text, _font, Color.Cyan, Color.Black);
             Image img = new Bitmap(418, 150);
             Graphics drawing = Graphics.FromImage(img);
             Brush fillBrush = new SolidBrush(Color.Black);
-            
+
+            const decimal innerScale = (decimal) (418 - 10) / (decimal) (150 - 10);
+            decimal txtScale = (decimal) txtImage.Width / (decimal) txtImage.Height;
+
+            Rectangle r;
+            if (innerScale > txtScale)
+            {
+                decimal scaleDown = (decimal) 130 / (decimal) txtImage.Height;
+                decimal width = txtImage.Width * scaleDown;
+                decimal xOffset = ((decimal)398 - width) / (decimal)2;
+                r = new Rectangle(10+(int)xOffset, 10, (int)width, 130);
+            }
+            else
+            {
+                decimal scaleDown = (decimal) 398 / (decimal) txtImage.Width;
+                decimal height = txtImage.Height * scaleDown;
+                decimal yOffset = ((decimal) 130 - height) / (decimal) 2;
+                r = new Rectangle(10, 10+(int)yOffset, 398, (int)height);
+            }
+
             drawing.FillRegion(fillBrush, new Region(new Rectangle(0, 0, 418, 150)));
-            drawing.DrawImage(txtImage, new[] {new Point(10, 10), new Point(408, 10), new Point(10, 140)});
+            drawing.DrawImage(txtImage, r);
             drawing.Save();
             
             drawing.Dispose();
