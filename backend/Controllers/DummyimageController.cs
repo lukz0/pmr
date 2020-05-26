@@ -34,7 +34,7 @@ namespace backend.Controllers
     public static class ImageUtils
     {
         static Font _font = new Font(
-            new FontFamily("Roboto"),
+            new FontFamily($"Roboto, Arial, Liberation Sans, Verdana, Bitstream Vera Sans, {FontFamily.GenericSansSerif.Name}"),
             300,
             FontStyle.Regular,
             GraphicsUnit.Pixel);
