@@ -59,7 +59,8 @@ namespace backend.Controllers
                     {
                         httpClient.DefaultRequestHeaders.Authorization =
                             new AuthenticationHeaderValue("Basic", robot.Token);
-                        (await httpClient.PostAsync($"{robot.Hostname}/status", content)).Dispose();
+                        httpClient.PostAsync($"{robot.Hostname}/status", content)
+                            .ContinueWith(async res => (await res).Dispose());
                     }
                     catch (Exception e)
                     {
