@@ -1,5 +1,4 @@
 import { statusService } from "../services/status.service";
-import {router} from "../router";
 
 const state = {
     all: {}
@@ -19,7 +18,6 @@ const actions = {
         statusService.sendState(robotId, state_id)
             .then(
                 () => {
-                    router.push('/robots').catch(() => undefined);
                     dispatch('alert/success', 'Robot state put', { root: true });
                 },
                 error => {
