@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -11,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json.Serialization;
 
 namespace backend.Controllers
 {
@@ -44,14 +46,12 @@ namespace backend.Controllers
         [HttpPut("robotid={id}")]
         public async Task<IActionResult> PutStatusByRobot(int id, PutStatus putStatus)
         {
-            var robots = await _context.Robots.Where(r => r.Id == id).ToListAsync();
-
+            var responseBuilder = new StringBuilder();
             var httpClient = new HttpClient();
-
             var content = new StringContent($"{{\"state_id\": {putStatus.StateId}}}", Encoding.UTF8,
                 "application/json");
 
-            foreach (Robot robot in robots)
+            foreach (Robot robot in await _context.Robots.Where(r => r.Id == id).ToListAsync())
             {
                 if (robot.IsOnline)
                 {
@@ -64,12 +64,20 @@ namespace backend.Controllers
                     }
                     catch (Exception e)
                     {
-                        await Console.Error.WriteAsync(e.ToString());
+                        string eStr = e.ToString();
+                        responseBuilder.AppendLine(eStr);
+                        await Console.Error.WriteAsync(eStr);
                     }
                 }
             }
+            
             httpClient.Dispose();
             content.Dispose();
+            string response = responseBuilder.ToString();
+            if (response.Length == 0)
+            {
+                return StatusCode(500, response);
+            }
             return NoContent();
         }
         
