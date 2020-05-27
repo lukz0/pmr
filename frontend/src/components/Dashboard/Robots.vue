@@ -28,7 +28,7 @@
                     </b-card-text>
                     <template v-slot:footer>
                         <!-- just use onClick here -->
-                        <b-button class="btn-warning w-100">Remove robot</b-button>
+                        <b-button class="btn-warning w-100" @click="handleRobotRemoval(robot.id)">Remove robot</b-button>
                     </template>
                 </b-card>
             </b-col>
@@ -52,7 +52,8 @@
         },
         methods: {
             ...mapActions('robots', {
-                getAll: 'getAll'
+                getAll: 'getAll',
+                removeRobot: 'remove'
             }),
             loadPlaceholder(text){
                 return 'https://dummyimage.com/418x150/000/518c8b?text='+text
@@ -61,6 +62,9 @@
                 this.polling = setInterval(() => {
                     this.$store.dispatch('robots/getAll')
                 }, 1000)
+            },
+            handleRobotRemoval(robotId) {
+                this.removeRobot(robotId);
             }
         },
         computed: {

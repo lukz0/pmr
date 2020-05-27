@@ -6,7 +6,7 @@ const state = {
 };
 
 const actions = {
-    getAll({commit}) {
+    getAll({ commit }) {
         commit('getAllRequest');
 
         robotService.getAll()
@@ -15,7 +15,7 @@ const actions = {
                 error => commit('getAllFailure', error)
             )
     },
-    add({dispatch, commit}, robot) {
+    add({ dispatch, commit }, robot) {
         commit('addRequest');
 
         robotService.add(robot)
@@ -23,11 +23,24 @@ const actions = {
                 router.push('/robots');
                 dispatch('alert/success', 'The robot was added successful ', { root: true });
             },
-            error => {
-                dispatch('alert/error', error, { root: true });
-            });
+                error => {
+                    dispatch('alert/error', error, { root: true });
+                }
+            );
+    },
+    remove({ dispatch }, robotId) {
+        robotService.deleteWithId(robotId)
+            .then(
+                () => {
+                    router.push('/robots').catch(() => undefined);
+                    dispatch('alert/success', 'Robot removed', { root: true });
+                },
+                error => {
+                    dispatch('alert/error', error, { root: true });
+                }
+            );
     }
-}
+};
 
 const mutations = {
     getAllRequest(state) {
