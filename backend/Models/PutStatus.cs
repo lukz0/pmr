@@ -4,7 +4,7 @@ namespace backend.Models
 {
     public class PutStatus
     {
-        [JsonPropertyName("status_id")]
+        [JsonPropertyName("state_id")]
         public int StateId { get; set; }
     }
 }

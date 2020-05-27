@@ -51,7 +51,7 @@ namespace backend.Controllers
             var content = new StringContent($"{{\"state_id\": {putStatus.StateId}}}", Encoding.UTF8,
                 "application/json");
 
-            foreach (Robot robot in await _context.Robots.Where(r => r.Id == id).ToListAsync())
+            foreach (Robot robot in _context.Robots.Where(r => r.Id == id))
             {
                 if (robot.IsOnline)
                 {
@@ -59,7 +59,7 @@ namespace backend.Controllers
                     {
                         httpClient.DefaultRequestHeaders.Authorization =
                             new AuthenticationHeaderValue("Basic", robot.Token);
-                        httpClient.PostAsync($"{robot.Hostname}/status", content)
+                        httpClient.PostAsync($"{robot.BasePath}/status", content)
                             .ContinueWith(async res => (await res).Dispose());
                     }
                     catch (Exception e)

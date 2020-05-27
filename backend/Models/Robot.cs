@@ -13,5 +13,8 @@ namespace backend.Models
         public string Hostname { get; set; }
         public string Token { get; set; }
         public bool IsOnline { get; set; }
+        
+        [JsonPropertyName("state_id")]
+        public string StateText { get; set; }
     }
 }
