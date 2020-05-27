@@ -67,7 +67,7 @@ class MissionQueueItem:
         return str(self.__class__) + ': ' + str(self.__dict__)
 
     def __lt__(self, other):
-        return self.priority > other.priority if self.priority != other.priority else self.id > other.id
+        return self.priority > other.priority if self.priority != other.priority else self.id < other.id
 
     def stop(self):
         if self.state in [state_pending[0], state_running[0]]:
