@@ -156,25 +156,58 @@ namespace backend.Services
                     var status = await JsonSerializer.DeserializeAsync<Status>(responseStream, _options);
 
                     status.RobotId = host.Id;
-                    var isAvalible = db.Statuses.Any(s => s.SerialNumber.Equals(status.SerialNumber));
+                    host.StateText = status.StateText;
+                    host.Hostname = status.RobotName;
+                    host.IsOnline = true;
+                    
+                    /*var isAvalible = db.Statuses.Any(s => s.SerialNumber.Equals(status.SerialNumber));
                     if (isAvalible)
                     {
                         var currentStatus = db.Statuses.First(s => s.SerialNumber.Equals(status.SerialNumber));
-
-                        status.StateText = currentStatus.StateText;
-                        host.StateText = currentStatus.StateText;
-                        _logger.Log(LogLevel.Information, $"StateText : {currentStatus.Id} : {currentStatus.StateText}");
+                        
                         status.Id = currentStatus.Id;
-                        host.Hostname = status.RobotName;
                         db.Statuses.Update(status);
-                        db.SaveChanges();
+                        await db.SaveChangesAsync();
                         return;
                     }
 
                     db.Statuses.Add(status);
                     host.IsOnline = true;
                     db.Robots.Update(host);
-                    db.SaveChanges();
+                    db.SaveChanges();*/
+                    try
+                    {
+                        var previousStatus = db.Statuses.First(s => s.SerialNumber.Equals(status.SerialNumber));
+                        previousStatus.Errors = status.Errors;
+                        previousStatus.Footprint = status.Footprint;
+                        previousStatus.Moved = status.Moved;
+                        previousStatus.Position = status.Position;
+                        previousStatus.Uptime = status.Uptime;
+                        previousStatus.Velocity = status.Velocity;
+                        previousStatus.BatteryPercentage = status.BatteryPercentage;
+                        previousStatus.BatteryTimeRemaining = status.BatteryTimeRemaining;
+                        previousStatus.MapId = status.MapId;
+                        previousStatus.MissionText = status.MissionText;
+                        previousStatus.ModeId = status.ModeId;
+                        previousStatus.ModeText = status.ModeText;
+                        previousStatus.RobotModel = status.RobotModel;
+                        previousStatus.RobotName = status.RobotName;
+                        previousStatus.StateId = status.StateId;
+                        previousStatus.SessionId = status.SessionId;
+                        previousStatus.StateText = status.StateText;
+                        previousStatus.UserPrompt = status.UserPrompt;
+                        previousStatus.MissionQueueId = status.MissionQueueId;
+                        previousStatus.MissionQueueUrl = status.MissionQueueUrl;
+                        previousStatus.DistanceToNextTarget = status.DistanceToNextTarget;
+                        db.Update(previousStatus);
+                    }
+                    catch (InvalidOperationException) // No status yet
+                    {
+                        db.Statuses.Add(status);
+                    }
+
+                    db.Robots.Update(host);
+                    await db.SaveChangesAsync();
                 }
             }
             catch (Exception e)
