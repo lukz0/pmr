@@ -163,6 +163,7 @@ namespace backend.Services
 
                         status.StateText = currentStatus.StateText;
                         host.StateText = currentStatus.StateText;
+                        _logger.Log(LogLevel.Information, $"StateText : {currentStatus.Id} : {currentStatus.StateText}");
                         status.Id = currentStatus.Id;
                         host.Hostname = status.RobotName;
                         db.Statuses.Update(status);
