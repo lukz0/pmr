@@ -183,4 +183,4 @@ class Status(Resource):
     @api.expect(putStatus_model)
     def put(self):
         putHandler(api.payload)
-        return generate_status()
+        return generate_status(), 201

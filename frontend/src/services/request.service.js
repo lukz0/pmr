@@ -19,7 +19,7 @@ function handleResponse(response, error) {
             logout();
             location.reload(true);
         }
-        return Promise.reject(response.data.message || `${response.statusText}: ${error.message}`);
+        return Promise.reject(response.data.message || `${response.statusText}-${error.message}: ${response.data}`);
     } else {
         return Promise.resolve(response.data);
     }

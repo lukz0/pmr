@@ -51,16 +51,23 @@ namespace backend.Controllers
             var content = new StringContent($"{{\"state_id\": {putStatus.StateId}}}", Encoding.UTF8,
                 "application/json");
 
+            Console.Out.WriteLine($"\n\n\n\n{putStatus.StateId}\n\n\n\n");
+            
+            int robotCount = 0;
             foreach (Robot robot in _context.Robots.Where(r => r.Id == id))
             {
+                robotCount++;
                 if (robot.IsOnline)
                 {
                     try
                     {
                         httpClient.DefaultRequestHeaders.Authorization =
                             new AuthenticationHeaderValue("Basic", robot.Token);
-                        httpClient.PostAsync($"{robot.BasePath}/status", content)
-                            .ContinueWith(async res => (await res).Dispose());
+                        var res = await httpClient.PutAsync($"{robot.BasePath}/status", content);
+                        if (res.StatusCode != HttpStatusCode.Created)
+                        {
+                            responseBuilder.AppendLine($"Robot responded with status: {res.StatusCode}");
+                        }
                     }
                     catch (Exception e)
                     {
@@ -69,12 +76,20 @@ namespace backend.Controllers
                         await Console.Error.WriteAsync(eStr);
                     }
                 }
+                else
+                {
+                    responseBuilder.AppendLine($"Robot with this id is offline");
+                }
             }
             
             httpClient.Dispose();
             content.Dispose();
             string response = responseBuilder.ToString();
-            if (response.Length == 0)
+            if (robotCount == 0)
+            {
+                return NotFound();
+            }
+            if (response.Length != 0)
             {
                 return StatusCode(500, response);
             }
@@ -93,36 +108,6 @@ namespace backend.Controllers
             }
 
             return status;
-        }
-
-        // PUT: api/Status/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutStatus(int id, Status status)
-        {
-            if (id != status.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(status).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StatusExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
         // POST: api/Status

@@ -28,6 +28,8 @@
                         <b :id="`Robotaddress-${robot.hostname}`">IP-address:</b> <br>{{robot.basePath}}
                     </b-card-text>
                     <template v-slot:footer>
+                        <b-button class="btn-warning w-100" @click="handleRobotPause(robot.id)">Pause robot</b-button>
+                        <b-button class="btn-warning w-100" @click="handleRobotUnpause(robot.id)">Unpause robot</b-button>
                         <b-button class="btn-warning w-100" @click="handleRobotRemoval(robot.id)">Remove robot</b-button>
                     </template>
                 </b-card>
@@ -55,6 +57,9 @@
                 getAll: 'getAll',
                 removeRobot: 'remove'
             }),
+            ...mapActions('status', {
+                sendState: 'sendState'
+            }),
             loadPlaceholder(text){
                 return 'https://dummyimage.com/418x150/000/518c8b?text='+text
             },
@@ -65,6 +70,12 @@
             },
             handleRobotRemoval(robotId) {
                 this.removeRobot(robotId);
+            },
+            handleRobotPause(robotId) {
+                this.sendState({robotId:robotId, state_id:4});
+            },
+            handleRobotUnpause(robotId) {
+                this.sendState({robotId:robotId, state_id:3});
             }
         },
         computed: {

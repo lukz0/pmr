@@ -2,7 +2,8 @@ import axios from 'axios'
 import { requestService } from "./request.service";
 
 export const statusService = {
-    getByRobotId
+    getByRobotId,
+    sendState
 }
 
 // Get all missions
@@ -17,3 +18,9 @@ function getAllStates() {
 }
 
 window.getAllStates = getAllStates;
+
+function sendState(robotId, state_id) {
+    console.log("State id:", state_id, robotId)
+    return axios.put(`/status/robotid=${robotId}`, {state_id:state_id})
+        .then(r => requestService.handleResponse(r, null), e => requestService.handleResponse(e.response, e));
+}

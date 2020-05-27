@@ -299,7 +299,7 @@ namespace backend.Services
             robot.StateText = "Offline";
             db.Update(robot);
             db.SaveChanges();
-            _logger.LogCritical("The Robot may be is offline: " + host.BasePath);
+            //_logger.LogCritical("The Robot may be is offline: " + host.BasePath);
         }
 
         private static HttpRequestMessage HttpRequestMessage(Robot host, string path)
