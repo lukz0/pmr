@@ -154,6 +154,7 @@ namespace backend.Services
                     {
                         var currentStatus = db.Statuses.First(s => s.SerialNumber.Equals(status.SerialNumber));
 
+                        host.StateText = currentStatus.StateText;
                         status.Id = currentStatus.Id;
                         host.Hostname = status.RobotName;
                         db.Statuses.Update(status);
@@ -253,6 +254,7 @@ namespace backend.Services
         {
             var robot = db.Robots.Find(host.Id);
             robot.IsOnline = false;
+            robot.StateText = "Offline";
             db.Update(robot);
             db.SaveChanges();
             _logger.LogCritical("The Robot may be is offline: " + host.BasePath);
