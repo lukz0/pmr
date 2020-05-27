@@ -9,6 +9,7 @@ from models.statistics import *
 class Mainvars:
     def __init__(self):
         if "mainvars" not in globals():
+            self.state_id = 3
             self.robotname = input("Enter robot name: ")
             while True:
                 try:
@@ -19,6 +20,7 @@ class Mainvars:
         else:
             self.robotname = globals().get("mainvars").robotname
             self.port = globals().get("mainvars").port
+            self.state_id = globals().get("mainvars").state_id
 
 
 mainvars = Mainvars()

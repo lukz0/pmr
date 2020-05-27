@@ -80,6 +80,20 @@ status_model = api.model('status', {
     'velocity': fields.Nested(velocity_model)
 })
 
+putStatus_model = api.model('status', {
+    'answer': fields.String(required=False, min_length=1, max_length=255),
+    'clear_error': fields.Boolean(required=False),
+    'datetime': fields.DateTime(required=False),
+    'guid': fields.String(required=False),
+    'map_id': fields.String(required=False),
+    'mode_id': fields.Integer(required=False),
+    'name': fields.String(required=False, min_length=1, max_length=20),
+    'position': fields.Raw(required=False),
+    'serial_number': fields.String(required=False),
+    'state_id': fields.Integer(required=False),  # 3 = Ready, 4 = Pause, 11 = Manualcontrol
+    'web_session_id': fields.String(required=False)
+})
+
 starttime = datetime.datetime.now()
 serial = None
 
@@ -126,8 +140,8 @@ def generate_status():
         "robot_name": mainvars.robotname,
         "serial_number": get_serial(),
         "session_id": "bcf29362-4f7d-11e8-a97a-94c69118fd1e",
-        "state_id": 3,
-        "state_text": "Ready",
+        "state_id": mainvars.state_id,
+        "state_text": "Ready" if mainvars.state_id == 3 else "Pause",
         "unloaded_map_changes": False,
         "uptime": get_uptime(),
         "user_prompt": {
@@ -143,6 +157,12 @@ def generate_status():
         }
     }
 
+def putHandler(data):
+    if 'name' in data:
+        mainvars.robotname = data['name']
+    if 'state_id' in data:
+        mainvars.state_id = data['state_id']
+
 
 # -----------------------------------------------------------
 # GET status /
@@ -156,4 +176,11 @@ class Status(Resource):
     @auth_required
     @api.marshal_with(status_model)
     def get(self):
+        return generate_status()
+
+    @auth_required
+    @api.marshal_with(status_model)
+    @api.expect(putStatus_model)
+    def put(self):
+        putHandler(api.payload)
         return generate_status()
