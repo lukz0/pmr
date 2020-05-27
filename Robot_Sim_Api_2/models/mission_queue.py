@@ -2,6 +2,7 @@ from models.mission import *
 from threading import Semaphore, Thread
 from ThreadedHeap import ThreadedHeap
 from datetime import datetime
+from main import mainvars
 
 getMissionQueues_model = api.model('GetMissionQueue', {
     'id': fields.Integer,
@@ -148,6 +149,9 @@ missionQueueDAO = MissionQueueDAOClass()
 def mission_runner_func():
     timer_semaphore = Semaphore(value=0)
     while True:
+        if mainvars.state_id == 4:
+            mainvars.unpause_mutex.acquire()
+            mainvars.unpause_mutex.release()
         item = missionQueueDAO.pending_queue.heappop()
         if item is None:
             break

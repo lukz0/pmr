@@ -161,6 +161,16 @@ def putHandler(data):
     if 'name' in data:
         mainvars.robotname = data['name']
     if 'state_id' in data:
+        state_id = data['state_id'];
+        if state_id == 3 and mainvars.state_id != 3:
+            mainvars.state_id = 3
+            try:
+                mainvars.unpause_mutex.release()
+            except RuntimeError:
+                pass
+        elif mainvars.state_id != 4:
+            mainvars.state_id = 4
+            mainvars.unpause_mutex.acquire(blocking=False)
         mainvars.state_id = data['state_id']
 
 

@@ -4,12 +4,15 @@ from models.registers import *
 from models.mission import *
 from models.mission_queue import *
 from models.statistics import *
+import threading
 
 
 class Mainvars:
     def __init__(self):
         if "mainvars" not in globals():
-            self.state_id = 3
+            self.unpause_mutex = threading.Lock()
+            self.unpause_mutex.acquire()
+            self.state_id = 4
             self.robotname = input("Enter robot name: ")
             while True:
                 try:
@@ -21,6 +24,7 @@ class Mainvars:
             self.robotname = globals().get("mainvars").robotname
             self.port = globals().get("mainvars").port
             self.state_id = globals().get("mainvars").state_id
+            self.unpause_mutex = globals().get("mainvars").unpause_mutex
 
 
 mainvars = Mainvars()
