@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +38,38 @@ namespace backend.Controllers
         {
             var status = _context.Statuses.Where(r => r.RobotId == id).ToList();
             return status;
+        }
+        
+        // PUT: api/Status/5
+        [HttpPut("robotid={id}")]
+        public async Task<IActionResult> PutStatusByRobot(int id, PutStatus putStatus)
+        {
+            var robots = await _context.Robots.Where(r => r.Id == id).ToListAsync();
+
+            var httpClient = new HttpClient();
+
+            var content = new StringContent($"{{\"state_id\": {putStatus.StateId}}}", Encoding.UTF8,
+                "application/json");
+
+            foreach (Robot robot in robots)
+            {
+                if (robot.IsOnline)
+                {
+                    try
+                    {
+                        httpClient.DefaultRequestHeaders.Authorization =
+                            new AuthenticationHeaderValue("Basic", robot.Token);
+                        (await httpClient.PostAsync($"{robot.Hostname}/status", content)).Dispose();
+                    }
+                    catch (Exception e)
+                    {
+                        await Console.Error.WriteAsync(e.ToString());
+                    }
+                }
+            }
+            httpClient.Dispose();
+            content.Dispose();
+            return NoContent();
         }
         
         // GET: api/Status/5
