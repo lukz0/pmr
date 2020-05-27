@@ -16,7 +16,6 @@ const actions = {
             )
     },
     sendState({dispatch}, {robotId, state_id}) {
-        console.log("state id sendstate:", state_id);
         statusService.sendState(robotId, state_id)
             .then(
                 () => {

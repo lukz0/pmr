@@ -28,9 +28,9 @@
                         <b :id="`Robotaddress-${robot.hostname}`">IP-address:</b> <br>{{robot.basePath}}
                     </b-card-text>
                     <template v-slot:footer>
-                        <b-button class="btn-warning w-100" @click="handleRobotPause(robot.id)">Pause robot</b-button>
-                        <b-button class="btn-warning w-100" @click="handleRobotUnpause(robot.id)">Unpause robot</b-button>
-                        <b-button class="btn-warning w-100" @click="handleRobotRemoval(robot.id)">Remove robot</b-button>
+                        <b-button variant="success" class="w-100" @click="handleRobotUnpause(robot.id)">Unpause robot</b-button>
+                        <b-button variant="warning" class="w-100 my-2" @click="handleRobotPause(robot.id)">Pause robot</b-button>
+                        <b-button variant="danger" class="w-100" @click="handleRobotRemoval(robot.id)">Remove robot</b-button>
                     </template>
                 </b-card>
             </b-col>
@@ -92,10 +92,5 @@
     .badge{
         font-size: 14px;
         width: 95px;
-    }
-    .btn-warning{
-        color: #ffffff;
-        background-color: #c3beb8;
-        border-color: #bab39e;
     }
 </style>
