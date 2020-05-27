@@ -51,8 +51,6 @@ namespace backend.Controllers
             var content = new StringContent($"{{\"state_id\": {putStatus.StateId}}}", Encoding.UTF8,
                 "application/json");
 
-            Console.Out.WriteLine($"\n\n\n\n{putStatus.StateId}\n\n\n\n");
-            
             int robotCount = 0;
             foreach (Robot robot in _context.Robots.Where(r => r.Id == id))
             {
