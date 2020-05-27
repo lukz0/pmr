@@ -19,15 +19,15 @@
             <b-col md="4" v-for="robot in robots.all.items" :key="robot.id">
                 <b-card :img-src="'/api/dummyimage/'+encodeURIComponent(robot.hostname)" img-alt="Image" img-top class="mt-3">
                     <div class="float-right">
-                        <b-badge variant="success" class="float-right" v-if="robot.isOnline">Online</b-badge>
-                        <b-badge variant="danger" class="float-right" v-if="!robot.isOnline">Offline</b-badge>
+                        <b-badge :variant="robot.state_text==='Offline' ? 'danger' : robot.state_text==='Ready' ? 'success' : 'warning'" class="float-right" style="display:block;">{{robot.state_text || 'Unknown'}}</b-badge>
+                        <!--<b-badge variant="success" class="float-right" v-if="robot.isOnline">Online</b-badge>
+                        <b-badge variant="danger" class="float-right" v-if="robot.state_text=='Offline'">Offline</b-badge>-->
                     </div>
                     <b-card-text>
                         <b :id="`Robotname-${robot.hostname}`">Hostname: </b><br> {{robot.hostname}}<br><br>
                         <b :id="`Robotaddress-${robot.hostname}`">IP-address:</b> <br>{{robot.basePath}}
                     </b-card-text>
                     <template v-slot:footer>
-                        <!-- just use onClick here -->
                         <b-button class="btn-warning w-100" @click="handleRobotRemoval(robot.id)">Remove robot</b-button>
                     </template>
                 </b-card>

@@ -12,6 +12,7 @@ function getAll() {
     return axios.get(`/robots`)
         .then(r => requestService.handleResponse(r, null), e => requestService.handleResponse(e.response, e))
 }
+window.getAll = getAll;
 // Register new robot
 function add(robot) {
     return axios.post(`/robots`, robot)

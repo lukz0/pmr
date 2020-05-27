@@ -76,10 +76,17 @@ namespace backend.Services
                 db = Services.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 foreach (var host in Hosts)
                 {
-                    await LoadMissions(host, db);
-                    await LoadStatus(host, db);
-                    await PostToQueue(host, db);
-                    await GetQueue(host, db);
+                    try
+                    {
+                        await LoadMissions(host, db);
+                        await LoadStatus(host, db);
+                        await PostToQueue(host, db);
+                        await GetQueue(host, db);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.LogError(e, "Exception at Services.RobotService.BackgroundWork");
+                    }
                 }
             }
             catch (Exception e)
@@ -154,6 +161,7 @@ namespace backend.Services
                     {
                         var currentStatus = db.Statuses.First(s => s.SerialNumber.Equals(status.SerialNumber));
 
+                        status.StateText = currentStatus.StateText;
                         host.StateText = currentStatus.StateText;
                         status.Id = currentStatus.Id;
                         host.Hostname = status.RobotName;

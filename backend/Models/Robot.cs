@@ -14,7 +14,7 @@ namespace backend.Models
         public string Token { get; set; }
         public bool IsOnline { get; set; }
         
-        [JsonPropertyName("state_id")]
+        [JsonPropertyName("state_text")]
         public string StateText { get; set; }
     }
 }
