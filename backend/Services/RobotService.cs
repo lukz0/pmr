@@ -266,14 +266,23 @@ namespace backend.Services
                     foreach (var queuesResponse in response)
                     {
                         queuesResponse.RobotId = host.Id;
-                        var isAvailable = db.MissionQueuesResponse.Any(s => s.Id.Equals(queuesResponse.Id));
+                        var isAvailable = db.MissionQueuesResponse
+                            .Where(s => s.Id.Equals(queuesResponse.Id))
+                            .Any(s => s.RobotId.Equals(host.Id));
 
                         if (isAvailable)
-                            db.MissionQueuesResponse.Update(queuesResponse);
+                            db.MissionQueuesResponse.Update(new MissionQueuesResponse{
+                                Id = queuesResponse.Id,
+                                Robot = host,
+                                RobotId = host.Id,
+                                State = queuesResponse.State,
+                                Url = queuesResponse.Url
+                            });
                         else
                         {
                             var missq = new MissionQueuesResponse
                             {
+                                Id = queuesResponse.Id,
                                 Robot = host,
                                 RobotId = host.Id,
                                 State = queuesResponse.State,

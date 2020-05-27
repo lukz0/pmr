@@ -23,6 +23,13 @@ namespace backend.Data
         
         // From robot to frontend
         public DbSet<MissionQueuesResponse> MissionQueuesResponse { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<MissionQueuesResponse>()
+                .HasKey(mqr => new {mqr.Id, mqr.RobotId});
+            base.OnModelCreating(builder);
+        }
+
         public DbSet<Status> Statuses { get; set; }
     }
 }
