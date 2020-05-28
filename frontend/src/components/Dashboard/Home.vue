@@ -32,7 +32,7 @@
         </b-card-text>
       </b-card>
     </b-card-group>
-    <BarStatus class="w-25"></BarStatus>
+    <BarStatus class="w-25 mt-3"></BarStatus>
   </b-jumbotron>
 </template>
 

@@ -1,15 +1,17 @@
 <template>
-  <div>
-    <div class="small">
       <bar-chart :chart-data="datacollection" :options="optionscollection"></bar-chart>
-    </div>
-  </div>
 </template>
 
 <script>
 import BarChart from "./BarChart";
 //import DistanceChart from "./DistanceChart";
 import { mapActions, mapState } from "vuex";
+
+const colorVal = () => {
+    return Math.floor(Math.random()*256);
+}
+const generateColor = () =>
+    `rgb(${colorVal()},${colorVal()},${colorVal()})`;
 
 export default {
   name: "BarStatus",
@@ -51,26 +53,11 @@ export default {
     datacollection: function() {
       return {
         labels: ["Battery %"],
-        datasets: (this.statuses || []).map((status, i) => {
+        datasets: (this.statuses || []).map(status => {
           return {
             label: status.robot_name,
-            backgroundColor: i % 2 === 0 ? "#996666" : "#666699",
+            backgroundColor: generateColor(),
             data: [status.battery_percentage]
-          };
-        })
-      };
-    },
-    positioncollection: function() {
-      return {
-        labels: ["Position"],
-        datasets: (this.statuses || []).map((status, i) => {
-          return {
-            label: status.robot_name,
-            backgroundColor: i % 2 === 0 ? "#996666" : "#666699",
-            data: [
-              { x: "x", y: status.position.x },
-              { x: "y", y: status.position.y }
-            ]
           };
         })
       };
