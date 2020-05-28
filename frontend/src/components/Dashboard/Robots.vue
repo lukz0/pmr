@@ -28,9 +28,9 @@
                         <b :id="`Robotaddress-${robot.hostname}`">IP-address:</b> <br>{{robot.basePath}}
                     </b-card-text>
                     <template v-slot:footer>
-                        <b-button variant="success" class="w-100" @click="handleRobotUnpause(robot.id)">Unpause robot</b-button>
-                        <b-button variant="warning" class="w-100 my-2" @click="handleRobotPause(robot.id)">Pause robot</b-button>
-                        <b-button variant="danger" class="w-100" @click="handleRobotRemoval(robot.id)">Remove robot</b-button>
+                        <b-button variant="success" class="w-100" @click="handleRobotUnpause(robot.id)" v-if="robot.state_text!='Offline'">Resume</b-button>
+                        <b-button variant="warning" class="w-100 my-2" @click="handleRobotPause(robot.id)" v-if="robot.state_text!=='Offline'">Pause</b-button>
+                        <b-button variant="danger" class="w-100" @click="handleRobotRemoval(robot.id)">Remove</b-button>
                     </template>
                 </b-card>
             </b-col>

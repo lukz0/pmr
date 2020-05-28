@@ -29,8 +29,8 @@
             <b-badge variant="danger" class="float-right" v-if="!currentRobot.isOnline">Offline</b-badge>-->
           </h4>
         </template>
-        <b-button variant="success" class="w-100" @click="unpauseHandler">Unpause robot</b-button>
-        <b-button variant="warning" class="w-100 my-2" @click="pauseHandler">Pause robot</b-button>
+        <b-button variant="success" class="w-100" @click="unpauseHandler" v-if="robot.state_text!='Offline'">Unpause</b-button>
+        <b-button variant="warning" class="w-100 my-2" @click="pauseHandler" v-if="robot.state_text!='Offline'">Pause</b-button>
         <b-list-group flush v-for="m in missions.all.missionsList" :key="m.id">
           <b-list-group-item v-if="m.robotId === currentRobot.id">
             {{m.name}}
