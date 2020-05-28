@@ -3,7 +3,8 @@ import { requestService } from "./request.service";
 
 export const statusService = {
     getByRobotId,
-    sendState
+    sendState,
+    getAllStates
 }
 
 // Get all missions

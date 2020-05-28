@@ -2,7 +2,6 @@
     <div>
         <div class="small">
             <line-chart :chart-data="datacollection"></line-chart>
-            <button @click="fillData()">Randomize</button>
         </div>
     </div>
 </template>
@@ -17,14 +16,17 @@
         },
         data() {
             return {
-                datacollection: null
+                datacollection: {
+                    labels: [],
+                    datasets: []
+                }
             }
         },
         mounted() {
-            this.fillData()
+            //this.fillData()
         },
         methods: {
-            fillData() {
+            /*fillData() {
                 this.datacollection = {
                     labels: [1, 2, 3, 4],
                     datasets: [
@@ -47,7 +49,7 @@
             },
             getRandomInt() {
                 return Math.floor(Math.random() * (50 - 5 + 1)) + 5
-            }
+            }*/
         }
     }
 </script>

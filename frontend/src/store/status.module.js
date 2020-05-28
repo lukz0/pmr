@@ -5,7 +5,7 @@ const state = {
 };
 
 const actions = {
-    getByRobotId({commit}, id) {
+    getByRobotId({ commit }, id) {
         commit('getAllRequest');
 
         statusService.getByRobotId(id)
@@ -14,7 +14,7 @@ const actions = {
                 error => commit('getAllFailure', error)
             )
     },
-    sendState({dispatch}, {robotId, state_id}) {
+    sendState({ dispatch }, { robotId, state_id }) {
         statusService.sendState(robotId, state_id)
             .then(
                 () => {
@@ -23,6 +23,13 @@ const actions = {
                 error => {
                     dispatch('alert/error', error, { root: true });
                 }
+            );
+    },
+    getAll({ commit }) {
+        statusService.getAllStates()
+            .then(
+                states => { commit('getAllSuccess', states) },
+                error => { commit('getAllFailure', error) }
             );
     }
 }

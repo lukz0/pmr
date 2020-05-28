@@ -1,38 +1,22 @@
 <template>
   <div>
     <div class="small">
-      <bar-chart :chart-data="datacollection" :options="optionscollection"></bar-chart>
+      <distance-chart :chart-data="datacollection"></distance-chart>
     </div>
   </div>
 </template>
 
 <script>
-import BarChart from "./BarChart";
-//import DistanceChart from "./DistanceChart";
+import DistanceChart from "./DistanceChart";
 import { mapActions, mapState } from "vuex";
 
 export default {
-  name: "BarStatus",
+  name: "DistanceStatus",
   components: {
-    BarChart
+    DistanceChart
   },
   data() {
     return {
-      optionscollection: {
-        scales: {
-          yAxes: [
-            {
-              display: true,
-              ticks: {
-                beginAtZero: true,
-                steps: 10,
-                stepValue: 10,
-                max: 100
-              }
-            }
-          ]
-        }
-      }
     };
   },
   mounted() {
@@ -49,18 +33,6 @@ export default {
       statuses: state => state.status.all.items
     }),
     datacollection: function() {
-      return {
-        labels: ["Battery %"],
-        datasets: (this.statuses || []).map((status, i) => {
-          return {
-            label: status.robot_name,
-            backgroundColor: i % 2 === 0 ? "#996666" : "#666699",
-            data: [status.battery_percentage]
-          };
-        })
-      };
-    },
-    positioncollection: function() {
       return {
         labels: ["Position"],
         datasets: (this.statuses || []).map((status, i) => {
