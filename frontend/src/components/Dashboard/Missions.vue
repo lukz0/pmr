@@ -15,31 +15,35 @@
       <b-card no-body>
         <template v-slot:header>
           <h4 class="text-center">
-            <b-icon-clipboard-data class="float-left" />
+            <b-icon-clipboard-data class="float-left"/>
             Missions on {{currentRobot.hostname}}
             <b-badge
-              :variant="currentRobotState==='Offline' ? 'danger' : currentRobotState==='Ready' ? 'success' : 'warning'"
-              class="float-right d-inline"
-            >{{currentRobotState || 'Unknown'}}</b-badge>
-            <!--<b-badge
-              variant="success"
-              class="float-right d-inline"
-              v-if="currentRobot.isOnline"
-            >Online</b-badge>
-            <b-badge variant="danger" class="float-right" v-if="!currentRobot.isOnline">Offline</b-badge>-->
+                    :variant="currentRobotState === 'Offline' ? 'danger' : currentRobotState === 'Ready' ? 'success' : 'warning'"
+                    class="float-right d-inline"
+            >{{currentRobotState || 'Unknown'}}
+            </b-badge>
           </h4>
         </template>
-        <b-button variant="success" class="w-100" @click="unpauseHandler" v-if="currentRobot.state_text!='Offline'">Unpause</b-button>
-        <b-button variant="warning" class="w-100 my-2" @click="pauseHandler" v-if="currentRobot.state_text!='Offline'">Pause</b-button>
+        <b-button variant="success" class="w-100"
+                  @click="unpauseHandler"
+                  v-if="currentRobot.state_text!='Offline'">
+          Resume
+        </b-button>
+        <b-button variant="warning" class="w-100 my-2"
+                  @click="pauseHandler"
+                  v-if="currentRobot.state_text!='Offline'">
+          Pause
+        </b-button>
         <b-list-group flush v-for="m in missions.all.missionsList" :key="m.id">
           <b-list-group-item v-if="m.robotId === currentRobot.id">
             {{m.name}}
             <b-button
-              variant="primary"
-              class="float-right"
-              @click="addToQueue(m)"
-              v-if="currentRobot.isOnline"
-            >Add +</b-button>
+                    variant="primary"
+                    class="float-right"
+                    @click="addToQueue(m)"
+                    v-if="currentRobot.isOnline"
+            >Add +
+            </b-button>
           </b-list-group-item>
         </b-list-group>
       </b-card>
@@ -82,39 +86,39 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+  import {mapActions, mapState} from "vuex";
 
-export default {
-  name: "Missions",
-  data() {
-    return {
-      currentRobot: null,
-      polling: null,
-      pollingAll: null,
-      addRequestBody: {
-        mission_id: null,
-        name: "",
-        guid: "",
-        description: ""
-      }
-    };
-  },
-  created() {
-    this.getAllMissions();
-    this.getAllRobots();
-    this.pollData();
-  },
-  methods: {
-    ...mapActions("missions", {
-      getAllMissions: "getAll"
-    }),
-    ...mapActions("missionQueue", {
-      getMissionQueue: "getMissionQueue",
-      addMissionToQueue: "addMissionToQueue"
-    }),
-    ...mapActions("robots", {
-      getAllRobots: "getAll"
-    }),
+  export default {
+    name: "Missions",
+    data() {
+      return {
+        currentRobot: null,
+        polling: null,
+        pollingAll: null,
+        addRequestBody: {
+          mission_id: null,
+          name: "",
+          guid: "",
+          description: ""
+        }
+      };
+    },
+    created() {
+      this.getAllMissions();
+      this.getAllRobots();
+      this.pollData();
+    },
+    methods: {
+      ...mapActions("missions", {
+        getAllMissions: "getAll"
+      }),
+      ...mapActions("missionQueue", {
+        getMissionQueue: "getMissionQueue",
+        addMissionToQueue: "addMissionToQueue"
+      }),
+      ...mapActions("robots", {
+        getAllRobots: "getAll"
+      }),
     ...mapActions("status", {
       sendState: "sendState"
     }),

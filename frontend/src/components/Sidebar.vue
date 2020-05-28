@@ -20,6 +20,9 @@
             <b-list-group-item to="/usermanager" exact exact-active-class="active" id="test-all-users">
                 <b-icon-people /> Users
             </b-list-group-item>
+            <b-list-group-item to="/account" exact exact-active-class="active" id="test-account">
+                <b-icon-person /> My account
+            </b-list-group-item>
             <b-list-group-item to="/register" exact exact-active-class="active" id="test-add-user">
                 <b-icon-person-plus /> New user
             </b-list-group-item>
@@ -27,8 +30,8 @@
 
         <!-- Administrator settings -->
         <b-list-group>
-            <b-list-group-item to="/account" exact exact-active-class="active" id="test-account">
-                <b-icon-person /> My account
+            <b-list-group-item to="/about">
+                &copy; 2020 Copyright: Mirdash About/Licenses
             </b-list-group-item>
         </b-list-group>
     </div>

@@ -21,13 +21,6 @@
       </template>
     </b-modal>
     <router-view></router-view>
-    <footer class="font-small blue">
-      <div class="text-right px-3 bg-secondary">
-        © 2020 Copyright:
-        <a href="https://mirdash.net/" style="text-decoration:inherit;color:inherit;">Mirdash.net</a>
-        <a href="/about" style="text-decoration:inherit;color:inherit;" class="pl-3">About/Licenses</a>
-      </div>
-    </footer>
   </div>
 </template>
 

@@ -7,6 +7,7 @@
                     <b-list-group-item href="#">Create user</b-list-group-item>
                     <b-list-group-item href="#">Change role</b-list-group-item>
                     <b-list-group-item href="#">Connect to new robots</b-list-group-item>
+                    <b-list-group-item href="#">Delete robots</b-list-group-item>
                     <b-list-group-item href="#">All user policy</b-list-group-item>
                 </b-list-group>
             </b-card>
@@ -16,7 +17,6 @@
                     <b-list-group-item href="#">View robots</b-list-group-item>
                     <b-list-group-item href="#">View robot status</b-list-group-item>
                     <b-list-group-item href="#">View robot missions</b-list-group-item>
-                    <b-list-group-item href="#">Delete robots from admin panel</b-list-group-item>
                 </b-list-group>
             </b-card>
         </b-card-group>

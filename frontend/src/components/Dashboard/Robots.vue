@@ -93,4 +93,7 @@
         font-size: 14px;
         width: 95px;
     }
+    .mt-3{
+        height: 450px;
+    }
 </style>
