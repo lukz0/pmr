@@ -53,6 +53,7 @@ const actions = {
                     commit('updateSuccess', user);
                     setTimeout(() => {
                         dispatch('alert/success', 'Update successful', { root: true });
+                        location.reload();
                     })
                 }, error => {
                     commit('updateFailure', error);
