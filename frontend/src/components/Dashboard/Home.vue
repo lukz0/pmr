@@ -33,18 +33,16 @@
       </b-card>
     </b-card-group>
     <BarStatus class="w-25"></BarStatus>
-    <DistanceStatus class="w-25"></DistanceStatus>
   </b-jumbotron>
 </template>
 
 <script>
 import BarStatus from "./BarStatus";
-import DistanceStatus from "./DistanceStatus";
 import { mapActions, mapState } from "vuex";
 
 export default {
   name: "Home",
-  components: { BarStatus, DistanceStatus},
+  components: { BarStatus},
   methods: {
     ...mapActions("robots", {
       getAllRobots: "getAll"
